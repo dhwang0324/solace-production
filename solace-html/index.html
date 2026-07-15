@@ -58,37 +58,14 @@ body{
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
-  cursor:none;
 }
-a{text-decoration:none;color:inherit;cursor:none}
-button{font-family:inherit;cursor:none;border:none;background:none}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;border:none;background:none}
 input,select,textarea{font-family:inherit}
 ul{list-style:none}
 img{display:block;max-width:100%}
 
-/* ─── CURSOR ─── */
-.c-dot{
-  position:fixed;top:0;left:0;
-  width:5px;height:5px;
-  background:var(--slate);
-  border-radius:50%;
-  pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);
-  will-change:transform;
-  transition:width .2s var(--ease-out),height .2s var(--ease-out);
-}
-.c-ring{
-  position:fixed;top:0;left:0;
-  width:28px;height:28px;
-  border:1px solid rgba(83,104,120,0.38);
-  border-radius:50%;
-  pointer-events:none;z-index:9998;
-  transform:translate(-50%,-50%);
-  will-change:transform;
-  transition:width .25s var(--ease-out),height .25s var(--ease-out),border-color .25s;
-}
-.c-dot.hover{width:7px;height:7px}
-.c-ring.hover{width:44px;height:44px;border-color:rgba(83,104,120,0.55)}
+.c-dot,.c-ring{display:none}
 
 /* ─── LAYOUT ─── */
 .wrap{max-width:var(--max-w);margin:0 auto;padding:0 60px}
@@ -529,14 +506,13 @@ section{padding:120px 0}
   color:var(--fg);margin-bottom:20px;
 }
 .at-p{font-size:15px;color:var(--fg-dim);line-height:1.75;margin-bottom:36px;max-width:440px}
-.at-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.at-right{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
 .at-card{
   background:var(--bg2);border:1px solid var(--border);border-radius:14px;
   padding:26px;border-left:3px solid var(--bg-slate);
   transition:box-shadow .3s,transform .3s var(--ease-out),background .2s,border-left-color .25s;
 }
 .at-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);background:var(--white);border-left-color:var(--slate)}
-.at-card:nth-child(2),.at-card:nth-child(4){margin-top:20px}
 .at-val{font-family:var(--font-d);font-style:italic;font-size:32px;font-weight:400;letter-spacing:-.02em;color:var(--fg);margin-bottom:4px}
 .at-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-dimmer)}
 
@@ -820,7 +796,6 @@ section{padding:120px 0}
   .hero-h1{font-size:clamp(50px,13vw,80px)}
   .cta-h2{font-size:clamp(40px,10vw,68px)}
   .q-form{padding:26px 18px}
-  .at-card:nth-child(2),.at-card:nth-child(4){margin-top:0}
 }
 </style>
 </head>
@@ -1266,15 +1241,6 @@ document.addEventListener('click',e=>{
 });
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20),{passive:true});
 
-/* Cursor */
-var dot=document.getElementById('c-dot'),ring=document.getElementById('c-ring');
-var mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'},{passive:true});
-(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim)})();
-document.querySelectorAll('a,button,.svc-item,.proj-card,.pp-card,.testi-card,.w-stat,.at-card,.ps,.as2-cell').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{dot.classList.add('hover');ring.classList.add('hover')});
-  el.addEventListener('mouseleave',()=>{dot.classList.remove('hover');ring.classList.remove('hover')});
-});
 
 /* Parallax */
 document.addEventListener('mousemove',e=>{
