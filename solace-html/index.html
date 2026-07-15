@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solace — Premium Creative Agency</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231C2730'/><text y='.9em' x='50%' text-anchor='middle' font-size='62' font-family='Georgia,serif' font-style='italic' fill='%23E5E4E2'>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─── */
+:root {
+  --bg:        #FFFFFF;
+  --bg2:       #E6EEF3;
+  --bg3:       #D5E3EC;
+  --bg-slate:  #C4D5DF;
+  --dark:      #1C2730;
+  --dark2:     #243340;
+  --slate:     #536878;
+  --slate-l:   #6e8898;
+  --slate-xl:  #8DAAB8;
+  --slate-d:   #3d5060;
+  --slate-bg:  rgba(83,104,120,0.08);
+  --slate-bg2: rgba(83,104,120,0.14);
+  --white:     #FFFFFF;
+
+  --fg:         #1A1917;
+  --fg-dim:     rgba(26,25,23,0.50);
+  --fg-dimmer:  rgba(26,25,23,0.30);
+  --border:     rgba(83,104,120,0.20);
+  --border-m:   rgba(83,104,120,0.32);
+
+  /* dark section overrides (applied inline via .dark-sec) */
+  --dfg:        #E5E4E2;
+  --dfg-dim:    rgba(229,228,226,0.50);
+  --dfg-dimmer: rgba(229,228,226,0.28);
+  --dborder:    rgba(255,255,255,0.10);
+
+  --shadow-sm:  0 2px 8px rgba(26,25,23,0.07), 0 1px 2px rgba(26,25,23,0.05);
+  --shadow-md:  0 8px 28px rgba(26,25,23,0.10), 0 2px 6px rgba(26,25,23,0.06);
+  --shadow-lg:  0 20px 52px rgba(26,25,23,0.12), 0 4px 12px rgba(26,25,23,0.07);
+  --shadow-xl:  0 36px 80px rgba(26,25,23,0.14), 0 8px 20px rgba(26,25,23,0.08);
+
+  --max-w: 1240px;
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+  --font-d: 'DM Serif Display', Georgia, serif;
+  --font-b: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+/* ─── RESET ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-b);
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  cursor:none;
+}
+a{text-decoration:none;color:inherit;cursor:none}
+button{font-family:inherit;cursor:none;border:none;background:none}
+input,select,textarea{font-family:inherit}
+ul{list-style:none}
+img{display:block;max-width:100%}
+
+/* ─── CURSOR ─── */
+.c-dot{
+  position:fixed;top:0;left:0;
+  width:5px;height:5px;
+  background:var(--slate);
+  border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:width .2s var(--ease-out),height .2s var(--ease-out);
+}
+.c-ring{
+  position:fixed;top:0;left:0;
+  width:28px;height:28px;
+  border:1px solid rgba(83,104,120,0.38);
+  border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:width .25s var(--ease-out),height .25s var(--ease-out),border-color .25s;
+}
+.c-dot.hover{width:7px;height:7px}
+.c-ring.hover{width:44px;height:44px;border-color:rgba(83,104,120,0.55)}
+
+/* ─── LAYOUT ─── */
+.wrap{max-width:var(--max-w);margin:0 auto;padding:0 60px}
+.page{display:none}
+.page.active{display:block;animation:pg-in .45s var(--ease-out)}
+@keyframes pg-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── REVEALS ─── */
+.rev{opacity:0;transform:translateY(36px);transition:opacity .85s var(--ease-out),transform .85s var(--ease-out)}
+.rev.in{opacity:1;transform:none}
+.rd1{transition-delay:.07s}.rd2{transition-delay:.14s}.rd3{transition-delay:.21s}
+.rd4{transition-delay:.28s}.rd5{transition-delay:.35s}.rd6{transition-delay:.42s}
+
+/* ─── ANIMATIONS ─── */
+@keyframes float-a{0%,100%{transform:translateY(0) rotate(-0.5deg)}50%{transform:translateY(-14px) rotate(0.5deg)}}
+@keyframes float-b{0%,100%{transform:translateY(0) rotate(0.5deg)}50%{transform:translateY(-10px) rotate(-0.5deg)}}
+@keyframes float-c{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+@keyframes scroll-p{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:.8;transform:scaleY(.65)}}
+
+/* ─── NAV ─── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:0 60px;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid transparent;
+  transition:background .35s,border-color .35s,backdrop-filter .35s;
+}
+#nav.scrolled{
+  background:rgba(255,255,255,0.90);
+  border-color:var(--border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.nav-logo{
+  font-family:var(--font-d);
+  font-size:22px;font-weight:400;font-style:italic;
+  letter-spacing:-.01em;color:var(--fg);
+}
+.nav-links{display:flex;align-items:center;gap:0}
+.nav-links a{
+  padding:6px 16px;
+  font-size:13px;font-weight:500;letter-spacing:.01em;
+  color:var(--fg-dim);border-radius:6px;
+  transition:color .18s;position:relative;
+}
+.nav-links a:hover,.nav-links a.act{color:var(--fg)}
+.nav-links a.act::after{
+  content:'';position:absolute;bottom:-23px;left:16px;right:16px;
+  height:1px;background:var(--slate);
+  animation:pg-in .25s var(--ease-out);
+}
+.nav-cta{
+  padding:9px 22px;
+  font-size:13px;font-weight:600;
+  background:var(--dark);color:var(--dfg);
+  border-radius:100px;
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.nav-cta:hover{background:var(--dark2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(28,39,48,0.22)}
+.nav-hamburger{
+  display:none;width:36px;height:36px;
+  border:1px solid var(--border-m);border-radius:8px;
+  align-items:center;justify-content:center;color:var(--fg);
+}
+.mob-nav{
+  display:none;position:fixed;inset:0;z-index:499;
+  background:var(--bg);padding:100px 40px 40px;
+  flex-direction:column;gap:0;
+}
+.mob-nav.open{display:flex}
+.mob-nav a{
+  font-family:var(--font-d);font-style:italic;
+  font-size:38px;color:var(--fg-dim);
+  padding:18px 0;border-bottom:1px solid var(--border);
+  transition:color .2s;
+}
+.mob-nav a:hover,.mob-nav a.act{color:var(--fg)}
+.mob-nav .mob-cta{
+  margin-top:40px;padding:16px 32px;
+  background:var(--dark);color:var(--dfg);
+  border-radius:100px;font-family:var(--font-b);
+  font-size:15px;font-weight:600;text-align:center;align-self:flex-start;
+}
+
+/* ─── BUTTONS ─── */
+.btn-dark{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;
+  background:var(--dark);color:var(--dfg);
+  font-size:14px;font-weight:600;letter-spacing:.01em;
+  border-radius:100px;
+  transition:background .2s,transform .25s var(--ease-out),box-shadow .25s;
+}
+.btn-dark:hover{background:var(--dark2);transform:translateY(-2px);box-shadow:0 14px 36px rgba(28,39,48,0.22)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;
+  background:transparent;color:var(--fg-dim);
+  font-size:14px;font-weight:500;
+  border-radius:100px;border:1px solid var(--border-m);
+  transition:border-color .2s,color .2s,transform .25s var(--ease-out);
+}
+.btn-outline:hover{border-color:var(--slate);color:var(--fg);transform:translateY(-2px)}
+.btn-arr::after{content:'↗';margin-left:1px;transition:transform .2s}
+.btn-dark.btn-arr:hover::after,.btn-outline.btn-arr:hover::after{transform:translate(2px,-2px)}
+
+/* ─── SECTION COMMON ─── */
+section{padding:120px 0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);margin-bottom:24px;
+}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--slate);display:block}
+.sec-h2{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(38px,4.5vw,62px);
+  font-weight:400;letter-spacing:-.01em;line-height:1.05;
+  color:var(--fg);margin-bottom:16px;
+  text-wrap:balance;
+}
+.sec-sub{font-size:16px;color:var(--fg-dim);line-height:1.75;max-width:500px}
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  background:var(--bg);padding-top:68px;
+  overflow:hidden;
+}
+/* dot grid */
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(83,104,120,0.15) 1px,transparent 1px);
+  background-size:28px 28px;
+  mask-image:radial-gradient(ellipse 90% 90% at 55% 50%,black 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 90% at 55% 50%,black 30%,transparent 80%);
+}
+/* blue fade at bottom */
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:120px;pointer-events:none;
+  background:linear-gradient(to top,var(--bg2),transparent);
+}
+
+.hero-inner{position:relative;z-index:2;width:100%;padding:80px 0}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 460px;
+  gap:80px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);margin-bottom:28px;
+  animation:pg-in .7s var(--ease-out) .1s both;
+}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--slate);display:block}
+.hero-h1{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(58px,8.5vw,108px);
+  font-weight:400;letter-spacing:-.03em;line-height:.93;
+  color:var(--fg);margin-bottom:28px;
+  animation:pg-in .9s var(--ease-out) .2s both;
+}
+.hero-h1 span{
+  font-style:italic;font-weight:400;
+  color:var(--slate);font-size:.72em;
+  display:block;letter-spacing:.01em;
+}
+.hero-sub{
+  font-size:17px;line-height:1.75;color:var(--fg-dim);
+  max-width:440px;margin-bottom:44px;
+  animation:pg-in .8s var(--ease-out) .35s both;
+}
+.hero-btns{
+  display:flex;gap:12px;flex-wrap:wrap;
+  animation:pg-in .7s var(--ease-out) .5s both;
+}
+
+/* Floating cards */
+.hero-visual{position:relative;height:520px;animation:pg-in .8s var(--ease-out) .25s both}
+.px-wrap{position:absolute;will-change:transform}
+.w-card{
+  background:var(--white);
+  border-radius:18px;
+  box-shadow:var(--shadow-lg);
+  padding:22px;position:relative;
+  border:1px solid var(--border);
+}
+/* card 1 */
+.card-1{top:0;right:0;width:232px;animation:float-a 7s ease-in-out infinite}
+.c1-head{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.c1-pulse{width:7px;height:7px;border-radius:50%;background:#34C759;position:relative;flex-shrink:0}
+.c1-pulse::after{content:'';position:absolute;inset:-3px;border-radius:50%;background:rgba(52,199,89,.2);animation:ping 2s ease-out infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+.c1-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dimmer)}
+.c1-name{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:14px}
+.c1-bar-bg{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.c1-bar-fill{height:100%;background:linear-gradient(90deg,var(--slate-d),var(--slate-l));border-radius:2px}
+.c1-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--fg-dimmer)}
+/* card 2 */
+.card-2{bottom:80px;left:0;width:188px;animation:float-b 9s ease-in-out infinite}
+.c2-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.c2-val{font-size:28px;font-weight:700;letter-spacing:-.04em;color:var(--fg);line-height:1;margin-bottom:4px}
+.c2-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-dimmer)}
+/* card 3 */
+.card-3{top:148px;left:-8px;width:154px;padding:16px 18px;border-radius:14px;animation:float-c 6s ease-in-out infinite}
+.c3-mark{
+  width:28px;height:28px;border-radius:7px;
+  background:var(--slate);color:var(--dfg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;margin-bottom:10px;
+}
+.c3-name{font-size:12px;font-weight:700;color:var(--fg);margin-bottom:2px}
+.c3-sub{font-size:10px;color:var(--fg-dimmer);letter-spacing:.04em}
+/* ring deco */
+.hero-ring{
+  position:absolute;bottom:24px;right:-16px;
+  width:100px;height:100px;border-radius:50%;
+  border:1px solid var(--border-m);
+  display:flex;align-items:center;justify-content:center;
+  animation:spin-slow 24s linear infinite;
+}
+.hero-ring-inner{
+  width:66px;height:66px;border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--bg2);
+}
+/* scroll hint */
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:pg-in .6s var(--ease-out) 1s both;z-index:2;
+}
+.hero-scroll span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-dimmer)}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--fg-dimmer),transparent);animation:scroll-p 2s ease-in-out infinite}
+
+/* ─────────────────────────────────────────
+   SERVICES
+───────────────────────────────────────── */
+.services{background:var(--bg);padding:120px 0}
+.svc-header{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:64px}
+.svc-header-right{font-size:15px;color:var(--fg-dim);line-height:1.75;max-width:380px}
+.svc-list{border-top:2px solid var(--slate)}
+.svc-item{
+  display:grid;grid-template-columns:200px 1fr 36px;
+  align-items:center;gap:32px;
+  padding:24px 0;border-bottom:1px solid var(--border);
+  cursor:default;position:relative;
+  transition:padding-left .3s var(--ease-out),background .25s;
+  border-radius:4px;
+}
+.svc-item:hover{padding-left:12px;background:var(--bg2);border-left:3px solid var(--slate)}
+.svc-name{font-family:var(--font-d);font-style:italic;font-size:22px;font-weight:400;color:var(--fg);transition:color .2s}
+.svc-item:hover .svc-name{color:var(--slate-d)}
+.svc-desc{font-size:13px;color:var(--fg-dim);line-height:1.6}
+.svc-arrow{font-size:16px;color:var(--fg-dimmer);transition:transform .3s var(--ease-out),color .2s;text-align:right}
+.svc-item:hover .svc-arrow{transform:translate(3px,-3px);color:var(--slate)}
+
+/* ─────────────────────────────────────────
+   SELECTED WORK (DARK SECTION)
+───────────────────────────────────────── */
+.work-section{background:var(--dark);padding:120px 0}
+.work-section .eyebrow{color:var(--slate-l)}
+.work-section .eyebrow::before{background:var(--slate-l)}
+.work-section .sec-h2{color:var(--dfg)}
+.work-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:40px}
+.work-header-right a{
+  font-size:13px;font-weight:500;color:var(--dfg-dim);
+  border-bottom:1px solid rgba(229,228,226,0.2);padding-bottom:2px;
+  transition:color .2s,border-color .2s;
+}
+.work-header-right a:hover{color:var(--dfg);border-color:var(--dfg)}
+.work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.proj-card{overflow:hidden;cursor:pointer;position:relative}
+.proj-card-a{grid-column:span 7}
+.proj-card-b{grid-column:span 5}
+.proj-card-c{grid-column:span 5}
+.proj-card-d{grid-column:span 7}
+.pc-img{
+  border-radius:14px;overflow:hidden;position:relative;
+  aspect-ratio:4/3;
+  transition:transform .5s var(--ease-out);
+}
+.proj-card-a .pc-img,.proj-card-d .pc-img{aspect-ratio:16/10}
+.proj-card:hover .pc-img{transform:scale(1.02)}
+.pc-placeholder{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(229,228,226,0.25);
+  background:linear-gradient(135deg,#243340 0%,#1a2830 100%);
+}
+.pc-overlay{
+  position:absolute;inset:0;border-radius:14px;
+  background:rgba(0,0,0,0);transition:background .4s;
+  display:flex;align-items:flex-end;padding:20px;
+}
+.proj-card:hover .pc-overlay{background:rgba(0,0,0,0.25)}
+.pc-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;background:var(--dfg);color:var(--fg);
+  border-radius:100px;font-size:12px;font-weight:600;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .3s,transform .3s var(--ease-out);
+}
+.proj-card:hover .pc-cta{opacity:1;transform:none}
+.pc-info{padding:14px 0 0;display:flex;justify-content:space-between;align-items:flex-start}
+.pc-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dfg-dimmer);margin-bottom:5px}
+.pc-title{font-family:var(--font-d);font-style:italic;font-size:18px;font-weight:400;color:var(--dfg)}
+.pc-year{font-size:12px;color:var(--dfg-dimmer);padding-top:4px}
+
+/* ─────────────────────────────────────────
+   CASE STUDY
+───────────────────────────────────────── */
+.case-section{background:var(--bg2)}
+.case-inner{display:grid;grid-template-columns:1fr 1fr;min-height:580px}
+.case-left{
+  padding:100px 72px 100px 60px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--border);
+}
+.case-right{
+  padding:100px 60px 100px 72px;
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--dark);
+}
+.case-right .sec-h2{color:var(--dfg)}
+.case-num{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin-bottom:24px}
+.case-title{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(40px,4vw,56px);font-weight:400;letter-spacing:-.01em;
+  line-height:1.02;color:var(--fg);margin-bottom:20px;
+}
+.case-desc{font-size:15px;color:var(--fg-dim);line-height:1.75;margin-bottom:40px;max-width:400px}
+.case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:auto}
+.cs-val{
+  font-family:var(--font-d);font-size:36px;font-weight:400;font-style:italic;
+  color:var(--fg);letter-spacing:-.02em;line-height:1;margin-bottom:4px;
+}
+.cs-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dimmer)}
+.case-visual{
+  flex:1;min-height:300px;border-radius:14px;
+  background:var(--dark2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--dfg-dimmer);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+}
+
+/* ─────────────────────────────────────────
+   PROCESS
+───────────────────────────────────────── */
+.process-section{background:var(--bg2)}
+.process-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:18px;overflow:hidden;
+  margin-top:60px;
+}
+.ps{
+  background:var(--bg2);padding:40px 32px;
+  transition:background .25s,border-top .25s;
+  border-top:3px solid transparent;
+}
+.ps:hover{background:var(--white);border-top-color:var(--slate)}
+.ps-num{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-d);margin-bottom:20px;display:block;font-weight:700}
+.ps-title{font-family:var(--font-d);font-style:italic;font-size:20px;font-weight:400;color:var(--fg);margin-bottom:10px}
+.ps-desc{font-size:13px;color:var(--fg-dim);line-height:1.65}
+
+/* ─────────────────────────────────────────
+   WHY
+───────────────────────────────────────── */
+.why-section{background:var(--dark);padding:120px 0}
+.why-section .eyebrow{color:var(--slate-l)}
+.why-section .eyebrow::before{background:var(--slate-l)}
+.why-section .sec-h2{color:var(--dfg)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.why-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.w-stat{
+  padding:28px;border:1px solid var(--dborder);border-radius:14px;
+  background:rgba(255,255,255,0.04);
+  transition:background .25s,transform .3s var(--ease-out);
+}
+.w-stat:hover{background:rgba(255,255,255,0.07);transform:translateY(-3px)}
+.w-val{
+  font-family:var(--font-d);font-style:italic;
+  font-size:44px;font-weight:400;letter-spacing:-.02em;
+  color:var(--dfg);line-height:1;margin-bottom:8px;
+}
+.w-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dfg-dimmer)}
+.why-points{display:flex;flex-direction:column;gap:0}
+.why-point{padding:22px 0;border-bottom:1px solid var(--dborder);display:flex;gap:16px;align-items:flex-start}
+.why-point:first-child{padding-top:0}
+.wp-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:rgba(83,104,120,0.18);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--slate-l);flex-shrink:0;margin-top:2px;
+}
+.wp-title{font-size:14px;font-weight:600;color:var(--dfg);margin-bottom:3px}
+.wp-desc{font-size:13px;color:var(--dfg-dim);line-height:1.6}
+
+/* ─────────────────────────────────────────
+   TESTIMONIALS
+───────────────────────────────────────── */
+.testi-section{background:var(--bg);padding:120px 0}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.testi-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:18px;
+  padding:34px;border-top:3px solid var(--bg-slate);
+  transition:transform .3s var(--ease-out),box-shadow .3s,background .2s,border-top-color .25s;
+}
+.testi-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);background:var(--white);border-top-color:var(--slate)}
+.testi-qm{
+  font-family:var(--font-d);font-size:48px;line-height:1;
+  color:var(--slate);margin-bottom:12px;opacity:.7;
+}
+.testi-text{font-size:15px;color:var(--fg);line-height:1.75;margin-bottom:24px}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--slate-d),var(--slate-l));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;font-weight:700;
+}
+.testi-name{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:1px}
+.testi-role{font-size:12px;color:var(--fg-dimmer)}
+
+/* ─────────────────────────────────────────
+   ABOUT TEASER
+───────────────────────────────────────── */
+.about-teaser{background:var(--bg);padding:120px 0}
+.at-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.at-h2{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(34px,3.8vw,52px);font-weight:400;
+  letter-spacing:-.01em;line-height:1.08;
+  color:var(--fg);margin-bottom:20px;
+}
+.at-p{font-size:15px;color:var(--fg-dim);line-height:1.75;margin-bottom:36px;max-width:440px}
+.at-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.at-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:26px;border-left:3px solid var(--bg-slate);
+  transition:box-shadow .3s,transform .3s var(--ease-out),background .2s,border-left-color .25s;
+}
+.at-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);background:var(--white);border-left-color:var(--slate)}
+.at-card:nth-child(2),.at-card:nth-child(4){margin-top:20px}
+.at-val{font-family:var(--font-d);font-style:italic;font-size:32px;font-weight:400;letter-spacing:-.02em;color:var(--fg);margin-bottom:4px}
+.at-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-dimmer)}
+
+/* ─────────────────────────────────────────
+   CTA (DARK)
+───────────────────────────────────────── */
+.cta-section{
+  background:var(--dark);padding:140px 0;
+  position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(83,104,120,0.22) 0%,transparent 70%);
+}
+.cta-inner{position:relative;z-index:1;text-align:center}
+.cta-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate-l);margin-bottom:28px;
+}
+.cta-tag::before,.cta-tag::after{content:'';flex:1;width:20px;height:1px;background:var(--slate)}
+.cta-h2{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(50px,7.5vw,96px);
+  font-weight:400;letter-spacing:-.03em;line-height:.95;
+  color:var(--dfg);margin-bottom:28px;
+}
+.cta-sub{font-size:16px;color:var(--dfg-dim);line-height:1.75;margin:0 auto 48px;max-width:420px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-light-on-dark{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;
+  background:var(--dfg);color:var(--dark);
+  font-size:14px;font-weight:600;border-radius:100px;
+  transition:background .2s,transform .25s var(--ease-out),box-shadow .25s;
+}
+.btn-light-on-dark:hover{background:#fff;transform:translateY(-2px);box-shadow:0 14px 36px rgba(229,228,226,0.14)}
+.btn-outline-light{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;
+  background:transparent;color:var(--dfg-dim);
+  font-size:14px;font-weight:500;
+  border-radius:100px;border:1px solid var(--dborder);
+  transition:border-color .2s,color .2s,transform .25s var(--ease-out);
+}
+.btn-outline-light:hover{border-color:rgba(229,228,226,0.4);color:var(--dfg);transform:translateY(-2px)}
+.btn-arr::after{content:'↗';transition:transform .2s}
+.btn-light-on-dark.btn-arr:hover::after,.btn-outline-light.btn-arr:hover::after{transform:translate(2px,-2px)}
+
+/* ─────────────────────────────────────────
+   PORTFOLIO PAGE
+───────────────────────────────────────── */
+.port-hero{background:var(--bg);padding:160px 0 80px;position:relative;overflow:hidden}
+.port-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(83,104,120,0.08) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.port-hero-inner{position:relative;z-index:1}
+.port-hero h1{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(52px,7.5vw,96px);font-weight:400;
+  letter-spacing:-.03em;line-height:.95;
+  color:var(--fg);margin-bottom:20px;
+}
+.port-hero p{font-size:16px;color:var(--fg-dim);max-width:440px;line-height:1.75}
+.port-filters{
+  background:var(--bg);border-bottom:1px solid var(--border);
+  position:sticky;top:68px;z-index:100;
+}
+.port-filters-inner{
+  max-width:var(--max-w);margin:0 auto;padding:0 60px;
+  display:flex;gap:4px;
+}
+.pf-btn{
+  padding:16px 18px;font-size:12px;font-weight:600;letter-spacing:.01em;
+  color:var(--fg-dim);background:none;border:none;
+  border-bottom:2px solid transparent;
+  transition:color .18s,border-color .2s;margin-bottom:-1px;
+}
+.pf-btn:hover{color:var(--fg)}
+.pf-btn.act{color:var(--slate);border-color:var(--slate)}
+.port-grid-section{background:var(--bg2);padding:60px 0 100px}
+.port-proj-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:2px;background:var(--border);
+}
+.pp-card{background:var(--bg2);overflow:hidden;cursor:pointer;transition:background .2s}
+.pp-card:hover{background:var(--white)}
+.pp-img{
+  aspect-ratio:16/10;background:var(--bg3);position:relative;overflow:hidden;
+}
+.pp-img-inner{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dimmer);
+  background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);
+  transition:transform .5s var(--ease-out);
+}
+.pp-card:hover .pp-img-inner{transform:scale(1.03)}
+.pp-info{padding:26px 28px 34px}
+.pp-tag{
+  display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--bg3);color:var(--slate-d);
+  padding:4px 12px;border-radius:100px;margin-bottom:12px;
+  border:1px solid var(--border);
+}
+.pp-title{font-family:var(--font-d);font-style:italic;font-size:24px;font-weight:400;color:var(--fg);margin-bottom:8px}
+.pp-desc{font-size:13px;color:var(--fg-dim);line-height:1.6;margin-bottom:16px}
+.pp-link{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);display:inline-flex;align-items:center;gap:5px;transition:gap .2s,color .2s}
+.pp-card:hover .pp-link{gap:9px;color:var(--slate-d)}
+
+/* ─────────────────────────────────────────
+   ABOUT PAGE
+───────────────────────────────────────── */
+.about-pg-hero{background:var(--bg);padding:160px 0 80px;position:relative;overflow:hidden}
+.about-pg-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(83,104,120,0.09) 0%,transparent 70%);
+}
+.about-pg-hero-inner{position:relative;z-index:1}
+.about-pg-hero h1{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(48px,6.5vw,86px);font-weight:400;letter-spacing:-.03em;line-height:.96;
+  color:var(--fg);margin-bottom:28px;max-width:820px;
+}
+.about-pg-hero p{font-size:16px;color:var(--fg-dim);max-width:480px;line-height:1.75}
+.about-story{background:var(--bg);padding:100px 0}
+.as-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.as-left h2{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(26px,2.8vw,38px);font-weight:400;color:var(--fg);
+  margin-bottom:20px;line-height:1.2;
+}
+.as-left p{font-size:15px;color:var(--fg-dim);line-height:1.75;margin-bottom:14px}
+.as-right{display:flex;flex-direction:column;gap:16px;padding-top:8px}
+.as-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:14px;padding:26px;box-shadow:var(--shadow-sm);
+}
+.as-card h3{font-size:15px;font-weight:600;color:var(--fg);margin-bottom:7px}
+.as-card p{font-size:13px;color:var(--fg-dim);line-height:1.65}
+.about-services{background:var(--bg);padding:100px 0}
+.as2-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:18px;overflow:hidden;
+  margin-top:56px;
+}
+.as2-cell{background:var(--bg);padding:34px;transition:background .2s,border-left .25s;border-left:3px solid transparent}
+.as2-cell:hover{background:var(--bg2);border-left-color:var(--slate)}
+.as2-num{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;display:block}
+.as2-title{font-family:var(--font-d);font-style:italic;font-size:17px;font-weight:400;color:var(--fg);margin-bottom:8px}
+.as2-desc{font-size:13px;color:var(--fg-dim);line-height:1.65}
+
+/* ─────────────────────────────────────────
+   CONTACT
+───────────────────────────────────────── */
+.quote-pg{background:var(--bg);padding:160px 0 100px;min-height:100vh}
+.quote-pg-hero{margin-bottom:68px}
+.quote-pg-hero h1{
+  font-family:var(--font-d);font-style:italic;
+  font-size:clamp(44px,5.5vw,72px);font-weight:400;letter-spacing:-.02em;line-height:.97;
+  color:var(--fg);margin-bottom:16px;
+}
+.quote-pg-hero p{font-size:16px;color:var(--fg-dim);line-height:1.75}
+.quote-layout{display:grid;grid-template-columns:1fr 320px;gap:56px;align-items:start}
+.q-form{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:22px;padding:46px;box-shadow:var(--shadow-md);
+  border-top:3px solid var(--slate);
+}
+.qf-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.qf-group{margin-bottom:18px}
+.qf-label{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dimmer);margin-bottom:9px}
+.qf-input,.qf-select,.qf-textarea{
+  width:100%;background:var(--bg);
+  border:1px solid var(--border-m);border-radius:10px;
+  padding:0 14px;height:48px;
+  font-size:14px;color:var(--fg);
+  outline:none;-webkit-appearance:none;appearance:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.qf-input::placeholder,.qf-textarea::placeholder{color:var(--fg-dimmer)}
+.qf-input:focus,.qf-select:focus,.qf-textarea:focus{
+  border-color:var(--slate);box-shadow:0 0 0 3px rgba(83,104,120,0.12);
+}
+.qf-select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23536878' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:40px;cursor:pointer;
+}
+.qf-select option{background:var(--white);color:var(--fg)}
+.qf-textarea{height:auto;padding:13px 14px;resize:vertical;line-height:1.65}
+.qf-submit{
+  width:100%;height:52px;margin-top:8px;
+  background:var(--dark);color:var(--dfg);
+  font-size:15px;font-weight:700;
+  border:none;border-radius:100px;
+  transition:background .2s,transform .25s var(--ease-out),box-shadow .25s;
+}
+.qf-submit:hover{background:var(--dark2);transform:translateY(-2px);box-shadow:0 14px 36px rgba(28,39,48,0.22)}
+.qf-note{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--fg-dimmer);text-align:center;margin-top:14px}
+.q-side{display:flex;flex-direction:column;gap:0;padding-top:8px}
+.qs-block{padding:28px 0;border-bottom:1px solid var(--border)}
+.qs-block:first-child{padding-top:0}
+.qs-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-dimmer);margin-bottom:9px;display:block}
+.qs-val{font-size:15px;color:var(--fg);font-weight:500}
+.qs-val a{color:var(--slate);transition:color .2s}
+.qs-val a:hover{color:var(--slate-d)}
+.qs-trust{display:flex;flex-direction:column;gap:16px;padding-top:28px}
+.qt-item{display:flex;align-items:center;gap:12px}
+.qt-ico{width:30px;height:30px;border-radius:8px;background:var(--bg2);display:flex;align-items:center;justify-content:center;color:var(--slate);flex-shrink:0}
+.qt-text strong{display:block;font-size:13px;font-weight:600;color:var(--fg);margin-bottom:1px}
+.qt-text span{font-size:12px;color:var(--fg-dimmer)}
+.q-success{text-align:center;padding:80px 40px}
+.q-success .check{width:56px;height:56px;border-radius:16px;background:var(--bg2);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;color:var(--slate)}
+.q-success h2{font-family:var(--font-d);font-style:italic;font-size:28px;font-weight:400;color:var(--fg);margin-bottom:10px}
+.q-success p{font-size:15px;color:var(--fg-dim)}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+#foot{background:var(--dark);border-top:1px solid var(--dborder)}
+.foot-top{
+  padding:60px 0 48px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;
+  border-bottom:1px solid var(--dborder);
+}
+.foot-brand p{font-size:13px;color:var(--dfg-dim);line-height:1.7;max-width:270px;margin-top:14px}
+.foot-col-label{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dfg-dimmer);margin-bottom:18px;display:block}
+.foot-links{display:flex;flex-direction:column;gap:12px}
+.foot-links a{font-size:14px;color:var(--dfg-dim);transition:color .18s}
+.foot-links a:hover{color:var(--dfg)}
+.foot-socials{display:flex;gap:8px;margin-top:4px}
+.foot-soc{
+  width:34px;height:34px;border:1px solid var(--dborder);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--dfg-dim);transition:border-color .2s,color .2s;
+}
+.foot-soc:hover{border-color:rgba(229,228,226,0.3);color:var(--dfg)}
+.foot-bottom{padding:22px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot-copy{font-size:12px;color:var(--dfg-dimmer);letter-spacing:.02em}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .hero-grid{grid-template-columns:1fr}.hero-visual{display:none}
+  .case-inner,.why-grid,.at-grid,.as-grid{grid-template-columns:1fr}
+  .case-left,.case-right{padding:64px 60px}
+  .svc-item{grid-template-columns:180px 1fr 36px;gap:20px}
+  .svc-desc{display:none}
+  .quote-layout{grid-template-columns:1fr}
+  .foot-top{grid-template-columns:1fr 1fr;gap:40px}
+  .work-grid{grid-template-columns:repeat(2,1fr)}
+  .proj-card-a,.proj-card-b,.proj-card-c,.proj-card-d{grid-column:span 1}
+  .testi-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:860px){
+  .wrap{padding:0 24px}
+  #nav{padding:0 24px}
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .port-filters-inner{padding:0 24px}
+  section{padding:80px 0}
+  .hero-inner{padding:60px 0}
+  .hero-grid{padding:0 24px}
+  .svc-header{grid-template-columns:1fr}
+  .work-grid{grid-template-columns:1fr}
+  .proj-card-a,.proj-card-b,.proj-card-c,.proj-card-d{grid-column:span 1}
+  .process-grid{grid-template-columns:1fr}
+  .why-stats{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .as2-grid{grid-template-columns:1fr}
+  .qf-row{grid-template-columns:1fr}
+  .case-left,.case-right{padding:52px 24px}
+  .foot-top{grid-template-columns:1fr}
+  .work-header{flex-direction:column;align-items:flex-start;gap:16px}
+  .at-right{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .hero-h1{font-size:clamp(50px,13vw,80px)}
+  .cta-h2{font-size:clamp(40px,10vw,68px)}
+  .q-form{padding:26px 18px}
+  .at-card:nth-child(2),.at-card:nth-child(4){margin-top:0}
+}
+</style>
+</head>
+<body>
+
+<div class="c-dot" id="c-dot"></div>
+<div class="c-ring" id="c-ring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#" onclick="go('home');return false">Solace</a>
+  <ul class="nav-links">
+    <li><a href="#" class="act" data-pg="home" onclick="go('home');return false">Home</a></li>
+    <li><a href="#" data-pg="portfolio" onclick="go('portfolio');return false">Work</a></li>
+    <li><a href="#" data-pg="about" onclick="go('about');return false">About</a></li>
+    <li><a href="#" data-pg="quote" onclick="go('quote');return false">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#" onclick="go('quote');return false">Start a Project</a>
+  <button class="nav-hamburger" onclick="toggleMob()" aria-label="Menu">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</nav>
+<div class="mob-nav" id="mob-nav">
+  <a href="#" data-pg="home" onclick="go('home');closeMob();return false">Home</a>
+  <a href="#" data-pg="portfolio" onclick="go('portfolio');closeMob();return false">Work</a>
+  <a href="#" data-pg="about" onclick="go('about');closeMob();return false">About</a>
+  <a href="#" data-pg="quote" onclick="go('quote');closeMob();return false">Contact</a>
+  <a href="#" class="mob-cta" onclick="go('quote');closeMob();return false">Start a Project</a>
+</div>
+
+
+<!-- ═══ HOME ═══ -->
+<div id="page-home" class="page active">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-eyebrow">Premium Creative Agency</p>
+        <h1 class="hero-h1">
+          Vision<br>
+          <span>Becomes</span>
+          Brand.
+        </h1>
+        <p class="hero-sub">We craft digital experiences, brand identities, and cinematic content that make businesses impossible to ignore.</p>
+        <div class="hero-btns">
+          <a href="#" class="btn-dark btn-arr" onclick="go('quote');return false">Start a Project</a>
+          <a href="#" class="btn-outline btn-arr" onclick="go('portfolio');return false">View Our Work</a>
+        </div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="px-wrap" data-depth="1.4" style="position:absolute;top:0;right:0;width:236px">
+          <div class="w-card card-1" style="width:100%">
+            <div class="c1-head">
+              <div class="c1-pulse"></div>
+              <span class="c1-label">Active Project</span>
+            </div>
+            <div class="c1-name">Brand Identity Refresh</div>
+            <div class="c1-bar-bg"><div class="c1-bar-fill" style="width:78%"></div></div>
+            <div class="c1-meta"><span>78% Complete</span><span style="color:var(--slate)">On Track</span></div>
+          </div>
+        </div>
+        <div class="px-wrap" data-depth="0.7" style="position:absolute;bottom:90px;left:0;width:192px">
+          <div class="w-card card-2" style="width:100%">
+            <div class="c2-grid">
+              <div><div class="c2-val">50<span style="font-size:.6em;color:var(--slate)">+</span></div><div class="c2-lbl">Projects</div></div>
+              <div><div class="c2-val">4.9<span style="font-size:.6em;color:var(--slate)">★</span></div><div class="c2-lbl">Rating</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="px-wrap" data-depth="2" style="position:absolute;top:154px;left:16px;width:150px">
+          <div class="w-card card-3" style="width:100%">
+            <div class="c3-mark">✦</div>
+            <div class="c3-name">Premium Studio</div>
+            <div class="c3-sub">Est. 2022</div>
+          </div>
+        </div>
+        <div class="hero-ring"><div class="hero-ring-inner"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Scroll</span><div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="wrap">
+    <div class="svc-header rev">
+      <div>
+        <p class="eyebrow">What We Do</p>
+        <h2 class="sec-h2">Full-service<br>creative studio</h2>
+      </div>
+      <p class="svc-header-right">From concept to launch, we handle every dimension of your brand's digital presence. One partner, every capability.</p>
+    </div>
+    <div class="svc-list">
+      <div class="svc-item rev rd1"><span class="svc-name">Web Design & Development</span><span class="svc-desc">Conversion-focused websites built for performance, beauty, and growth.</span><span class="svc-arrow">↗</span></div>
+      <div class="svc-item rev rd2"><span class="svc-name">Brand Identity</span><span class="svc-desc">Visual systems that make your brand unmistakable and unforgettable.</span><span class="svc-arrow">↗</span></div>
+      <div class="svc-item rev rd3"><span class="svc-name">Content Creation</span><span class="svc-desc">Photography, copy, and creative assets that tell your story with precision.</span><span class="svc-arrow">↗</span></div>
+      <div class="svc-item rev rd4"><span class="svc-name">Cinematic Video Production</span><span class="svc-desc">High-end video that captures emotion and drives conversion.</span><span class="svc-arrow">↗</span></div>
+      <div class="svc-item rev rd5"><span class="svc-name">Photography</span><span class="svc-desc">Visual storytelling that elevates how your brand is perceived.</span><span class="svc-arrow">↗</span></div>
+      <div class="svc-item rev rd6"><span class="svc-name">Digital Marketing</span><span class="svc-desc">Organic and paid strategies that attract, convert, and retain.</span><span class="svc-arrow">↗</span></div>
+      <div class="svc-item rev" style="transition-delay:.49s"><span class="svc-name">Creative Strategy</span><span class="svc-desc">Brand positioning that gives every touchpoint purpose.</span><span class="svc-arrow">↗</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SELECTED WORK (DARK) -->
+<section class="work-section">
+  <div class="wrap">
+    <div class="work-header">
+      <div>
+        <p class="eyebrow rev">Selected Work</p>
+        <h2 class="sec-h2 rev rd1">Projects we're<br>proud to show</h2>
+      </div>
+      <div class="work-header-right rev rd2">
+        <a href="#" onclick="go('portfolio');return false">View all projects ↗</a>
+      </div>
+    </div>
+    <div class="work-grid">
+      <div class="proj-card proj-card-a rev">
+        <div class="pc-img"><div class="pc-placeholder">[Project Image]</div><div class="pc-overlay"><span class="pc-cta">View Project ↗</span></div></div>
+        <div class="pc-info"><div><p class="pc-tag">Web Design</p><h3 class="pc-title">Project Alpha</h3></div><span class="pc-year">2025</span></div>
+      </div>
+      <div class="proj-card proj-card-b rev rd1">
+        <div class="pc-img"><div class="pc-placeholder">[Project Image]</div><div class="pc-overlay"><span class="pc-cta">View Project ↗</span></div></div>
+        <div class="pc-info"><div><p class="pc-tag">Branding</p><h3 class="pc-title">Project Beta</h3></div><span class="pc-year">2025</span></div>
+      </div>
+      <div class="proj-card proj-card-c rev rd2">
+        <div class="pc-img"><div class="pc-placeholder">[Project Image]</div><div class="pc-overlay"><span class="pc-cta">View Project ↗</span></div></div>
+        <div class="pc-info"><div><p class="pc-tag">Video</p><h3 class="pc-title">Project Gamma</h3></div><span class="pc-year">2024</span></div>
+      </div>
+      <div class="proj-card proj-card-d rev rd3">
+        <div class="pc-img"><div class="pc-placeholder">[Project Image]</div><div class="pc-overlay"><span class="pc-cta">View Project ↗</span></div></div>
+        <div class="pc-info"><div><p class="pc-tag">Marketing</p><h3 class="pc-title">Project Delta</h3></div><span class="pc-year">2024</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<div class="case-section">
+  <div class="case-inner">
+    <div class="case-left">
+      <p class="case-num rev">Featured Case Study — 2025</p>
+      <h2 class="case-title rev rd1">Complete Brand<br>Transformation</h2>
+      <p class="case-desc rev rd2">A full-scale digital overhaul — new brand identity, website, and content system — delivered in eight weeks, resulting in a 3× increase in qualified leads.</p>
+      <div class="rev rd3"><a href="#" class="btn-dark btn-arr" onclick="go('portfolio');return false">View Case Study</a></div>
+      <div class="case-stats rev rd4">
+        <div><div class="cs-val">3×</div><div class="cs-label">Lead Growth</div></div>
+        <div><div class="cs-val">8w</div><div class="cs-label">Delivered</div></div>
+        <div><div class="cs-val">100%</div><div class="cs-label">On Budget</div></div>
+      </div>
+    </div>
+    <div class="case-right">
+      <div class="case-visual rev">[Case Study Visual]</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="wrap">
+    <p class="eyebrow rev">How We Work</p>
+    <h2 class="sec-h2 rev rd1">A process built for<br>exceptional results</h2>
+    <div class="process-grid">
+      <div class="ps rev"><span class="ps-num">Discovery</span><h3 class="ps-title">Strategy First</h3><p class="ps-desc">Deep-dive into your brand, audience, and goals. We align on what success looks like before a single pixel is placed.</p></div>
+      <div class="ps rev rd1"><span class="ps-num">Direction</span><h3 class="ps-title">Creative Vision</h3><p class="ps-desc">Moodboards, concepts, and creative direction. We establish a visual language unique to your brand.</p></div>
+      <div class="ps rev rd2"><span class="ps-num">Production</span><h3 class="ps-title">Build & Craft</h3><p class="ps-desc">Pixel-perfect design and bulletproof development. Every detail is intentional, every interaction considered.</p></div>
+      <div class="ps rev rd3"><span class="ps-num">Launch</span><h3 class="ps-title">Deploy & Grow</h3><p class="ps-desc">We launch with precision and stay involved. Performance tracking, iteration, and ongoing support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SOLACE (DARK) -->
+<section class="why-section">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <p class="eyebrow rev">Why Solace</p>
+        <h2 class="sec-h2 rev rd1">Built different.<br>By design.</h2>
+        <div class="why-stats">
+          <div class="w-stat rev rd2"><div class="w-val">50+</div><div class="w-label">Projects Delivered</div></div>
+          <div class="w-stat rev rd3"><div class="w-val">4.9★</div><div class="w-label">Client Rating</div></div>
+          <div class="w-stat rev rd2" style="transition-delay:.35s"><div class="w-val">100%</div><div class="w-label">Retention Rate</div></div>
+          <div class="w-stat rev rd3" style="transition-delay:.42s"><div class="w-val">24h</div><div class="w-label">Response Time</div></div>
+        </div>
+      </div>
+      <div class="why-points rev rd2">
+        <div class="why-point">
+          <div class="wp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="wp-title">Strategy before aesthetics</div><div class="wp-desc">Every creative decision is rooted in your goals. Design without strategy is decoration.</div></div>
+        </div>
+        <div class="why-point">
+          <div class="wp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div><div class="wp-title">Uncompromising craft</div><div class="wp-desc">Every pixel, every frame, every word is made with obsessive attention to detail.</div></div>
+        </div>
+        <div class="why-point">
+          <div class="wp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div><div class="wp-title">Fast without shortcuts</div><div class="wp-desc">Ambitious timelines are our standard. We deliver on time without sacrificing quality.</div></div>
+        </div>
+        <div class="why-point">
+          <div class="wp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div><div class="wp-title">True partnership</div><div class="wp-desc">We stay involved long after launch. Your growth is our success metric.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="wrap">
+    <p class="eyebrow rev">What Clients Say</p>
+    <h2 class="sec-h2 rev rd1">Words from the<br>people we serve</h2>
+    <div class="testi-grid">
+      <div class="testi-card rev rd1">
+        <div class="testi-qm">"</div>
+        <p class="testi-text">Solace transformed how our brand is perceived. The website they built has consistently outperformed our previous one — leads are up 3× in four months.</p>
+        <div class="testi-author"><div class="testi-avatar">JM</div><div><div class="testi-name">James M.</div><div class="testi-role">CEO, Venture Studio</div></div></div>
+      </div>
+      <div class="testi-card rev rd2">
+        <div class="testi-qm">"</div>
+        <p class="testi-text">The team understood our vision immediately. The creative process was transparent, collaborative, and produced a brand identity we're genuinely proud of.</p>
+        <div class="testi-author"><div class="testi-avatar">SR</div><div><div class="testi-name">Sara R.</div><div class="testi-role">Founder, Lifestyle Brand</div></div></div>
+      </div>
+      <div class="testi-card rev rd3">
+        <div class="testi-qm">"</div>
+        <p class="testi-text">The video production quality was unlike anything I expected at this price point. Cinematic, emotional, and perfectly on brand. Will work with Solace again.</p>
+        <div class="testi-author"><div class="testi-avatar">DK</div><div><div class="testi-name">David K.</div><div class="testi-role">Marketing Director</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT TEASER -->
+<section class="about-teaser">
+  <div class="wrap">
+    <div class="at-grid">
+      <div>
+        <h2 class="at-h2 rev">We are a small studio<br>with uncommon ambition.</h2>
+        <p class="at-p rev rd1">Solace exists to give ambitious brands access to the same quality of creative work that Fortune 500 companies take for granted. Premium craft, at a human scale.</p>
+        <a href="#" class="btn-outline btn-arr rev rd2" onclick="go('about');return false">Our Story</a>
+      </div>
+      <div class="at-right">
+        <div class="at-card rev rd1"><div class="at-val">2022</div><div class="at-label">Year Founded</div></div>
+        <div class="at-card rev rd2"><div class="at-val">7</div><div class="at-label">Disciplines</div></div>
+        <div class="at-card rev rd3"><div class="at-val">50+</div><div class="at-label">Projects</div></div>
+        <div class="at-card rev rd4"><div class="at-val">∞</div><div class="at-label">Ambition</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="wrap cta-inner">
+    <p class="cta-tag rev">Start Something New</p>
+    <h2 class="cta-h2 rev rd1">Ready to build<br>something<br>unforgettable?</h2>
+    <p class="cta-sub rev rd2">Tell us about your project. We respond within 24 hours and offer a free discovery call.</p>
+    <div class="cta-btns rev rd3">
+      <a href="#" class="btn-light-on-dark btn-arr" onclick="go('quote');return false">Start a Project</a>
+      <a href="#" class="btn-outline-light btn-arr" onclick="go('portfolio');return false">See Our Work</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /home -->
+
+
+<!-- ═══ PORTFOLIO ═══ -->
+<div id="page-portfolio" class="page">
+<div class="port-hero">
+  <div class="wrap port-hero-inner">
+    <p class="eyebrow">Selected Work</p>
+    <h1>Our Work<br>Speaks<br><em>Loudest.</em></h1>
+    <p>A curated selection across web design, branding, video, and beyond.</p>
+  </div>
+</div>
+<div class="port-filters" id="port-filters">
+  <div class="port-filters-inner">
+    <button class="pf-btn act" onclick="filterPort('all',this)">All</button>
+    <button class="pf-btn" onclick="filterPort('Web Design',this)">Web Design</button>
+    <button class="pf-btn" onclick="filterPort('Video',this)">Video</button>
+  </div>
+</div>
+<div class="port-grid-section">
+  <div class="wrap">
+    <div class="port-proj-grid">
+      <div class="pp-card rev" data-cat="Web Design"><div class="pp-img"><div class="pp-img-inner">[Project Image]</div></div><div class="pp-info"><span class="pp-tag">Web Design</span><h3 class="pp-title">Project Alpha</h3><p class="pp-desc">High-converting SaaS landing page — clarity, speed, and sign-up growth.</p><span class="pp-link">View Project ↗</span></div></div>
+      <div class="pp-card rev rd1" data-cat="Branding"><div class="pp-img"><div class="pp-img-inner">[Project Image]</div></div><div class="pp-info"><span class="pp-tag">Branding</span><h3 class="pp-title">Project Beta</h3><p class="pp-desc">Complete visual identity for a luxury lifestyle label — logo, palette, brand book.</p><span class="pp-link">View Project ↗</span></div></div>
+      <div class="pp-card rev rd2" data-cat="Video"><div class="pp-img"><div class="pp-img-inner">[Project Image]</div></div><div class="pp-info"><span class="pp-tag">Video Production</span><h3 class="pp-title">Project Gamma</h3><p class="pp-desc">Cinematic brand film — emotion-driven storytelling, 2M organic views.</p><span class="pp-link">View Project ↗</span></div></div>
+      <div class="pp-card rev rd3" data-cat="Marketing"><div class="pp-img"><div class="pp-img-inner">[Project Image]</div></div><div class="pp-info"><span class="pp-tag">Digital Marketing</span><h3 class="pp-title">Project Delta</h3><p class="pp-desc">SEO and paid social — 3× organic traffic growth in 90 days.</p><span class="pp-link">View Project ↗</span></div></div>
+      <div class="pp-card rev rd4" data-cat="Photography"><div class="pp-img"><div class="pp-img-inner">[Project Image]</div></div><div class="pp-info"><span class="pp-tag">Photography</span><h3 class="pp-title">Project Epsilon</h3><p class="pp-desc">Editorial photography for a fashion brand, shot across three cities.</p><span class="pp-link">View Project ↗</span></div></div>
+      <div class="pp-card rev rd5" data-cat="Web Design"><div class="pp-img"><div class="pp-img-inner">[Project Image]</div></div><div class="pp-info"><span class="pp-tag">Web Design</span><h3 class="pp-title">Project Zeta</h3><p class="pp-desc">E-commerce experience for a boutique label — mobile-first checkout.</p><span class="pp-link">View Project ↗</span></div></div>
+    </div>
+  </div>
+</div>
+<section class="cta-section" style="padding:100px 0">
+  <div class="wrap cta-inner">
+    <p class="cta-tag">Your project</p>
+    <h2 class="cta-h2">Like what<br>you see?<br><em style="font-style:italic">Let's talk.</em></h2>
+    <div class="cta-btns" style="margin-top:40px">
+      <a href="#" class="btn-light-on-dark btn-arr" onclick="go('quote');return false">Start a Project</a>
+    </div>
+  </div>
+</section>
+</div><!-- /portfolio -->
+
+
+<!-- ═══ ABOUT ═══ -->
+<div id="page-about" class="page">
+<div class="about-pg-hero">
+  <div class="wrap about-pg-hero-inner">
+    <p class="eyebrow">About Solace</p>
+    <h1>Small team.<br><em>Uncommon</em><br>ambition.</h1>
+    <p>A boutique creative studio building premium digital products for businesses that demand more than average.</p>
+  </div>
+</div>
+<div class="about-story">
+  <div class="wrap">
+    <p class="eyebrow">Our Story</p>
+    <div class="as-grid">
+      <div class="as-left">
+        <h2>We built Solace because great creative work shouldn't come with a $250k price tag.</h2>
+        <p>Solace was founded in 2022 with a clear mission: give ambitious brands access to the same quality of creative direction, design, and production that large agencies charge a fortune for.</p>
+        <p>We work with startups, scale-ups, and established businesses across every industry. The common thread is ambition — clients who care deeply about how their brand shows up in the world.</p>
+        <p>Our process is transparent, our timelines are honest, and our craft is non-negotiable.</p>
+      </div>
+      <div class="as-right">
+        <div class="as-card"><h3>The Philosophy</h3><p>Design without strategy is decoration. We start every engagement with questions, not Figma. Understanding your goals before we open a tool is what separates work that looks good from work that performs.</p></div>
+        <div class="as-card"><h3>The Process</h3><p>Discovery, direction, production, launch. Four clear phases with defined deliverables at every stage. You always know where your project stands — no black boxes, no surprises.</p></div>
+        <div class="as-card"><h3>The Partnership</h3><p>We measure success by your outcomes, not our output. That means staying involved after launch, tracking performance, and continuing to iterate as your brand grows.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="about-services">
+  <div class="wrap">
+    <p class="eyebrow">Our Capabilities</p>
+    <h2 class="sec-h2">Seven disciplines.<br>One studio.</h2>
+    <div class="as2-grid">
+      <div class="as2-cell"><span class="as2-num">Web Design & Dev</span><h3 class="as2-title">Built for performance</h3><p class="as2-desc">Custom websites built from scratch — fast, accessible, beautiful on every device.</p></div>
+      <div class="as2-cell"><span class="as2-num">Brand Identity</span><h3 class="as2-title">Unmistakable systems</h3><p class="as2-desc">Logos, systems, and brand guidelines that make you impossible to forget.</p></div>
+      <div class="as2-cell"><span class="as2-num">Content Creation</span><h3 class="as2-title">Stories with precision</h3><p class="as2-desc">Photography, copy, and creative assets crafted to tell your story exactly.</p></div>
+      <div class="as2-cell"><span class="as2-num">Cinematic Video</span><h3 class="as2-title">Emotion that converts</h3><p class="as2-desc">High-end production that captures emotion and drives organic reach.</p></div>
+      <div class="as2-cell"><span class="as2-num">Digital Marketing</span><h3 class="as2-title">Growth that sticks</h3><p class="as2-desc">Organic and paid strategies that attract, convert, and retain the right audience.</p></div>
+      <div class="as2-cell"><span class="as2-num">Creative Strategy</span><h3 class="as2-title">Purpose in every pixel</h3><p class="as2-desc">Brand positioning and creative direction that gives every touchpoint purpose.</p></div>
+    </div>
+  </div>
+</div>
+<section class="cta-section">
+  <div class="wrap cta-inner">
+    <p class="cta-tag">Work Together</p>
+    <h2 class="cta-h2">Ready to build<br>something<br>unforgettable?</h2>
+    <div class="cta-btns" style="margin-top:40px">
+      <a href="#" class="btn-light-on-dark btn-arr" onclick="go('quote');return false">Start a Project</a>
+      <a href="#" class="btn-outline-light btn-arr" onclick="go('portfolio');return false">See Our Work</a>
+    </div>
+  </div>
+</section>
+</div><!-- /about -->
+
+
+<!-- ═══ CONTACT ═══ -->
+<div id="page-quote" class="page">
+<div class="quote-pg">
+  <div class="wrap">
+    <div class="quote-pg-hero">
+      <p class="eyebrow">Get In Touch</p>
+      <h1>Let's build<br><em>something</em><br>great.</h1>
+      <p>Tell us about your project. We respond within 24 hours and offer a free discovery call.</p>
+    </div>
+    <div class="quote-layout">
+      <div class="q-form">
+        <form id="q-form" onsubmit="submitQ(event)" novalidate>
+          <div class="qf-row">
+            <div class="qf-group"><label class="qf-label">Full Name *</label><input type="text" class="qf-input" placeholder="Jane Smith" required></div>
+            <div class="qf-group"><label class="qf-label">Email Address *</label><input type="email" class="qf-input" placeholder="jane@company.com" required></div>
+          </div>
+          <div class="qf-group"><label class="qf-label">Company / Website</label><input type="text" class="qf-input" placeholder="Your company or website URL"></div>
+          <div class="qf-row">
+            <div class="qf-group"><label class="qf-label">Service Needed *</label>
+              <select class="qf-select" required>
+                <option value="" disabled selected>Select a service</option>
+                <option>Web Design & Development</option><option>Brand Identity</option>
+                <option>Content Creation</option><option>Cinematic Video Production</option>
+                <option>Photography</option><option>Digital Marketing</option>
+                <option>Creative Strategy</option><option>Full-Service Package</option>
+              </select>
+            </div>
+            <div class="qf-group"><label class="qf-label">Budget Range</label>
+              <select class="qf-select">
+                <option value="" disabled selected>Select a range</option>
+                <option>Under $2,500</option><option>$2,500 – $7,500</option>
+                <option>$7,500 – $15,000</option><option>$15,000 – $30,000</option>
+                <option>$30,000+</option><option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="qf-group"><label class="qf-label">Tell us about your project *</label><textarea class="qf-textarea" rows="5" placeholder="What are you building? What's your goal? What's your timeline?" required></textarea></div>
+          <button type="submit" class="qf-submit">Send My Request →</button>
+          <p class="qf-note">No spam · No obligation · 100% confidential</p>
+        </form>
+      </div>
+      <div class="q-side">
+        <div class="qs-block"><span class="qs-label">Email</span><div class="qs-val"><a href="mailto:hello@solaceproduction.com">hello@solaceproduction.com</a></div></div>
+        <div class="qs-block"><span class="qs-label">Response Time</span><div class="qs-val">Within 24 hours</div></div>
+        <div class="qs-trust">
+          <div class="qt-item"><div class="qt-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="qt-text"><strong>100% Confidential</strong><span>Your details are never shared</span></div></div>
+          <div class="qt-item"><div class="qt-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="qt-text"><strong>No Obligation</strong><span>Free to reach out anytime</span></div></div>
+          <div class="qt-item"><div class="qt-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="qt-text"><strong>Free Discovery Call</strong><span>We'll schedule at no cost</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /quote -->
+
+<!-- FOOTER -->
+<footer id="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="nav-logo" style="color:var(--dfg)" onclick="go('home');return false">Solace</a>
+        <p>Premium creative agency. Web design, branding, video, photography, and digital marketing.</p>
+      </div>
+      <div>
+        <span class="foot-col-label">Navigation</span>
+        <div class="foot-links">
+          <a href="#" onclick="go('home');return false">Home</a>
+          <a href="#" onclick="go('portfolio');return false">Work</a>
+          <a href="#" onclick="go('about');return false">About</a>
+          <a href="#" onclick="go('quote');return false">Contact</a>
+        </div>
+      </div>
+      <div>
+        <span class="foot-col-label">Connect</span>
+        <div class="foot-socials">
+          <a href="#" class="foot-soc" aria-label="Instagram"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" class="foot-soc" aria-label="LinkedIn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="foot-soc" aria-label="TikTok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg></a>
+        </div>
+        <p style="font-size:13px;color:var(--dfg-dim);margin-top:18px">hello@solaceproduction.com</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2026 Solace. All rights reserved.</p>
+      <p class="foot-copy">Premium Creative Agency</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function go(pg){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  var t=document.getElementById('page-'+pg);
+  if(t)t.classList.add('active');
+  document.querySelectorAll('[data-pg]').forEach(a=>a.classList.toggle('act',a.getAttribute('data-pg')===pg));
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(initReveal,80);
+}
+function toggleMob(){document.getElementById('mob-nav').classList.toggle('open')}
+function closeMob(){document.getElementById('mob-nav').classList.remove('open')}
+document.addEventListener('click',e=>{
+  var mn=document.getElementById('mob-nav'),hb=document.querySelector('.nav-hamburger');
+  if(mn&&mn.classList.contains('open')&&!mn.contains(e.target)&&!hb.contains(e.target))closeMob();
+});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20),{passive:true});
+
+/* Cursor */
+var dot=document.getElementById('c-dot'),ring=document.getElementById('c-ring');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'},{passive:true});
+(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim)})();
+document.querySelectorAll('a,button,.svc-item,.proj-card,.pp-card,.testi-card,.w-stat,.at-card,.ps,.as2-cell').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.classList.add('hover');ring.classList.add('hover')});
+  el.addEventListener('mouseleave',()=>{dot.classList.remove('hover');ring.classList.remove('hover')});
+});
+
+/* Parallax */
+document.addEventListener('mousemove',e=>{
+  var cx=window.innerWidth/2,cy=window.innerHeight/2;
+  var dx=(e.clientX-cx)/cx,dy=(e.clientY-cy)/cy;
+  document.querySelectorAll('[data-depth]').forEach(el=>{
+    var d=parseFloat(el.getAttribute('data-depth'));
+    el.style.transition='transform .9s cubic-bezier(0.16,1,0.3,1)';
+    el.style.transform='translate('+(dx*d*12)+'px,'+(dy*d*10)+'px)';
+  });
+},{passive:true});
+
+/* Reveals */
+var io;
+function initReveal(){
+  if(io)io.disconnect();
+  io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+}
+initReveal();
+
+/* Portfolio filter */
+function filterPort(cat,btn){
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  document.querySelectorAll('.pp-card').forEach(c=>{
+    c.style.display=(cat==='all'||c.getAttribute('data-cat')===cat)?'block':'none';
+  });
+}
+
+/* Form */
+function submitQ(e){
+  e.preventDefault();
+  document.getElementById('q-form').outerHTML='<div class="q-success"><div class="check"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><h2>You\'re in our inbox.</h2><p>We\'ll review your project and reach out within 24 hours. Speak soon.</p></div>';
+}
+</script>
+</body>
+</html>
