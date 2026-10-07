@@ -90,7 +90,8 @@ blue on white 3.6:1 (large text ≥ 24px only) · gray on ink 6.2:1 · paper on 
 - **Easing:** `cubic-bezier(.2,.7,.2,1)`. **Durations:** 150ms hovers, 400ms reveals, 600ms slide crossfades, 900ms image clip reveals.
 - **Allowed:** opacity, transform, clip-path. Content fades up 16px once as it enters the screen. Project images reveal with a clip from bottom to top, and scale from 1.04 to 1 on hover. The header shrinks and turns solid on scroll.
 - **In and out (`data-reveal="both"`, Studio page):** content fades up as it enters and fades away again as it leaves, drifting up when it leaves at the top and down at the bottom. Optional stagger with `style="--d:120ms"`.
-- **Scroll-linked text (Studio page):** `[data-words]` lines light up word by word as they pass through the screen; `[data-focus]` rows turn from `--blue` to `--ink` while they cross the middle of the screen. Large text only, so the muted state stays readable.
+- **Scroll-linked text (Studio page):** `[data-words]` lines light up word by word as they pass through the screen. Large text only, so the muted state stays readable.
+- **Studio page extras:** `[data-split]` headlines rise in word by word from a mask; bracket labels wipe in from the left; the studio image settles from a 1.08 zoom; bars draw across; tiles rise from the bottom edge; the graph's two lines draw in together, then arrowheads, links and labels. "What we believe" is a stack of sticky cards (`[data-stack]`); a covered card eases to 0.95 scale and dims slightly.
 - **Not allowed:** scroll-jacking, parallax on text, looping decorative animation.
 - **`prefers-reduced-motion`:** no reveals, no autoplay, instant slide changes; scroll-linked text shows fully lit.
 

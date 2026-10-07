@@ -2,8 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Placeholder from '../components/Placeholder.astro';
 import Beliefs from '../components/Beliefs.astro';
-// While choosing the beliefs design: PUBLIC_BELIEFS=a|b|c
-const beliefsVariant = (import.meta.env.PUBLIC_BELIEFS ?? 'a') as 'a' | 'b' | 'c';
 
 const motto = 'Technology makes us faster. The human eye decides what’s good.';
 const approach = ['Better tools.', 'More efficient process.', 'Less unnecessary cost.', 'High creative standards.'];
@@ -69,10 +67,40 @@ const beliefs = [
       <div>
         <p class="statement" data-reveal="both" data-split>A business’s digital presence should reflect the quality of the business itself.</p>
         <p class="body-l measure gap-copy" data-reveal="both">Businesses put real time and effort into their spaces, products, services, customer experience and reputation. When someone discovers that business online, the digital experience should show the same level of care. <strong>Solace exists to help close that gap.</strong></p>
-        <div class="gap" data-reveal="both" aria-hidden="true">
-          <div class="gap__row"><span class="label">The business</span><span class="gap__track"><span class="gap__fill gap__fill--full"></span></span></div>
-          <div class="gap__row"><span class="label">Its digital presence</span><span class="gap__track"><span class="gap__fill gap__fill--grow"></span></span></div>
-        </div>
+        <figure class="graph" data-reveal="both">
+          <ul class="graph__key" aria-hidden="true">
+            <li><i class="k k--biz"></i>The business</li>
+            <li><i class="k k--web"></i>Its digital presence</li>
+          </ul>
+          <svg viewBox="0 0 720 360" role="img" aria-labelledby="graph-t">
+            <title id="graph-t">Illustration: over time, the quality of the business and the quality of its digital presence rise together.</title>
+            <g class="axes">
+              <line x1="56" y1="20" x2="56" y2="330" />
+              <line x1="56" y1="330" x2="700" y2="330" />
+              <path d="M50 30 L56 20 L62 30" />
+              <path d="M690 324 L700 330 L690 336" />
+            </g>
+            <text class="ax" x="70" y="28">QUALITY</text>
+            <text class="ax" x="690" y="352" text-anchor="end">TIME</text>
+            <g class="links">
+              <line x1="228.9" y1="247.8" x2="235.5" y2="274.9" style="--o:0" />
+              <line x1="385.5" y1="177.2" x2="392.7" y2="206.7" style="--o:1" />
+              <line x1="535.3" y1="108.9" x2="539.3" y2="141" style="--o:2" />
+            </g>
+            <path class="line line--biz" pathLength="1" d="M56 292 C240 276 400 150 648 66" />
+            <path class="line line--web" pathLength="1" d="M56 318 C250 302 410 180 648 100" />
+            <path class="head head--biz" d="M-14 -7 L0 0 L-14 7" transform="translate(648 66) rotate(-18.7)" />
+            <path class="head head--web" d="M-14 -7 L0 0 L-14 7" transform="translate(648 100) rotate(-18.6)" />
+            <g class="dots">
+              <circle class="dot--biz" cx="228.9" cy="247.8" r="4.5" style="--o:0" /><circle class="dot--web" cx="235.5" cy="274.9" r="4.5" style="--o:0" />
+              <circle class="dot--biz" cx="385.5" cy="177.2" r="4.5" style="--o:1" /><circle class="dot--web" cx="392.7" cy="206.7" r="4.5" style="--o:1" />
+              <circle class="dot--biz" cx="535.3" cy="108.9" r="4.5" style="--o:2" /><circle class="dot--web" cx="539.3" cy="141" r="4.5" style="--o:2" />
+            </g>
+            <text class="lbl" x="640" y="46" text-anchor="end">The business</text>
+            <text class="lbl lbl--2" x="562" y="150">Its digital presence</text>
+          </svg>
+          <figcaption class="label">As the business grows, its digital presence should rise with it.</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -93,7 +121,7 @@ const beliefs = [
     </div>
   </section>
 
-  <Beliefs items={beliefs} variant={beliefsVariant} />
+  <Beliefs items={beliefs} />
 
   <!-- Close -->
   <section class="pad section close" aria-label="Work with us">
@@ -133,17 +161,40 @@ const beliefs = [
   .goal { font-size: clamp(20px, 1.8vw, 26px); line-height: 1.3; letter-spacing: -.01em; font-weight: 500; margin-top: 64px; max-width: 30ch; }
   .goal .fade { color: var(--sky); }
 
-  /* 03 — the gap closing */
+  /* 03 — the business and its digital presence rising together */
   .gap-copy { margin-top: 28px; }
   .gap-copy strong { font-weight: 500; color: var(--ink); }
-  .gap { margin-top: 44px; display: grid; gap: 18px; max-width: 720px; }
-  .gap__row { display: grid; grid-template-columns: 160px 1fr; align-items: center; gap: 16px; }
-  .gap__track { height: 10px; background: #E4E5E1; display: block; overflow: hidden; }
-  .gap__fill { display: block; height: 100%; background: var(--ink); }
-  .gap__fill--grow { background: linear-gradient(90deg, var(--sky), var(--blue)); }
-  :global(.js) .gap__fill { transform-origin: left; transition: transform 1200ms var(--ease); }
-  :global(.js) .gap__fill--grow { transform: scaleX(.45); transition-delay: 250ms; }
-  :global(.js) .gap.is-in .gap__fill--grow { transform: scaleX(1); }
+  .graph { margin-top: 44px; max-width: 760px; }
+  .graph__key { display: flex; gap: 22px; flex-wrap: wrap; list-style: none; font-size: 13px; color: #3C4547; margin-bottom: 14px; }
+  .graph__key li { display: flex; align-items: center; gap: 8px; }
+  .k { display: block; width: 18px; height: 2px; border-radius: 2px; }
+  .k--biz { background: var(--ink); }
+  .k--web { background: var(--blue); }
+  .graph svg { width: 100%; height: auto; overflow: visible; }
+  .axes line, .axes path { stroke: #C9CCC8; stroke-width: 1; fill: none; }
+  .ax { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; fill: var(--slate); }
+  .lbl { font-size: 14px; font-weight: 500; fill: var(--ink); }
+  .lbl--2 { fill: var(--slate); }
+  .line, .head { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .line--biz, .head--biz { stroke: var(--ink); }
+  .line--web, .head--web { stroke: var(--blue); }
+  .links line { stroke: var(--gray); stroke-width: 1; stroke-dasharray: 2 4; }
+  .dots circle { stroke: var(--paper); stroke-width: 2; }
+  .dot--biz { fill: var(--ink); }
+  .dot--web { fill: var(--blue); }
+  .graph figcaption { margin-top: 14px; }
+  @media (max-width: 639px) {
+    .graph .lbl { display: none; } /* the key above names both lines */
+    .graph .ax { font-size: 20px; }
+  }
+  /* Lines draw in together, then the arrowheads, links and labels arrive; it plays back out on the way out */
+  :global(.js) .graph .line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1500ms var(--ease); }
+  :global(.js) .graph .line--web { transition-delay: 150ms; }
+  :global(.js) .graph.is-in .line { stroke-dashoffset: 0; }
+  :global(.js) .graph .head, :global(.js) .graph .lbl { opacity: 0; transition: opacity 400ms var(--ease); }
+  :global(.js) .graph.is-in .head, :global(.js) .graph.is-in .lbl { opacity: 1; transition-delay: 1300ms; }
+  :global(.js) .graph .links line, :global(.js) .graph .dots circle { opacity: 0; transition: opacity 350ms var(--ease); }
+  :global(.js) .graph.is-in .links line, :global(.js) .graph.is-in .dots circle { opacity: 1; transition-delay: calc(500ms + var(--o) * 280ms); }
 
   /* 04 — approach, in the black-bar style of the Process section */
   .cost-copy { margin-top: 28px; }
@@ -188,11 +239,11 @@ const beliefs = [
     .cols { margin-top: 28px; }
     .split { margin-top: 40px; }
     .goal { margin-top: 44px; }
-    .gap__row { grid-template-columns: 1fr; gap: 8px; }
   }
   @media (prefers-reduced-motion: reduce) {
     :global(.js) .motto .w { color: var(--white); }
-    :global(.js) .gap__fill--grow { transform: none; }
+    :global(.js) .graph .line { stroke-dashoffset: 0; }
+    :global(.js) .graph .head, :global(.js) .graph .lbl, :global(.js) .graph .links line, :global(.js) .graph .dots circle { opacity: 1; }
     :global(.js) .label[data-reveal], :global(.js) .side .bar, :global(.js) .tile-in { clip-path: none; }
     :global(.js) .media-wrap :global(.studio-media) { transform: none; }
   }

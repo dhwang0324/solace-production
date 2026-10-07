@@ -1,68 +1,26 @@
 ---
-// "What we believe" on the Studio page.
-// Options while choosing: 'a' stacking cards · 'b' tile grid · 'c' one at a time
-interface Props { items: string[]; variant?: 'a' | 'b' | 'c' }
-const { items, variant = 'a' } = Astro.props;
+// "What we believe" on the Studio page: cards that stack on top of each other as you scroll.
+interface Props { items: string[] }
+const { items } = Astro.props;
 const no = (i: number) => String(i + 1).padStart(2, '0');
 ---
-{variant === 'a' && (
-  <section class="pad section stack-wrap" aria-labelledby="believe-h">
-    <div class="inner">
-      <div class="stack-head">
-        <p class="label" id="believe-h" data-reveal="both">[ What we believe ]</p>
-      </div>
-      <ol class="stack" data-stack>
-        {items.map((b, i) => (
-          <li class:list={['card', `card--${i + 1}`]} style={`--i:${i}`}>
-            <div class="card__top"><span class="card__no">{no(i)}</span><span class="card__tag" aria-hidden="true">Belief</span></div>
-            <p class="card__txt">{b}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-)}
-
-{variant === 'b' && (
-  <section class="pad section" aria-labelledby="believe-h">
-    <div class="inner tiles">
-      <div class="tile tile--intro" data-reveal="both">
-        <p class="label" id="believe-h">[ What we believe ]</p>
-        <p class="tile__lead">The beliefs behind every project.</p>
-      </div>
+<section class="pad section stack-wrap" aria-labelledby="believe-h">
+  <div class="inner">
+    <p class="label stack-label" id="believe-h" data-reveal="both">[ What we believe ]</p>
+    <ol class="stack" data-stack>
       {items.map((b, i) => (
-        <div class:list={['tile', `tile--${i + 1}`]} data-reveal="both" style={`--d:${(i % 3) * 90}ms`}>
-          <span class="tile__no">{no(i)}</span>
-          <p class="tile__txt">{b}</p>
-        </div>
+        <li class:list={['card', `card--${i + 1}`]} style={`--i:${i}`}>
+          <div class="card__top"><span class="card__no">{no(i)}</span><span class="card__tag" aria-hidden="true">Belief</span></div>
+          <p class="card__txt">{b}</p>
+        </li>
       ))}
-    </div>
-  </section>
-)}
-
-{variant === 'c' && (
-  <section class="pin-wrap band" aria-labelledby="believe-h" data-pin style={`--n:${items.length}`}>
-    <div class="pin pad">
-      <div class="inner pin__grid">
-        <div class="pin__side">
-          <p class="label" id="believe-h">[ What we believe ]</p>
-          <p class="pin__count" aria-hidden="true"><span data-pin-now>01</span><span class="pin__of"> / {no(items.length - 1)}</span></p>
-          <span class="pin__track" aria-hidden="true"><span class="pin__fill" data-pin-fill></span></span>
-        </div>
-        <ol class="pin__list">
-          {items.map((b, i) => (
-            <li class:list={['pin__item', { 'is-on': i === 0 }]} data-pin-item><span class="sr-only">{no(i)}. </span>{b}</li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
-)}
+    </ol>
+  </div>
+</section>
 
 <style>
-  /* A — cards that stack on top of each other as you scroll */
   .stack-wrap { padding-top: 0; }
-  .stack-head { display: flex; justify-content: space-between; margin-bottom: 24px; }
+  .stack-label { margin-bottom: 24px; }
   .stack { display: grid; gap: 28px; list-style: none; }
   .card {
     position: sticky; top: calc(110px + var(--i) * 16px);
@@ -77,63 +35,10 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
   .card--5 { background: var(--white); border: 1px solid #D7D9D9; }
   .card__top { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; opacity: .7; }
   .card__txt { font-size: clamp(28px, 3.6vw, 56px); line-height: 1.08; letter-spacing: -.025em; font-weight: 500; max-width: 22ch; }
-
-  /* B — tile grid */
-  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .tile { min-height: 260px; padding: 22px 24px 26px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; }
-  .tile--intro { justify-content: flex-start; gap: 14px; padding-left: 0; }
-  .tile__lead { font-size: clamp(24px, 2.2vw, 32px); line-height: 1.15; letter-spacing: -.02em; font-weight: 500; max-width: 14ch; }
-  .tile__no { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; opacity: .7; }
-  .tile__txt { font-size: clamp(20px, 1.8vw, 26px); line-height: 1.2; letter-spacing: -.015em; font-weight: 500; }
-  .tile--1 { background: var(--ink); color: var(--white); }
-  .tile--2 { background: var(--paper); }
-  .tile--3 { background: linear-gradient(120deg, #D9E4EA, var(--sky) 40%, var(--blue)); }
-  .tile--4 { background: var(--paper); grid-column: span 2; }
-  .tile--5 { background: var(--navy); color: var(--white); grid-column: span 3; min-height: 200px; }
-  .tile--5 .tile__txt { font-size: clamp(24px, 2.6vw, 38px); max-width: 26ch; }
-  .tile { transition: transform var(--t-fast) var(--ease); }
-  .tile:not(.tile--intro):hover { transform: translateY(-4px); }
-
-  /* C — one belief at a time while the section holds on screen */
-  .pin-wrap { position: relative; }
-  .pin { padding-top: var(--section); padding-bottom: var(--section); }
-  .pin__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start; }
-  .pin__count { font-size: 56px; line-height: 1; letter-spacing: -.03em; font-weight: 500; margin-top: 28px; }
-  .pin__of { color: var(--blue); }
-  .pin__track { display: block; width: 160px; height: 2px; background: #DADBD7; margin-top: 22px; overflow: hidden; }
-  .pin__fill { display: block; height: 100%; background: var(--ink); transform-origin: left; transform: scaleX(.2); transition: transform 300ms var(--ease); }
-  .pin__list { display: grid; gap: 28px; list-style: none; }
-  .pin__item { font-size: clamp(28px, 3.6vw, 56px); line-height: 1.08; letter-spacing: -.025em; font-weight: 500; max-width: 22ch; }
-  /* With JS: the section is tall, the inner part holds on screen and the beliefs swap in place */
-  :global(.js) .pin-wrap { height: calc(var(--n) * 70vh + 30vh); }
-  :global(.js) .pin { position: sticky; top: 0; min-height: 100vh; display: flex; align-items: center; }
-  :global(.js) .pin .inner { width: 100%; }
-  :global(.js) .pin__list { display: block; position: relative; min-height: 4.4em; font-size: clamp(28px, 3.6vw, 56px); }
-  :global(.js) .pin__item { position: absolute; inset: 0 auto auto 0; opacity: 0; transform: translateY(40px); transition: opacity 500ms var(--ease), transform 600ms var(--ease); }
-  :global(.js) .pin__item.is-on { opacity: 1; transform: none; }
-  :global(.js) .pin__item.is-past { transform: translateY(-40px); }
-
-  @media (max-width: 1023px) {
-    .tiles { grid-template-columns: 1fr 1fr; }
-    .tile--intro { grid-column: span 2; min-height: 0; }
-    .tile--4 { grid-column: span 1; }
-    .tile--5 { grid-column: span 2; }
-  }
   @media (max-width: 767px) {
     .card { top: calc(78px + var(--i) * 12px); padding: 20px 20px 26px; min-height: 340px; }
-    .tiles { grid-template-columns: 1fr; }
-    .tile--intro, .tile--4, .tile--5 { grid-column: auto; }
-    .tile { min-height: 200px; }
-    .pin__grid { grid-template-columns: 1fr; gap: 20px; }
-    .pin__count { font-size: 40px; margin-top: 16px; }
-    :global(.js) .pin__list { min-height: 6.6em; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .card { transform: none !important; }
-    :global(.js) .pin-wrap { height: auto; }
-    :global(.js) .pin { position: static; min-height: 0; }
-    :global(.js) .pin__list { display: grid; gap: 28px; min-height: 0; }
-    :global(.js) .pin__item { position: static; opacity: 1; transform: none; }
-    .pin__count, .pin__track { display: none; }
+    .card { transform: none !important; filter: none !important; }
   }
 </style>

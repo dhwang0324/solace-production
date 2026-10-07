@@ -132,15 +132,6 @@ if (wordLines.length && !reduceMotion) {
   window.addEventListener('resize', onScroll);
 }
 
-/* The item crossing the middle of the screen is in focus */
-const focusEls = [...document.querySelectorAll<HTMLElement>('[data-focus]')];
-if (focusEls.length && !reduceMotion && 'IntersectionObserver' in window) {
-  const fo = new IntersectionObserver((entries) => {
-    entries.forEach((e) => e.target.classList.toggle('is-focus', e.isIntersecting));
-  }, { rootMargin: '-38% 0px -38% 0px' });
-  focusEls.forEach((el) => fo.observe(el));
-}
-
 /* Stacking cards: a card eases back slightly as the next one slides over it */
 const stack = document.querySelector<HTMLElement>('[data-stack]');
 if (stack && !reduceMotion) {
@@ -162,29 +153,6 @@ if (stack && !reduceMotion) {
   paint();
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
-}
-
-/* One belief at a time while the section holds on screen */
-const pin = document.querySelector<HTMLElement>('[data-pin]');
-if (pin && !reduceMotion) {
-  const items = [...pin.querySelectorAll<HTMLElement>('[data-pin-item]')];
-  const now = pin.querySelector<HTMLElement>('[data-pin-now]');
-  const fill = pin.querySelector<HTMLElement>('[data-pin-fill]');
-  let current = -1;
-  const paint = () => {
-    const r = pin.getBoundingClientRect();
-    const run = r.height - window.innerHeight;
-    const p = Math.min(0.999, Math.max(0, -r.top / Math.max(1, run)));
-    const i = Math.floor(p * items.length);
-    if (i === current) return;
-    current = i;
-    items.forEach((it, n) => { it.classList.toggle('is-on', n === i); it.classList.toggle('is-past', n < i); });
-    if (now) now.textContent = String(i + 1).padStart(2, '0');
-    if (fill) fill.style.transform = `scaleX(${(i + 1) / items.length})`;
-  };
-  paint();
-  window.addEventListener('scroll', () => requestAnimationFrame(paint), { passive: true });
-  window.addEventListener('resize', () => requestAnimationFrame(paint));
 }
 
 /* Hero slideshow */
