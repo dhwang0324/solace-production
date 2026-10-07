@@ -25,5 +25,15 @@ Claude Code edits → GitHub → Hostinger.
 - Keep the site responsive (check ~1440px and ~390px wide, no sideways scrolling) and accessible (alt text, labelled form fields).
 - No force-push, history rewrites or branch deletion.
 
+## Higgsfield (AI media) — user's standing rule
+Use Higgsfield only when custom generated media materially improves the result; the site must stand on its typography, layout and identity without it.
+- **Never start anything that may spend credits without explicit approval.** If unsure whether a call costs credits, assume it does and ask.
+- Before any paid generation, state: what and why, recommended model, resolution, duration (video), number of generations, credits each, total credits, and the exact prompt. Then wait for approval.
+- Never auto-regenerate, upscale, make variations, extend clips or switch models after a flawed result: explain the problem and ask first.
+- Cheapest validation first: concept → still image → low-cost video test → final high-quality generation.
+- Never let generated media stand in for real client work, products, people, places or facts, or invent testimonials, awards, results or claims.
+- Generated assets follow the normal flow: work branch first, nothing deployed without the user saying "deploy".
+- Free without approval (no credits): checking balance, browsing capabilities and models, planning concepts, writing prompts, estimating cost.
+
 ## Known issues
 - The contact form only shows a thank-you message; it does not send email anywhere yet.
