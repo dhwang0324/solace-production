@@ -123,6 +123,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .js [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease); transition-delay: var(--d, 0ms); }
 .js [data-reveal].is-in { opacity: 1; transform: none; }
 .js [data-reveal].is-above { transform: translateY(-16px); }
+/* Headlines with data-split: words rise out of a mask one after another (main.ts wraps the words) */
+.js [data-split][data-reveal] { opacity: 1; transform: none; }
+.sw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
+.si { display: inline-block; transform: translateY(105%); transition: transform 700ms var(--ease); transition-delay: calc(min(var(--i), 22) * 24ms + var(--d, 0ms)); }
+.is-in .si { transform: none; }
+.is-above .si { transform: translateY(-105%); }
 .js [data-clip] { clip-path: inset(100% 0 0 0); transition: clip-path 900ms var(--ease); }
 .js [data-clip].is-in { clip-path: inset(0 0 0 0); }
 

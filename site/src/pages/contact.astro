@@ -4,25 +4,46 @@ import { site, serviceGroups } from '../data/site';
 // The form is not connected yet. Set FORM_ENDPOINT to a form service URL or a
 // Hostinger PHP script to start receiving submissions.
 const FORM_ENDPOINT = '';
+// While choosing the layout: PUBLIC_CONTACT=a|b|c
+const layout = (import.meta.env.PUBLIC_CONTACT ?? 'a') as 'a' | 'b' | 'c';
+const next = [
+  'We read every message ourselves.',
+  'We reply personally with a few questions or a time to talk.',
+  'We shape a plan around your business.',
+];
 ---
 <Base title="Contact" description="Start a project with Solace. Tell us about your business and we’ll get back to you personally.">
-  <section class="pad head">
-    <div class="inner split">
-      <div>
-        <p class="label">[ Contact ]</p>
-        <h1 class="statement">Tell us about your business. <span class="fade">We’ll reply personally.</span></h1>
-        <p class="direct body-l">Prefer email? <a class="link-u" href={`mailto:${site.email}`}>{site.email}</a></p>
+  <section class:list={['contact', `contact--${layout}`, 'pad']}>
+    <div class="inner wrap">
+      <div class="intro">
+        <p class="label" data-reveal="both">[ Contact ]</p>
+        <h1 class="statement" data-reveal="both" data-split>Tell us about your business. <span class="fade">We’ll reply personally.</span></h1>
+        {layout !== 'b' && (
+          <div class="info" data-reveal="both" style="--d:120ms">
+            <div class="info__row">
+              <p class="label">Email</p>
+              <a class="info__mail link-u" href={`mailto:${site.email}`}>{site.email}</a>
+            </div>
+            <div class="info__row">
+              <p class="label">What happens next</p>
+              <ol class="steps">{next.map((n, i) => <li><span class="no">0{i + 1}</span>{n}</li>)}</ol>
+            </div>
+          </div>
+        )}
       </div>
-      <form class="form" method="post" action={FORM_ENDPOINT || undefined} novalidate data-form data-endpoint={FORM_ENDPOINT}>
-        <div class="field">
-          <label for="f-name">Name</label>
-          <input id="f-name" name="name" type="text" autocomplete="name" required />
-          <p class="err" id="f-name-err" hidden>Please add your name.</p>
-        </div>
-        <div class="field">
-          <label for="f-email">Email</label>
-          <input id="f-email" name="email" type="email" autocomplete="email" required />
-          <p class="err" id="f-email-err" hidden>Please add a valid email address.</p>
+
+      <form class="form" method="post" action={FORM_ENDPOINT || undefined} novalidate data-form data-endpoint={FORM_ENDPOINT} data-reveal="both" style="--d:160ms">
+        <div class="row">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required />
+            <p class="err" id="f-name-err" hidden>Please add your name.</p>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required />
+            <p class="err" id="f-email-err" hidden>Please add a valid email address.</p>
+          </div>
         </div>
         <fieldset class="field">
           <legend>What do you need? <span class="opt">(optional)</span></legend>
@@ -35,39 +56,85 @@ const FORM_ENDPOINT = '';
         </fieldset>
         <div class="field">
           <label for="f-msg">Message</label>
-          <textarea id="f-msg" name="message" rows="5" required></textarea>
+          <textarea id="f-msg" name="message" rows="5" required placeholder="A few lines about your business and what you have in mind."></textarea>
           <p class="err" id="f-msg-err" hidden>Please tell us a little about the project.</p>
         </div>
-        <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
+        <div class="send">
+          <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
+          {layout === 'b' && <p class="alt">Prefer email? <a class="link-u" href={`mailto:${site.email}`}>{site.email}</a></p>}
+        </div>
         <p class="status body-l" role="status" aria-live="polite" data-status></p>
       </form>
     </div>
   </section>
 </Base>
 <style>
-  .head { padding-top: 72px; padding-bottom: var(--section); }
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .contact { padding-top: 72px; padding-bottom: 96px; }
   .statement { margin-top: 14px; }
-  .direct { margin-top: 28px; }
+
+  /* Shared form styling: boxed fields, mono labels */
   .form { display: grid; gap: 22px; }
-  .field { display: grid; gap: 8px; border: 0; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: grid; gap: 8px; border: 0; min-width: 0; }
   label, legend { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
+  legend { margin-bottom: 8px; }
   .opt { text-transform: none; }
   input[type="text"], input[type="email"], textarea {
-    width: 100%; border: 0; border-bottom: 1px solid #C9CBCA; padding: 10px 0; font-size: 16px; background: transparent; border-radius: 0;
-    transition: border-color var(--t-fast) var(--ease);
+    width: 100%; border: 1px solid #D7D9D9; border-radius: 10px; padding: 13px 14px; font-size: 16px; background: var(--white);
+    transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
   }
-  input:focus, textarea:focus { outline: none; border-bottom-color: var(--ink); }
-  input:focus-visible, textarea:focus-visible { box-shadow: 0 2px 0 0 var(--ink); }
-  [aria-invalid="true"] { border-bottom-color: #9B3B32 !important; }
+  textarea { resize: vertical; min-height: 150px; line-height: 1.5; }
+  ::placeholder { color: #8C9497; }
+  input:hover, textarea:hover { border-color: #B9BDBD; }
+  input:focus, textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(165,201,225,.45); }
+  [aria-invalid="true"] { border-color: #9B3B32 !important; }
   .err { font-size: 13px; color: #9B3B32; }
-  textarea { resize: vertical; }
-  .checks { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .checks { display: flex; gap: 8px; flex-wrap: wrap; }
   .check { text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: 13px; color: var(--ink); }
   .check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-  .check span { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px; border: 1px solid #D7D9D9; border-radius: 8px; cursor: pointer; }
+  .check span { display: inline-flex; align-items: center; min-height: 38px; padding: 6px 16px; border: 1px solid #D7D9D9; border-radius: 999px; background: var(--white); cursor: pointer; transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+  .check span:hover { border-color: var(--ink); }
   .check input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
   .check input:focus-visible + span { outline: 2px solid var(--slate); outline-offset: 3px; }
-  .btn { justify-self: start; }
-  @media (max-width: 899px) { .split { grid-template-columns: 1fr; gap: 48px; } }
+  .send { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
+  .alt { font-size: 14px; color: #3C4547; }
+  .status:empty { display: none; }
+
+  /* Info column */
+  .info { margin-top: 44px; display: grid; gap: 28px; }
+  .info__row { display: grid; gap: 10px; }
+  .info__mail { font-size: 18px; }
+  .steps { list-style: none; display: grid; gap: 10px; }
+  .steps li { display: grid; grid-template-columns: 34px 1fr; font-size: 15px; color: #3C4547; padding-top: 10px; border-top: 1px solid #E6E7E5; }
+  .no { font-family: var(--mono); font-size: 11px; color: var(--slate); padding-top: 3px; }
+
+  /* A — intro and next steps on the left, the form in a soft card on the right */
+  .contact--a .wrap { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: start; }
+  .contact--a .form { background: var(--paper); padding: 32px; }
+
+  /* B — one centred column */
+  .contact--b .wrap { max-width: 720px; }
+  .contact--b .intro { text-align: center; margin-bottom: 48px; }
+  .contact--b .statement { margin-left: auto; margin-right: auto; }
+
+  /* C — a dark panel with the intro, the form on white beside it */
+  .contact--c { padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; }
+  .contact--c .wrap { display: grid; grid-template-columns: 1fr 1fr; max-width: none; }
+  .contact--c .intro { background: var(--ink); color: var(--white); padding: 72px var(--side) 96px; }
+  .contact--c .intro .label, .contact--c .no { color: var(--gray); }
+  .contact--c .statement .fade { color: var(--sky); }
+  .contact--c .steps li { color: rgba(255,255,255,.78); border-top-color: rgba(255,255,255,.14); }
+  .contact--c .info__mail { color: var(--white); }
+  .contact--c .form { padding: 72px var(--side) 96px; align-content: start; }
+
+  @media (max-width: 899px) {
+    .contact--a .wrap, .contact--c .wrap { grid-template-columns: 1fr; gap: 40px; }
+    .contact--c .wrap { gap: 0; }
+    .contact--c .intro, .contact--c .form { padding-top: 56px; padding-bottom: 56px; }
+  }
+  @media (max-width: 639px) {
+    .row { grid-template-columns: 1fr; }
+    .contact--a .form { padding: 22px 18px; margin: 0 calc(var(--side) * -1); }
+    .info { margin-top: 32px; }
+  }
 </style>

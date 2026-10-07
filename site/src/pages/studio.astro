@@ -227,12 +227,6 @@ const beliefs = [
   .approach .no { color: var(--gray); }
 
   /* Extra motion on this page */
-  /* Headlines: words rise out of a mask, one after another (main.ts wraps the words) */
-  [data-split][data-reveal] { opacity: 1 !important; transform: none !important; }
-  :global(.sw) { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
-  :global(.si) { display: inline-block; transform: translateY(105%); transition: transform 700ms var(--ease); transition-delay: calc(min(var(--i), 22) * 24ms + var(--d, 0ms)); }
-  :global(.is-in) :global(.si) { transform: none; }
-  :global(.is-above) :global(.si) { transform: translateY(-105%); }
   /* Bracket labels wipe in from the left */
   :global(.js) .label[data-reveal] { clip-path: inset(0 100% 0 0); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease), clip-path 800ms var(--ease); }
   :global(.js) .label[data-reveal].is-in { clip-path: inset(0 0 0 0); }
