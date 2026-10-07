@@ -16,7 +16,7 @@ Claude Code edits → GitHub → Hostinger.
 - `.github/workflows/deploy.yml` runs on every push to `main` that changes `solace-html/` (or manually from the Actions tab) and uploads `solace-html/` to Hostinger over FTP. A manual run with `check_only` lists the server folders without uploading.
 - **Pushing to `main` is a production deploy.** Do day-to-day work on a `claude/*` branch; only merge or push to `main` when the user says to deploy.
 - The upload overwrites changed files and deletes files that were removed from `solace-html/` since the last deploy. It does not touch anything else on the server.
-- Credentials are GitHub repository secrets `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD` (optional variable `FTP_SERVER_DIR`; otherwise the workflow uploads into `public_html/` if the FTP login sees one, else into the login's starting folder). Never put credentials in the repo.
+- Credentials are GitHub repository secrets `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD` (optional variable `FTP_SERVER_DIR`, default `./`: the FTP login opens directly in the site's web root, so never upload into a `public_html/` subfolder). Never put credentials in the repo.
 - After a deploy, check the run in the repo's Actions tab, then hard-refresh the site.
 
 ## Rules

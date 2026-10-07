@@ -39,13 +39,8 @@ jobs:
           echo "== Files the FTP login sees at its starting folder =="
           root=$(list "")
           echo "$root"
-          if [ -n "$OVERRIDE" ]; then
-            dir="$OVERRIDE"
-          elif echo "$root" | grep -qx 'public_html'; then
-            dir="public_html/"
-          else
-            dir="./"
-          fi
+          # Hostinger's FTP login for solaceproduction.com opens directly in the web root.
+          dir="${OVERRIDE:-./}"
           echo "== Uploading into: $dir =="
           [ "$dir" = "./" ] || { echo "== Files currently in $dir =="; list "$dir"; }
           echo "dir=$dir" >> "$GITHUB_OUTPUT"
