@@ -13,9 +13,9 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 | Contact | `/contact/` | `site/src/pages/contact.astro` (form not connected yet: set `FORM_ENDPOINT`) |
 
 - Design rules: `docs/design-system.md`. Tokens and base styles: `site/src/styles/global.css` (use tokens, not new hex values).
-- Shared components in `site/src/components/` (Header, Footer, Hero, Services, Process, ProjectFeature, Placeholder). Shared copy in `site/src/data/site.ts`.
+- Shared components in `site/src/components/` (Header, Footer (compact dark), Hero, Services, Process, ProjectFeature, Shot, Placeholder). Shared copy in `site/src/data/site.ts`.
 - Fonts: Hanken Grotesk + IBM Plex Mono, self-hosted via @fontsource.
-- Project facts in `projects.ts` must be confirmed by the user; leave fields out until then.
+- Project facts in `projects.ts` must be confirmed by the user; leave fields out until then. `draft: true` keeps a project off the site (Guerrero Boxing Gym is a draft until the user says its site is finished).
 - Project images are real site screenshots in `site/src/assets/work/<slug>/` (cover, detail-1, detail-2, phone), rendered by `Shot.astro` (AVIF/WebP). Guerrero’s site uses temporary Pexels footage/photos, so present them only as screenshots of the website, never as Solace photography. Studio/hero images are still placeholders.
 - Commands: `cd site && npm ci`, `npm run dev`, `npm run build` (output `site/dist/`).
 
@@ -24,7 +24,7 @@ Claude Code edits → GitHub → Hostinger.
 - `.github/workflows/deploy.yml` runs on every push to `main` that changes `site/` or the workflow (or manually from the Actions tab): it runs `npm ci && npm run build` in `site/` and uploads `site/dist/` to Hostinger over FTP. A manual run with `check_only` lists the server folders without uploading.
 - **Pushing to `main` is a production deploy.** Do day-to-day work on a `claude/*` branch; only merge or push to `main` when the user says to deploy.
 - The upload overwrites changed files and deletes files that were removed from `site/dist/` since the last deploy. It does not touch anything else on the server (e.g. `.htaccess`).
-- Credentials are GitHub repository secrets `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD` (optional variable `FTP_SERVER_DIR`, default `./`: the FTP login opens directly in the site's web root, so never upload into a `public_html/` subfolder). Never put credentials in the repo.
+- Credentials are GitHub repository secrets `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD` (optional variable `FTP_SERVER_DIR`). The workflow reads the FTP login folder's absolute path with `PWD` (currently `/public_html`, which is the web root) and uploads there; a relative `./` breaks folder deletion in the FTP action, and `public_html/` relative to the login would create a nested folder. Never put credentials in the repo.
 - After a deploy, check the run in the repo's Actions tab, then hard-refresh the site.
 
 ## Rules
