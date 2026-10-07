@@ -1,62 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import { website, management, addOns, seo, pricing } from '../data/services';
+import ServicesTop from '../components/ServicesTop.astro';
+// While choosing the design of the first three sections: PUBLIC_SVC=a|b
+const top = (import.meta.env.PUBLIC_SVC ?? 'a') as 'a' | 'b';
 const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
 ---
 <Base title="Services" description="Website design and development from $500, website management at $100/month, and photography, video, e-commerce and SEO added only when your business needs them.">
-  <!-- Intro -->
-  <section class="pad head">
-    <div class="inner">
-      <p class="label" data-reveal="both" data-wipe>[ Services ]</p>
-      <h1 class="statement" data-reveal="both" data-split>Your digital presence, <span class="fade">built around your business.</span></h1>
-      <div class="intro">
-        <p class="body-l" data-reveal="both" style="--d:120ms">Every business needs something different. Solace starts with a thoughtfully designed website and gives you the option to add the creative and digital services your business actually needs.</p>
-        <p class="intro__strong" data-reveal="both" style="--d:200ms">No unnecessary packages. <span class="fade">No paying for services you won’t use.</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 01 Website design & development -->
-  <section class="pad section svc" aria-labelledby="web-h">
-    <div class="inner svc__grid">
-      <div class="svc__main">
-        <p class="label" data-reveal="both" data-wipe>[ 01 · Website ]</p>
-        <h2 class="h2" id="web-h" data-reveal="both" data-split>{website.name}</h2>
-        <p class="price" data-reveal="both"><span class="price__lead">{website.price.lead}</span><span class="price__amt">{website.price.amount}</span></p>
-        <p class="lede" data-reveal="both">{website.lede}</p>
-        {website.body.map((t) => <p class="body-l" data-reveal="both">{t}</p>)}
-      </div>
-      <div class="svc__list" data-reveal="both" style="--d:120ms">
-        <p class="label">{website.includesLabel}</p>
-        <ul class="ticks">{website.includes.map((i) => <li>{i}</li>)}</ul>
-        <p class="note">{website.note}</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 02 Website management -->
-  <section class="pad section dark on-dark" aria-labelledby="mgmt-h">
-    <div class="inner">
-      <div class="svc__grid">
-        <div class="svc__main">
-          <p class="label" data-reveal="both" data-wipe>[ 02 · After launch ]</p>
-          <h2 class="h2" id="mgmt-h" data-reveal="both" data-split>{management.name}</h2>
-          <p class="price" data-reveal="both"><span class="price__amt">{management.price.amount}</span><span class="price__per">{management.price.per}</span></p>
-          <p class="lede" data-reveal="both">{management.lede}</p>
-          <p class="body-l" data-reveal="both">{management.body}</p>
-        </div>
-        <div class="svc__list" data-reveal="both" style="--d:120ms">
-          <p class="label">{management.includesLabel}</p>
-          <ul class="ticks ticks--2">{management.includes.map((i) => <li>{i}</li>)}</ul>
-        </div>
-      </div>
-      <p class="motto" data-reveal="both" data-split>You run the business. <span class="fade">We take care of the website.</span></p>
-      <p class="note note--dark" data-reveal="both">{management.note}</p>
-    </div>
-  </section>
+  <ServicesTop variant={top} />
 
   <!-- 03 Creative add-ons -->
-  <section class="band pad section" aria-labelledby="add-h">
+  <section class="band pad section" id="add" aria-labelledby="add-h">
     <div class="inner">
       <p class="label" data-reveal="both" data-wipe>[ 03 · Creative add-ons ]</p>
       <div class="add__head">
@@ -82,7 +36,7 @@ const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
   </section>
 
   <!-- 04 SEO -->
-  <section class="pad section svc" aria-labelledby="seo-h">
+  <section class="pad section svc" id="seo" aria-labelledby="seo-h">
     <div class="inner svc__grid">
       <div class="svc__main">
         <p class="label" data-reveal="both" data-wipe>[ 04 · Growth ]</p>
@@ -100,7 +54,7 @@ const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
   </section>
 
   <!-- How pricing works -->
-  <section class="band pad section" aria-labelledby="price-h">
+  <section class="band pad section" id="pricing" aria-labelledby="price-h">
     <div class="inner price-grid">
       <div>
         <p class="label" data-reveal="both" data-wipe>[ How pricing works ]</p>
