@@ -49,6 +49,34 @@ if (menu && openBtn && closeBtns.length) {
   closeBtns.forEach((b) => b.addEventListener('click', close));
 }
 
+/* Headlines whose words rise in one by one: wrap each word, keeping inner spans like .fade */
+if (!reduceMotion) {
+  document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
+    let i = 0;
+    const walk = (node: Node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === Node.ELEMENT_NODE) { walk(child); return; }
+        if (child.nodeType !== Node.TEXT_NODE || !child.textContent?.trim()) return;
+        const frag = document.createDocumentFragment();
+        child.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.append(part); return; }
+          const outer = document.createElement('span');
+          outer.className = 'sw';
+          const inner = document.createElement('span');
+          inner.className = 'si';
+          inner.style.setProperty('--i', String(i++));
+          inner.textContent = part;
+          outer.append(inner);
+          frag.append(outer);
+        });
+        child.replaceWith(frag);
+      });
+    };
+    walk(el);
+  });
+}
+
 /* Reveal on scroll */
 // A fully clipped element never reports as intersecting, so clip reveals are
 // triggered by watching their parent instead.
@@ -111,6 +139,52 @@ if (focusEls.length && !reduceMotion && 'IntersectionObserver' in window) {
     entries.forEach((e) => e.target.classList.toggle('is-focus', e.isIntersecting));
   }, { rootMargin: '-38% 0px -38% 0px' });
   focusEls.forEach((el) => fo.observe(el));
+}
+
+/* Stacking cards: a card eases back slightly as the next one slides over it */
+const stack = document.querySelector<HTMLElement>('[data-stack]');
+if (stack && !reduceMotion) {
+  const cards = [...stack.children] as HTMLElement[];
+  let ticking = false;
+  const paint = () => {
+    ticking = false;
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      const a = card.getBoundingClientRect();
+      const b = next.getBoundingClientRect();
+      const cover = Math.min(1, Math.max(0, (a.bottom - b.top) / a.height));
+      card.style.transform = `scale(${1 - cover * 0.05})`;
+      card.style.filter = `brightness(${1 - cover * 0.12})`;
+    });
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
+  paint();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+}
+
+/* One belief at a time while the section holds on screen */
+const pin = document.querySelector<HTMLElement>('[data-pin]');
+if (pin && !reduceMotion) {
+  const items = [...pin.querySelectorAll<HTMLElement>('[data-pin-item]')];
+  const now = pin.querySelector<HTMLElement>('[data-pin-now]');
+  const fill = pin.querySelector<HTMLElement>('[data-pin-fill]');
+  let current = -1;
+  const paint = () => {
+    const r = pin.getBoundingClientRect();
+    const run = r.height - window.innerHeight;
+    const p = Math.min(0.999, Math.max(0, -r.top / Math.max(1, run)));
+    const i = Math.floor(p * items.length);
+    if (i === current) return;
+    current = i;
+    items.forEach((it, n) => { it.classList.toggle('is-on', n === i); it.classList.toggle('is-past', n < i); });
+    if (now) now.textContent = String(i + 1).padStart(2, '0');
+    if (fill) fill.style.transform = `scaleX(${(i + 1) / items.length})`;
+  };
+  paint();
+  window.addEventListener('scroll', () => requestAnimationFrame(paint), { passive: true });
+  window.addEventListener('resize', () => requestAnimationFrame(paint));
 }
 
 /* Hero slideshow */

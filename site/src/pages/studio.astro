@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import Placeholder from '../components/Placeholder.astro';
+import Beliefs from '../components/Beliefs.astro';
+// While choosing the beliefs design: PUBLIC_BELIEFS=a|b|c
+const beliefsVariant = (import.meta.env.PUBLIC_BELIEFS ?? 'a') as 'a' | 'b' | 'c';
 
 const motto = 'Technology makes us faster. The human eye decides what’s good.';
 const approach = ['Better tools.', 'More efficient process.', 'Less unnecessary cost.', 'High creative standards.'];
@@ -16,19 +19,19 @@ const beliefs = [
   <section class="pad head">
     <div class="inner">
       <p class="label" data-reveal="both">[ The studio ]</p>
-      <h1 class="statement" data-reveal="both" style="--d:80ms">A digital presence <span class="fade">worthy of the business behind it.</span></h1>
+      <h1 class="statement" data-reveal="both" data-split style="--d:80ms">A digital presence <span class="fade">worthy of the business behind it.</span></h1>
       <p class="body-l intro measure" data-reveal="both" style="--d:160ms">Solace builds digital experiences that feel modern, intentional and distinctive, using better tools and a high creative standard.</p>
     </div>
   </section>
 
-  <Placeholder tone="c" note="Studio image · full width" class="studio-media" clip />
+  <div class="media-wrap"><Placeholder tone="c" note="Studio image · full width" class="studio-media" clip /></div>
 
   <!-- Why Solace exists -->
   <section class="pad section" aria-labelledby="why-h">
     <div class="inner grid">
       <p class="label" id="why-h" data-reveal="both">[ 01 · Why Solace exists ]</p>
       <div>
-        <p class="statement" data-reveal="both">Businesses can spend thousands on websites that still feel outdated, generic or disconnected from the business itself. <span class="fade">We believe businesses deserve better.</span></p>
+        <p class="statement" data-reveal="both" data-split>Businesses can spend thousands on websites that still feel outdated, generic or disconnected from the business itself. <span class="fade">We believe businesses deserve better.</span></p>
         <div class="cols">
           <p class="body-l" data-reveal="both">Solace was created from a frustration with the traditional website industry. Too often, the quality of the website doesn’t match the quality of the business behind it.</p>
           <p class="body-l" data-reveal="both" style="--d:120ms">A modern, thoughtfully designed website shouldn’t require unnecessary cost or complexity. We use modern technology to make the process more efficient while keeping a high standard for creativity and design.</p>
@@ -55,7 +58,7 @@ const beliefs = [
           <p>Decides what actually looks good, what feels intentional and what properly represents the business.</p>
         </div>
       </div>
-      <p class="goal" data-reveal="both">The goal isn’t websites that look AI-generated. <span class="fade">It’s better tools, producing better work.</span></p>
+      <p class="goal" data-reveal="both" data-split>The goal isn’t websites that look AI-generated. <span class="fade">It’s better tools, producing better work.</span></p>
     </div>
   </section>
 
@@ -64,7 +67,7 @@ const beliefs = [
     <div class="inner grid">
       <p class="label" id="goal-h" data-reveal="both">[ 03 · What we want to accomplish ]</p>
       <div>
-        <p class="statement" data-reveal="both">A business’s digital presence should reflect the quality of the business itself.</p>
+        <p class="statement" data-reveal="both" data-split>A business’s digital presence should reflect the quality of the business itself.</p>
         <p class="body-l measure gap-copy" data-reveal="both">Businesses put real time and effort into their spaces, products, services, customer experience and reputation. When someone discovers that business online, the digital experience should show the same level of care. <strong>Solace exists to help close that gap.</strong></p>
         <div class="gap" data-reveal="both" aria-hidden="true">
           <div class="gap__row"><span class="label">The business</span><span class="gap__track"><span class="gap__fill gap__fill--full"></span></span></div>
@@ -79,33 +82,23 @@ const beliefs = [
     <div class="inner grid">
       <p class="label" id="cost-h" data-reveal="both">[ 04 · Design and cost ]</p>
       <div>
-        <p class="statement" data-reveal="both">Businesses shouldn’t have to choose between great design <span class="fade">and reasonable cost.</span></p>
+        <p class="statement" data-reveal="both" data-split>Businesses shouldn’t have to choose between great design <span class="fade">and reasonable cost.</span></p>
         <p class="body-l measure cost-copy" data-reveal="both">We deliver high-quality work more efficiently by using modern technology and keeping a lean process. It isn’t about being cheaper. It’s about removing what doesn’t add value.</p>
         <ol class="approach">
           {approach.map((a, i) => (
-            <li data-reveal="both" style={`--d:${i * 90}ms`}><span class="no">0{i + 1}</span>{a}</li>
+            <li class="tile-in" data-reveal="both" style={`--d:${i * 90}ms`}><span class="no">0{i + 1}</span>{a}</li>
           ))}
         </ol>
       </div>
     </div>
   </section>
 
-  <!-- Beliefs -->
-  <section class="pad section beliefs-wrap" aria-labelledby="believe-h">
-    <div class="inner">
-      <p class="label" id="believe-h" data-reveal="both">[ What we believe ]</p>
-      <ol class="beliefs">
-        {beliefs.map((b, i) => (
-          <li data-reveal="both" data-focus><span class="no">0{i + 1}</span><span class="txt">{b}</span></li>
-        ))}
-      </ol>
-    </div>
-  </section>
+  <Beliefs items={beliefs} variant={beliefsVariant} />
 
   <!-- Close -->
   <section class="pad section close" aria-label="Work with us">
     <div class="inner">
-      <p class="statement" data-reveal="both">Solace builds digital experiences that feel modern, intentional and distinctive, <span class="fade">worthy of the businesses behind them.</span></p>
+      <p class="statement" data-reveal="both" data-split>Solace builds digital experiences that feel modern, intentional and distinctive, <span class="fade">worthy of the businesses behind them.</span></p>
       <div class="actions" data-reveal="both" style="--d:120ms">
         <a class="btn btn--solid" href="/contact/">Start a project <span aria-hidden="true">↗</span></a>
         <a class="btn btn--ghost" href="/work/">See the work</a>
@@ -158,14 +151,29 @@ const beliefs = [
   .approach li { background: var(--ink); color: var(--white); font-size: 14px; font-weight: 500; padding: 12px; min-height: 92px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
   .approach .no { color: var(--gray); }
 
-  /* Beliefs — the line in the middle of the screen is in focus */
-  .beliefs-wrap { padding-top: 0; }
-  .beliefs { margin-top: 24px; border-bottom: 1px solid #E1E2DF; }
-  .beliefs li { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 28px 0; border-top: 1px solid #E1E2DF; }
-  .beliefs .no { padding-top: 10px; }
-  .beliefs .txt { font-size: clamp(22px, 2.4vw, 36px); line-height: 1.2; letter-spacing: -.02em; font-weight: 500; max-width: 30ch; }
-  :global(.js) .beliefs .txt { color: var(--blue); transition: color 400ms var(--ease); }
-  :global(.js) .beliefs li.is-focus .txt { color: var(--ink); }
+  /* Extra motion on this page */
+  /* Headlines: words rise out of a mask, one after another (main.ts wraps the words) */
+  [data-split][data-reveal] { opacity: 1 !important; transform: none !important; }
+  :global(.sw) { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
+  :global(.si) { display: inline-block; transform: translateY(105%); transition: transform 700ms var(--ease); transition-delay: calc(min(var(--i), 22) * 24ms + var(--d, 0ms)); }
+  :global(.is-in) :global(.si) { transform: none; }
+  :global(.is-above) :global(.si) { transform: translateY(-105%); }
+  /* Bracket labels wipe in from the left */
+  :global(.js) .label[data-reveal] { clip-path: inset(0 100% 0 0); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease), clip-path 800ms var(--ease); }
+  :global(.js) .label[data-reveal].is-in { clip-path: inset(0 0 0 0); }
+  /* Studio image settles from a slight zoom while it unmasks */
+  .media-wrap { overflow: hidden; }
+  :global(.js) .media-wrap :global(.studio-media) { transform: scale(1.08); transition: clip-path 900ms var(--ease), transform 1600ms var(--ease); }
+  :global(.js) .media-wrap :global(.studio-media.is-in) { transform: none; }
+  /* Technology / human eye bars draw across */
+  :global(.js) .side .bar { clip-path: inset(0 100% 0 0); transition: clip-path 900ms var(--ease) 150ms; }
+  :global(.js) .side.is-in .bar { clip-path: inset(0 0 0 0); }
+  /* Approach tiles rise from the bottom edge */
+  :global(.js) .tile-in { clip-path: inset(100% 0 0 0); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease), clip-path 800ms var(--ease), background var(--t-fast) var(--ease); transition-delay: var(--d, 0ms); }
+  :global(.js) .tile-in.is-in { clip-path: inset(0 0 0 0); }
+  .approach li:hover { background: var(--navy); }
+  .actions .btn span { display: inline-block; transition: transform var(--t-fast) var(--ease); }
+  .actions .btn:hover span { transform: translate(2px, -2px); }
 
   .close { padding-top: 0; }
   .close .statement { max-width: 980px; }
@@ -181,12 +189,11 @@ const beliefs = [
     .split { margin-top: 40px; }
     .goal { margin-top: 44px; }
     .gap__row { grid-template-columns: 1fr; gap: 8px; }
-    .beliefs li { grid-template-columns: 44px 1fr; gap: 8px; padding: 22px 0; }
-    .beliefs .no { padding-top: 6px; }
   }
   @media (prefers-reduced-motion: reduce) {
     :global(.js) .motto .w { color: var(--white); }
-    :global(.js) .beliefs .txt { color: var(--ink); }
     :global(.js) .gap__fill--grow { transform: none; }
+    :global(.js) .label[data-reveal], :global(.js) .side .bar, :global(.js) .tile-in { clip-path: none; }
+    :global(.js) .media-wrap :global(.studio-media) { transform: none; }
   }
 </style>
