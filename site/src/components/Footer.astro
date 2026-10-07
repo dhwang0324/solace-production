@@ -2,12 +2,9 @@
 import { site, nav } from '../data/site';
 const year = new Date().getFullYear();
 const onContact = Astro.url.pathname.startsWith('/contact');
-// Footer style: 'a' compact dark · 'b' quiet light · 'c' contact strip + slim base
-const variant = (import.meta.env.PUBLIC_FOOTER ?? 'a') as 'a' | 'b' | 'c';
 const links = [...nav, { label: 'Contact', href: '/contact/' }];
 ---
-{variant === 'a' && (
-  <footer class="f f-a pad">
+<footer class="f f-a pad">
     <div class="inner">
       {!onContact && (
         <div class="a-ask">
@@ -26,47 +23,6 @@ const links = [...nav, { label: 'Contact', href: '/contact/' }];
       <p class="base label">© {year} {site.name}</p>
     </div>
   </footer>
-)}
-
-{variant === 'b' && (
-  <footer class="f f-b pad">
-    <div class="inner b-row">
-      <div>
-        <a class="wm" href="/">{site.wordmark}</a>
-        <p class="label b-tag">Design · Technology · Creative · Growth</p>
-      </div>
-      <nav aria-label="Footer"><ul class="b-links">{links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul></nav>
-      <div class="b-contact">
-        <a class="link-u" href={`mailto:${site.email}`}>{site.email}</a>
-        {!onContact && <a class="link-u" href="/contact/">Start a project ↗</a>}
-      </div>
-    </div>
-    <div class="inner b-base"><span class="label">© {year} {site.name}</span><a class="label" href="#main">Back to top ↑</a></div>
-  </footer>
-)}
-
-{variant === 'c' && (
-  <footer class="f f-c">
-    {!onContact && (
-      <div class="c-strip pad">
-        <div class="inner c-strip-in">
-          <p class="c-q">Have a project in mind?</p>
-          <div class="c-actions">
-            <a class="link-u c-mail" href={`mailto:${site.email}`}>{site.email}</a>
-            <a class="btn btn--light" href="/contact/">Start a project <span aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-      </div>
-    )}
-    <div class="c-base pad">
-      <div class="inner c-base-in">
-        <a class="wm" href="/">{site.wordmark}</a>
-        <nav aria-label="Footer"><ul class="c-links">{links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul></nav>
-        <span class="label">© {year} {site.name}</span>
-      </div>
-    </div>
-  </footer>
-)}
 
 <style>
   .wm { font-size: 18px; font-weight: 500; letter-spacing: .42em; line-height: 1; }
@@ -85,33 +41,9 @@ const links = [...nav, { label: 'Contact', href: '/contact/' }];
   .f-a .link-u { font-size: 14px; }
   .f-a .base { margin: 56px 0 0; }
 
-  /* B — quiet light */
-  .f-b { background: var(--paper); color: var(--ink); border-top: 1px solid #E6E7E5; padding-top: 56px; padding-bottom: 24px; }
-  .b-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; align-items: start; }
-  .b-tag { margin-top: 14px; }
-  .b-links { font-size: 14px; }
-  .b-contact { display: flex; flex-direction: column; gap: 10px; font-size: 14px; justify-self: end; text-align: right; }
-  .b-base { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 18px; border-top: 1px solid #E6E7E5; }
-  .b-base a:hover { color: var(--ink); }
-
-  /* C — contact strip + slim base */
-  .c-strip { background: var(--ink); color: var(--paper); padding-top: 40px; padding-bottom: 40px; }
-  .c-strip-in { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-  .c-q { font-size: clamp(22px, 2vw, 30px); letter-spacing: -.015em; font-weight: 500; }
-  .c-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
-  .c-mail { font-size: 15px; }
-  .c-base { background: var(--white); padding-top: 24px; padding-bottom: 24px; border-top: 1px solid #E6E7E5; }
-  .c-base-in { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
-  .c-links { flex-direction: row; gap: 24px; font-size: 13px; }
-
   @media (max-width: 767px) {
     .a-ask { flex-direction: column; align-items: flex-start; }
     .a-cols { grid-template-columns: 1fr 1fr; }
     .a-cols > :first-child { grid-column: 1 / -1; }
-    .b-row { grid-template-columns: 1fr 1fr; }
-    .b-row > :first-child { grid-column: 1 / -1; }
-    .b-contact { justify-self: start; text-align: left; }
-    .c-base-in { flex-direction: column; align-items: flex-start; }
-    .c-links { flex-wrap: wrap; gap: 8px 20px; }
   }
 </style>
