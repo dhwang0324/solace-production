@@ -62,11 +62,13 @@ const beliefs = [
 
   <!-- What Solace wants to accomplish -->
   <section class="band pad section" aria-labelledby="goal-h">
-    <div class="inner grid">
-      <p class="label" id="goal-h" data-reveal="both">[ 03 · What we want to accomplish ]</p>
-      <div>
+    <div class="inner">
+      <p class="label aim-label" id="goal-h" data-reveal="both">[ 03 · What we want to accomplish ]</p>
+      <div class="aim">
+        <div class="aim__text">
         <p class="statement" data-reveal="both" data-split>A business’s digital presence should reflect the quality of the business itself.</p>
         <p class="body-l measure gap-copy" data-reveal="both">Businesses put real time and effort into their spaces, products, services, customer experience and reputation. When someone discovers that business online, the digital experience should show the same level of care. <strong>Solace exists to help close that gap.</strong></p>
+        </div>
         <figure class="graph" data-reveal="both">
           <ul class="graph__key" aria-hidden="true">
             <li><i class="k k--biz"></i>The business</li>
@@ -164,7 +166,13 @@ const beliefs = [
   /* 03 — the business and its digital presence rising together */
   .gap-copy { margin-top: 28px; }
   .gap-copy strong { font-weight: 500; color: var(--ink); }
-  .graph { margin-top: 44px; max-width: 760px; }
+  .aim-label { margin-bottom: 28px; }
+  /* Desktop: text on the left, graph on the right */
+  .aim { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; }
+  .graph { max-width: 760px; }
+  @media (max-width: 1023px) {
+    .aim { grid-template-columns: 1fr; gap: 44px; }
+  }
   .graph__key { display: flex; gap: 22px; flex-wrap: wrap; list-style: none; font-size: 13px; color: #3C4547; margin-bottom: 14px; }
   .graph__key li { display: flex; align-items: center; gap: 8px; }
   .k { display: block; width: 18px; height: 2px; border-radius: 2px; }
