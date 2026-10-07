@@ -1,13 +1,13 @@
 name: Deploy to Hostinger
 
-# Every push to main that changes solace-html/ publishes it to solaceproduction.com.
+# Every push to main that changes the site builds site/ (Astro) and publishes site/dist/ to solaceproduction.com.
 # Work branches (claude/*) never deploy; merge them into main to go live.
 # Run manually from the Actions tab with "check_only" ticked to list what the
 # FTP login sees on the server without uploading anything.
 on:
   push:
     branches: [main]
-    paths: ['solace-html/**']
+    paths: ['site/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
     inputs:
       check_only:
@@ -25,6 +25,19 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install and build the site
+        working-directory: site
+        run: |
+          npm ci
+          npm run build
 
       - name: Find the web root on the server
         id: target
@@ -52,5 +65,5 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./solace-html/
+          local-dir: ./site/dist/
           server-dir: ${{ steps.target.outputs.dir }}

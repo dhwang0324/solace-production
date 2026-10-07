@@ -1,25 +1,29 @@
 # Solace Production — solaceproduction.com
 
-Website for Solace, a creative studio. Plain static HTML: no framework, no build step, no package manager.
+Website for Solace, a creative and digital studio. Static site built with **Astro** in `site/` (npm, Node 22). The old single-page site in `solace-html/` is kept for reference only and is no longer deployed.
 
 ## Structure
-| Page | How it's reached | File |
+| Page | URL | File |
 |---|---|---|
-| Home, Work, About, Contact | One page; sections swap via `go('<page>')` in JS (URL stays `/`) | `solace-html/index.html` |
+| Home | `/` | `site/src/pages/index.astro` |
+| Work | `/work/` | `site/src/pages/work/index.astro` |
+| Case study | `/work/<slug>/` | `site/src/pages/work/[slug].astro` (data: `site/src/data/projects.ts`) |
+| Services | `/services/` | `site/src/pages/services.astro` |
+| Studio | `/studio/` | `site/src/pages/studio.astro` |
+| Contact | `/contact/` | `site/src/pages/contact.astro` (form not connected yet: set `FORM_ENDPOINT`) |
 
-- All CSS lives in the `<style>` block of `index.html`; colors, shadows and fonts are CSS variables in `:root` (`--bg`, `--dark`, `--slate`, `--fg`, `--font-d`, …). Use these tokens, not new hex values.
-- Fonts: DM Serif Display (Google Fonts) for headings, system font for body text.
-- Everything inside `solace-html/` is what gets published. Put new images in `solace-html/images/` and reference them with relative paths.
-
-## Redesign in progress (not live)
-- `site/` holds the new Astro site (Home, Work, case studies, Services, Studio, Contact). Build with `cd site && npm ci && npm run build` → `site/dist/`. Design rules: `docs/design-system.md`. Project facts live in `site/src/data/projects.ts` (only confirmed facts).
-- The deploy workflow still publishes the old `solace-html/` site. Switching it to `site/dist/` replaces the live site, so do it only when the user approves the redesign launch.
+- Design rules: `docs/design-system.md`. Tokens and base styles: `site/src/styles/global.css` (use tokens, not new hex values).
+- Shared components in `site/src/components/` (Header, Footer, Hero, Services, Process, ProjectFeature, Placeholder). Shared copy in `site/src/data/site.ts`.
+- Fonts: Hanken Grotesk + IBM Plex Mono, self-hosted via @fontsource.
+- Project facts in `projects.ts` must be confirmed by the user; leave fields out until then.
+- Images still use `Placeholder` blocks; replace with real images in `site/src/assets/` via `astro:assets`.
+- Commands: `cd site && npm ci`, `npm run dev`, `npm run build` (output `site/dist/`).
 
 ## Deployment
 Claude Code edits → GitHub → Hostinger.
-- `.github/workflows/deploy.yml` runs on every push to `main` that changes `solace-html/` (or manually from the Actions tab) and uploads `solace-html/` to Hostinger over FTP. A manual run with `check_only` lists the server folders without uploading.
+- `.github/workflows/deploy.yml` runs on every push to `main` that changes `site/` or the workflow (or manually from the Actions tab): it runs `npm ci && npm run build` in `site/` and uploads `site/dist/` to Hostinger over FTP. A manual run with `check_only` lists the server folders without uploading.
 - **Pushing to `main` is a production deploy.** Do day-to-day work on a `claude/*` branch; only merge or push to `main` when the user says to deploy.
-- The upload overwrites changed files and deletes files that were removed from `solace-html/` since the last deploy. It does not touch anything else on the server.
+- The upload overwrites changed files and deletes files that were removed from `site/dist/` since the last deploy. It does not touch anything else on the server (e.g. `.htaccess`).
 - Credentials are GitHub repository secrets `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD` (optional variable `FTP_SERVER_DIR`, default `./`: the FTP login opens directly in the site's web root, so never upload into a `public_html/` subfolder). Never put credentials in the repo.
 - After a deploy, check the run in the repo's Actions tab, then hard-refresh the site.
 
@@ -40,4 +44,5 @@ Use Higgsfield only when custom generated media materially improves the result; 
 - Free without approval (no credits): checking balance, browsing capabilities and models, planning concepts, writing prompts, estimating cost.
 
 ## Known issues
-- The contact form only shows a thank-you message; it does not send email anywhere yet.
+- The contact form validates but does not send yet; it tells visitors to email hello@solaceproduction.com.
+- Project, studio and hero images are placeholders until real assets arrive.
