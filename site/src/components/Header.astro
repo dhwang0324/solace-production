@@ -5,8 +5,6 @@ const { overHero = false } = Astro.props;
 const path = Astro.url.pathname;
 const isActive = (href: string) => path.startsWith(href);
 const links = [...nav, { label: 'Contact', href: '/contact/' }];
-// Phone menu style: 'a' drop-down panel · 'b' side drawer · 'c' frosted sheet
-const menuStyle = (import.meta.env.PUBLIC_MENU ?? 'a') as 'a' | 'b' | 'c';
 ---
 <header class:list={['site-header', { 'is-over': overHero }]} data-header data-over={overHero ? 'true' : undefined}>
   <nav class="bar" aria-label="Main">
@@ -23,7 +21,7 @@ const menuStyle = (import.meta.env.PUBLIC_MENU ?? 'a') as 'a' | 'b' | 'c';
     </div>
   </nav>
 </header>
-<div class:list={['menu', `menu--${menuStyle}`]} id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu>
   <button class="scrim" type="button" tabindex="-1" aria-hidden="true" data-menu-close></button>
   <div class="panel">
     <div class="panel__top">
@@ -74,44 +72,25 @@ const menuStyle = (import.meta.env.PUBLIC_MENU ?? 'a') as 'a' | 'b' | 'c';
   .menu-btn { display: none; width: 44px; height: 44px; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; background: none; border: 0; cursor: pointer; color: inherit; }
   .menu-btn i { display: block; width: 24px; height: 1.5px; background: currentColor; }
   .menu-btn i + i { width: 16px; }
-  /* Phone menu — shared */
+  /* Phone menu: white panel that drops down from the top over a dimmed page */
   .menu { position: fixed; inset: 0; z-index: 60; color: var(--ink); }
   .menu[hidden] { display: none; }
   .scrim { position: absolute; inset: 0; border: 0; padding: 0; background: rgba(31,38,39,.38); cursor: pointer; animation: fade 250ms var(--ease); }
-  .panel { position: absolute; background: var(--white); display: flex; flex-direction: column; }
+  .panel { position: absolute; left: 0; right: 0; top: 0; background: var(--white); padding: 18px var(--side) 24px; border-bottom: 1px solid #E6E7E5; animation: drop 280ms var(--ease); }
   .panel__top { display: flex; justify-content: space-between; align-items: center; }
   .panel .wordmark { font-size: 16px; }
   .menu-close { background: none; border: 0; font-size: 13px; font-weight: 500; min-height: 44px; padding: 0 2px; cursor: pointer; color: inherit; }
-  .menu__links a { display: flex; justify-content: space-between; align-items: center; font-weight: 500; letter-spacing: -.01em; }
+  .menu__links { margin-top: 12px; }
+  .menu__links a { display: flex; justify-content: space-between; align-items: center; font-size: 20px; font-weight: 500; letter-spacing: -.01em; padding: 14px 0; border-top: 1px solid #EEEFED; }
+  .menu__links a::after { content: '→'; font-size: 15px; color: var(--gray); }
   .menu__links a[aria-current="page"] { color: var(--slate); }
+  .panel__foot { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
   .menu-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border-radius: 999px; font-size: 14px; font-weight: 600;
     background: linear-gradient(180deg, rgba(165,201,225,.30), rgba(120,138,149,.14)); border: 1px solid rgba(84,107,124,.22);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 6px 20px rgba(31,38,39,.08); }
   .menu__mail { font-size: 13px; color: var(--slate); }
   @keyframes fade { from { opacity: 0; } }
   @keyframes drop { from { transform: translateY(-12px); opacity: 0; } }
-  @keyframes slide { from { transform: translateX(24px); opacity: 0; } }
-
-  /* A — drop-down panel under the top bar */
-  .menu--a .panel { left: 0; right: 0; top: 0; padding: 18px var(--side) 24px; border-bottom: 1px solid #E6E7E5; animation: drop 280ms var(--ease); }
-  .menu--a .menu__links { margin-top: 12px; }
-  .menu--a .menu__links a { font-size: 20px; padding: 14px 0; border-top: 1px solid #EEEFED; }
-  .menu--a .menu__links a::after { content: '→'; font-size: 15px; color: var(--gray); }
-  .menu--a .panel__foot { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
-
-  /* B — side drawer from the right */
-  .menu--b .panel { top: 0; right: 0; bottom: 0; width: min(82vw, 340px); padding: 18px 24px 28px; animation: slide 300ms var(--ease); box-shadow: -20px 0 40px rgba(31,38,39,.12); }
-  .menu--b .menu__links { margin-top: 36px; }
-  .menu--b .menu__links a { font-size: 22px; padding: 10px 0; }
-  .menu--b .panel__foot { margin-top: auto; display: flex; flex-direction: column; gap: 14px; }
-
-  /* C — frosted full-screen sheet, centred */
-  .menu--c .scrim { background: rgba(245,245,242,.55); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
-  .menu--c .panel { inset: 0; background: transparent; padding: 18px var(--side) 32px; pointer-events: none; animation: fade 250ms var(--ease); }
-  .menu--c .panel > * { pointer-events: auto; }
-  .menu--c .menu__links { margin: auto 0; text-align: center; }
-  .menu--c .menu__links a { justify-content: center; font-size: 26px; padding: 10px 0; }
-  .menu--c .panel__foot { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 
   @media (max-width: 760px) {
     .bar { grid-template-columns: 44px 1fr 44px; padding-top: 18px; padding-bottom: 18px; }
