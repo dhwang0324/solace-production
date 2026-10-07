@@ -1,8 +1,8 @@
 ---
 // Stand-in for a real image or video until assets are supplied.
-interface Props { tone?: 'a' | 'b' | 'c'; note: string; class?: string; clip?: boolean }
-const { tone = 'a', note, class: cls, clip = false } = Astro.props;
+interface Props { tone?: 'a' | 'b' | 'c'; note: string; class?: string; clip?: boolean; decorative?: boolean }
+const { tone = 'a', note, class: cls, clip = false, decorative = false } = Astro.props;
 ---
-<div class:list={['ph', tone !== 'a' && `ph--${tone}`, cls]} role="img" aria-label={`Placeholder: ${note}`} data-clip={clip ? '' : undefined}>
+<div class:list={['ph', tone !== 'a' && `ph--${tone}`, cls]} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : `Placeholder: ${note}`} aria-hidden={decorative ? 'true' : undefined} data-clip={clip ? '' : undefined}>
   <span class="ph__note" aria-hidden="true">Placeholder · {note}</span>
 </div>

@@ -8,7 +8,7 @@ const { title, subtitle, cta, slides } = Astro.props;
   <div class="slides">
     {slides.map((s, i) => (
       <div class:list={['slide', { 'is-active': i === 0 }]} aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} aria-hidden={i === 0 ? undefined : 'true'} data-slide>
-        <Placeholder tone={s.tone} note={s.note} class="slide__media" />
+        <Placeholder tone={s.tone} note={s.note} class="slide__media" decorative />
       </div>
     ))}
   </div>
@@ -33,7 +33,7 @@ const { title, subtitle, cta, slides } = Astro.props;
   .slides, .slide, .slide :global(.slide__media) { position: absolute; inset: 0; }
   .slide { opacity: 0; transition: opacity 600ms var(--ease); }
   .slide.is-active { opacity: 1; }
-  .slide :global(.ph__note) { top: 96px; bottom: auto; left: var(--side); right: var(--side); }
+  .slide :global(.ph__note) { display: none; }
   .shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(31,38,39,.55), rgba(31,38,39,.05) 50%, rgba(31,38,39,.25)); pointer-events: none; }
   .cap { position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%); width: min(90%, 760px); text-align: center; }
   .title { font-size: 30px; font-weight: 500; letter-spacing: .3em; margin-right: -.3em; line-height: 1.15; text-transform: uppercase; }
