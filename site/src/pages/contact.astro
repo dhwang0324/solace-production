@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, serviceGroups } from '../data/site';
+// The form is not connected yet. Set FORM_ENDPOINT to a form service URL or a
+// Hostinger PHP script to start receiving submissions.
+const FORM_ENDPOINT = '';
+---
+<Base title="Contact" description="Start a project with Solace. Tell us about your business and we’ll get back to you personally.">
+  <section class="pad head">
+    <div class="inner split">
+      <div>
+        <p class="label">[ Contact ]</p>
+        <h1 class="statement">Tell us about your business. <span class="fade">We’ll reply personally.</span></h1>
+        <p class="direct body-l">Prefer email? <a class="link-u" href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+      <form class="form" method="post" action={FORM_ENDPOINT || undefined} novalidate data-form data-endpoint={FORM_ENDPOINT}>
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required />
+          <p class="err" id="f-name-err" hidden>Please add your name.</p>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required />
+          <p class="err" id="f-email-err" hidden>Please add a valid email address.</p>
+        </div>
+        <fieldset class="field">
+          <legend>What do you need? <span class="opt">(optional)</span></legend>
+          <div class="checks">
+            {serviceGroups.map((g) => (
+              <label class="check"><input type="checkbox" name="needs" value={g.name} /><span>{g.name}</span></label>
+            ))}
+            <label class="check"><input type="checkbox" name="needs" value="Not sure yet" /><span>Not sure yet</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="f-msg">Message</label>
+          <textarea id="f-msg" name="message" rows="5" required></textarea>
+          <p class="err" id="f-msg-err" hidden>Please tell us a little about the project.</p>
+        </div>
+        <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
+        <p class="status body-l" role="status" aria-live="polite" data-status></p>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .head { padding-top: 72px; padding-bottom: var(--section); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .statement { margin-top: 14px; }
+  .direct { margin-top: 28px; }
+  .form { display: grid; gap: 22px; }
+  .field { display: grid; gap: 8px; border: 0; }
+  label, legend { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
+  .opt { text-transform: none; }
+  input[type="text"], input[type="email"], textarea {
+    width: 100%; border: 0; border-bottom: 1px solid #C9CBCA; padding: 10px 0; font-size: 16px; background: transparent; border-radius: 0;
+    transition: border-color var(--t-fast) var(--ease);
+  }
+  input:focus, textarea:focus { outline: none; border-bottom-color: var(--ink); }
+  input:focus-visible, textarea:focus-visible { box-shadow: 0 2px 0 0 var(--ink); }
+  [aria-invalid="true"] { border-bottom-color: #9B3B32 !important; }
+  .err { font-size: 13px; color: #9B3B32; }
+  textarea { resize: vertical; }
+  .checks { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .check { text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: 13px; color: var(--ink); }
+  .check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .check span { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px; border: 1px solid #D7D9D9; border-radius: 8px; cursor: pointer; }
+  .check input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .check input:focus-visible + span { outline: 2px solid var(--slate); outline-offset: 3px; }
+  .btn { justify-self: start; }
+  @media (max-width: 899px) { .split { grid-template-columns: 1fr; gap: 48px; } }
+</style>

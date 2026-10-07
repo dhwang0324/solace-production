@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProjectFeature from '../components/ProjectFeature.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+import { projects } from '../data/projects';
+import { filters } from '../data/site';
+
+const slides = [
+  { tone: 'a' as const, note: 'Hero slide 1 · Studio light (Higgsfield video, pending approval)' },
+  { tone: 'c' as const, note: 'Hero slide 2 · Glass and grid (Higgsfield video, pending approval)' },
+  { tone: 'b' as const, note: 'Hero slide 3 · The lens (Higgsfield video, pending approval)' },
+  { tone: 'a' as const, note: 'Hero slide 4 · Real client work' },
+];
+---
+<Base overHero>
+  <Hero
+    title="Digital Presence"
+    subtitle="Design, technology, creative and growth — thoughtfully built."
+    cta={{ label: 'View work', href: '/work/' }}
+    slides={slides}
+  />
+
+  <section class="statement-row pad section" aria-labelledby="about-h">
+    <div class="inner grid">
+      <p class="label" id="about-h" data-reveal>[ About the studio ]</p>
+      <p class="statement" data-reveal>
+        A website is where the relationship starts, not where it ends.{' '}
+        <span class="fade">So we stay — designing, shooting, building and improving as your business grows.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="band pad section work" aria-labelledby="work-h">
+    <div class="inner">
+      <div class="work-top">
+        <div>
+          <h2 class="section-caps" id="work-h">Latest: Selected work</h2>
+          <a class="more link-u" href="/work/">MORE</a>
+        </div>
+        <nav class="chips" aria-label="Browse work by service">
+          <a class="chip is-on" href="/work/">All</a>
+          {filters.map((f) => <a class="chip" href={`/work/?filter=${encodeURIComponent(f)}`}>{f}</a>)}
+        </nav>
+      </div>
+      <div class="projects">
+        {projects.slice(0, 2).map((p) => <ProjectFeature project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="pad section" aria-label="Services">
+    <div class="inner"><Services /></div>
+  </section>
+
+  <section class="pad process-wrap" aria-label="Process">
+    <div class="inner"><Process /></div>
+  </section>
+</Base>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+  .work-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .more { display: inline-block; margin-top: 8px; font-size: 13px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .projects { display: grid; grid-template-columns: 7fr 5fr; gap: 16px; margin-top: 40px; }
+  .process-wrap { padding-bottom: var(--section); }
+  @media (max-width: 767px) {
+    .grid { grid-template-columns: 1fr; gap: 16px; }
+    .projects { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

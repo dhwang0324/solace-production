@@ -11,6 +11,10 @@ Website for Solace, a creative studio. Plain static HTML: no framework, no build
 - Fonts: DM Serif Display (Google Fonts) for headings, system font for body text.
 - Everything inside `solace-html/` is what gets published. Put new images in `solace-html/images/` and reference them with relative paths.
 
+## Redesign in progress (not live)
+- `site/` holds the new Astro site (Home, Work, case studies, Services, Studio, Contact). Build with `cd site && npm ci && npm run build` → `site/dist/`. Design rules: `docs/design-system.md`. Project facts live in `site/src/data/projects.ts` (only confirmed facts).
+- The deploy workflow still publishes the old `solace-html/` site. Switching it to `site/dist/` replaces the live site, so do it only when the user approves the redesign launch.
+
 ## Deployment
 Claude Code edits → GitHub → Hostinger.
 - `.github/workflows/deploy.yml` runs on every push to `main` that changes `solace-html/` (or manually from the Actions tab) and uploads `solace-html/` to Hostinger over FTP. A manual run with `check_only` lists the server folders without uploading.

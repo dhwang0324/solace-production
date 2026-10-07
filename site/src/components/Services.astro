@@ -1,0 +1,29 @@
+---
+import { serviceGroups } from '../data/site';
+interface Props { detailed?: boolean; intro?: string }
+const { detailed = false, intro = 'One studio for the whole digital side of your business.' } = Astro.props;
+---
+<div class:list={['services', { detailed }]}>
+  <div class="intro" data-reveal>
+    <p class="label">[ Services ]</p>
+    <p class="lead">{intro}</p>
+  </div>
+  {serviceGroups.map((g) => (
+    <div class="group" data-reveal>
+      <p class="label">{g.no}</p>
+      <h3 class="caps">{g.name}</h3>
+      {detailed && <p class="sum">{g.summary}</p>}
+      <ul>{g.items.map((it) => <li>{it}</li>)}</ul>
+    </div>
+  ))}
+</div>
+
+<style>
+  .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .lead { font-size: 22px; line-height: 1.25; letter-spacing: -.01em; font-weight: 500; margin-top: 12px; max-width: 280px; }
+  .caps { margin: 10px 0 16px; }
+  .sum { font-size: 15px; color: #3C4547; margin: -4px 0 18px; max-width: 34ch; }
+  li { font-size: 16px; line-height: 1.9; color: #3C4547; }
+  @media (max-width: 1023px) { .services { grid-template-columns: 1fr 1fr; } .intro { grid-column: 1 / -1; } }
+  @media (max-width: 479px) { .services.detailed { grid-template-columns: 1fr; } }
+</style>

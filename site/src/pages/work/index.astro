@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectFeature from '../../components/ProjectFeature.astro';
+import { projects } from '../../data/projects';
+import { filters } from '../../data/site';
+---
+<Base title="Work" description="Selected client work from Solace: websites, photography, video and growth.">
+  <section class="pad head">
+    <div class="inner">
+      <p class="label">[ Work ]</p>
+      <h1 class="statement">Selected work. <span class="fade">Real businesses, built and looked after by the studio.</span></h1>
+      <div class="chips" role="group" aria-label="Filter by service" data-filters>
+        <button type="button" class="chip" aria-pressed="true" data-filter="all">All</button>
+        {filters.map((f) => <button type="button" class="chip" aria-pressed="false" data-filter={f}>{f}</button>)}
+      </div>
+    </div>
+  </section>
+  <section class="pad list" aria-label="Projects">
+    <div class="inner grid" data-projects>
+      {projects.map((p) => <ProjectFeature project={p} headingLevel="h2" />)}
+    </div>
+    <p class="inner empty label" hidden data-empty>No projects tagged with this service yet.</p>
+  </section>
+</Base>
+
+<style>
+  .head { padding-top: 72px; padding-bottom: 48px; }
+  .statement { margin: 14px 0 32px; max-width: 900px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .list { padding-bottom: var(--section); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 16px; }
+  .empty { margin-top: 24px; }
+  @media (max-width: 767px) { .grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,39 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+const onContact = Astro.url.pathname.startsWith('/contact');
+---
+<footer class="site-footer pad">
+  <div class="inner">
+    {!onContact && <div class="ask" data-reveal>
+      <p class="statement">Have a project in mind? <span class="accent">Tell us about your business.</span></p>
+      <a class="btn btn--light" href="/contact/">Start a project <span aria-hidden="true">↗</span></a>
+    </div>}
+    <a class="mail link-u" href={`mailto:${site.email}`}>{site.email}</a>
+    <p class="big" aria-hidden="true">{site.wordmark}</p>
+    <div class="base">
+      <span class="label">© {year} {site.name}</span>
+      <span class="label">Design · Technology · Creative · Growth</span>
+      <nav aria-label="Footer"><a class="label" href="/work/">Work</a> · <a class="label" href="/services/">Services</a> · <a class="label" href="/studio/">Studio</a> · <a class="label" href="/contact/">Contact</a></nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--ink); color: var(--paper); padding-top: 96px; padding-bottom: 34px; overflow: hidden; }
+  .ask { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
+  .ask .statement { max-width: 680px; }
+  .accent { color: var(--blue); }
+  .mail { display: inline-block; margin-top: 26px; font-size: 20px; }
+  .big { font-size: 23.2vw; font-weight: 500; letter-spacing: .02em; line-height: .8; margin: 96px 0 0 -.06em; white-space: nowrap; }
+  @media (min-width: 1600px) { .big { font-size: 371px; } }
+  .base { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; margin-top: 30px; }
+  .base .label { color: var(--gray); }
+  .base a.label:hover { color: var(--paper); }
+  @media (max-width: 639px) {
+    .site-footer { padding-top: 64px; }
+    .ask { flex-direction: column; align-items: flex-start; }
+    .big { margin-top: 64px; font-size: 22vw; }
+    .base { flex-direction: column; }
+  }
+</style>

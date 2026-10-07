@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Placeholder from '../components/Placeholder.astro';
+const beliefs = [
+  ['Business first', 'We learn how the business works and who it serves before we design anything. Good-looking work that doesn’t help the business isn’t finished.'],
+  ['Design and technology together', 'The people designing the site understand how it’s built, so ideas survive all the way to launch, and the site stays fast and easy to run.'],
+  ['Web, photo and video in one place', 'Most sites fall short because of the images, not the code. We can direct and shoot the content as well as build the site around it.'],
+  ['In it for the long run', 'Launch is the start of the relationship. We stay on to manage, measure and improve as the business grows.'],
+];
+---
+<Base title="Studio" description="Solace is a boutique creative and digital studio working where design, technology, creative and growth meet.">
+  <section class="pad head">
+    <div class="inner">
+      <p class="label">[ The studio ]</p>
+      <h1 class="statement">A small, hands-on studio <span class="fade">where design, technology, creative and growth meet.</span></h1>
+    </div>
+  </section>
+  <Placeholder tone="c" note="Studio image · full width" class="studio-media" clip />
+  <section class="pad section">
+    <div class="inner beliefs">
+      {beliefs.map(([h, t], i) => (
+        <div class="belief" data-reveal>
+          <p class="label">0{i + 1}</p>
+          <h2 class="name">{h}</h2>
+          <p class="body-l">{t}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>
+<style>
+  .head { padding-top: 72px; padding-bottom: 72px; }
+  .statement { margin-top: 14px; max-width: 980px; }
+  :global(.studio-media) { height: clamp(360px, 46vw, 720px); }
+  .beliefs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .name { font-size: 20px; font-weight: 500; letter-spacing: -.01em; margin: 10px 0 12px; }
+  .body-l { color: #3C4547; }
+  @media (max-width: 1023px) { .beliefs { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 639px) { .beliefs { grid-template-columns: 1fr; } }
+</style>

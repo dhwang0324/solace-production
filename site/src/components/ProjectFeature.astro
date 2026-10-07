@@ -1,0 +1,32 @@
+---
+import Placeholder from './Placeholder.astro';
+import type { Project } from '../data/projects';
+interface Props { project: Project; large?: boolean; headingLevel?: 'h2' | 'h3' }
+const { project, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const cats = project.services ?? [];
+---
+<article class="project" data-cats={cats.join('|')} data-reveal>
+  <a class="media" href={`/work/${project.slug}/`} aria-label={`${project.client} — view project`}>
+    <Placeholder tone={project.tone} note={`${project.client} · project image`} clip />
+  </a>
+  <div class="meta">
+    <H class="name"><a href={`/work/${project.slug}/`}>{project.client}</a></H>
+    <div class="tags">
+      <span class="tag">{project.industry}</span>
+      {cats.map((c) => <span class="tag">{c}</span>)}
+      {project.year && <span class="tag">{project.year}</span>}
+    </div>
+  </div>
+</article>
+
+<style>
+  .media { display: block; overflow: hidden; }
+  .media :global(.ph) { height: clamp(420px, 42vw, 640px); transition: transform 900ms var(--ease); }
+  .media:hover :global(.ph) { transform: scale(1.03); }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+  .name { font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: .01em; }
+  .name a:hover { color: var(--slate); }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  @media (max-width: 639px) { .media :global(.ph) { height: 420px; } }
+</style>

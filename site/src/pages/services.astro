@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Services from '../components/Services.astro';
+import Process from '../components/Process.astro';
+---
+<Base title="Services" description="Digital, creative and growth services from Solace: web design and development, photography, video, SEO and ongoing website management.">
+  <section class="pad head">
+    <div class="inner">
+      <p class="label">[ Services ]</p>
+      <h1 class="statement">The website is the start. <span class="fade">We also make the photos and video it needs, and keep it working after launch.</span></h1>
+    </div>
+  </section>
+  <section class="pad section band"><div class="inner"><Services detailed intro="Three practices, one studio, one point of contact." /></div></section>
+  <section class="pad section"><div class="inner"><Process /></div></section>
+</Base>
+<style>
+  .head { padding-top: 72px; padding-bottom: 72px; }
+  .statement { margin-top: 14px; max-width: 980px; }
+</style>
