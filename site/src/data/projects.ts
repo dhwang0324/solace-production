@@ -30,9 +30,10 @@ export interface Project {
   details?: Shot[];
   phone?: Shot;
   tone: 'a' | 'b' | 'c'; // placeholder tone when an image is missing
+  draft?: boolean; // true = kept out of the built site until the user approves it
 }
 
-export const projects: Project[] = [
+const allProjects: Project[] = [
   {
     slug: 'nail-xpress',
     client: 'Nail Xpress',
@@ -64,5 +65,9 @@ export const projects: Project[] = [
     ],
     phone: { src: gbPhone, alt: 'Guerrero Boxing Gym homepage on a phone.', caption: 'Homepage, phone' },
     tone: 'a',
+    draft: true, // client site not finished yet — do not publish until the user says so
   },
 ];
+
+// Only published projects are used anywhere on the site.
+export const projects: Project[] = allProjects.filter((p) => !p.draft);

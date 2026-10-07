@@ -28,7 +28,7 @@ import { filters } from '../../data/site';
   .statement { margin: 14px 0 32px; max-width: 900px; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .list { padding-bottom: var(--section); }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px 16px; }
   .empty { margin-top: 24px; }
   @media (max-width: 767px) { .grid { grid-template-columns: 1fr; } }
 </style>
