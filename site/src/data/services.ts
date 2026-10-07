@@ -1,3 +1,5 @@
+import photographyFighter from '../assets/services/photography-fighter.webp';
+
 // Services page content and pricing (supplied by the user — don't change prices or wording without asking).
 // `id` is also used by the contact form: /contact/?service=<id> ticks that option.
 
@@ -60,6 +62,7 @@ export const addOns = [
     label: 'Potential projects include',
     items: ['Business / location', 'Interior', 'Product', 'Food', 'Team / staff', 'Lifestyle imagery', 'Website photography', 'Social / content'],
     price: 'Custom quote based on project',
+    photo: { src: photographyFighter, alt: 'A fighter in white gloves and red-and-white shorts moving inside a blue-lit cage during a bout' },
   },
   {
     id: 'videography',
