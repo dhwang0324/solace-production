@@ -16,12 +16,12 @@ if (header?.dataset.over) {
   window.addEventListener('scroll', update, { passive: true });
 }
 
-/* Full-screen menu with focus trap */
+/* Phone menu with focus trap */
 const menu = document.querySelector<HTMLElement>('[data-menu]');
 const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
-const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
-if (menu && openBtn && closeBtn) {
-  const focusables = () => [...menu.querySelectorAll<HTMLElement>('a, button')];
+const closeBtns = [...document.querySelectorAll<HTMLElement>('[data-menu-close]')];
+if (menu && openBtn && closeBtns.length) {
+  const focusables = () => [...menu.querySelectorAll<HTMLElement>('a, button:not([tabindex="-1"])')];
   const onKey = (e: KeyboardEvent) => {
     if (e.key === 'Escape') close();
     if (e.key !== 'Tab') return;
@@ -36,7 +36,7 @@ if (menu && openBtn && closeBtn) {
     openBtn.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', onKey);
-    closeBtn.focus();
+    menu.querySelector<HTMLElement>('.menu-close')?.focus();
   };
   const close = () => {
     menu.hidden = true;
@@ -46,7 +46,7 @@ if (menu && openBtn && closeBtn) {
     openBtn.focus();
   };
   openBtn.addEventListener('click', open);
-  closeBtn.addEventListener('click', close);
+  closeBtns.forEach((b) => b.addEventListener('click', close));
 }
 
 /* Reveal on scroll */
