@@ -1,0 +1,20 @@
+---
+import { Picture } from 'astro:assets';
+import type { Shot } from '../data/projects';
+interface Props { shot: Shot; sizes: string; class?: string; eager?: boolean; caption?: boolean }
+const { shot, sizes, class: cls, eager = false, caption = false } = Astro.props;
+---
+<figure class:list={['shot', cls]}>
+  <div class="frame" data-clip>
+    <Picture src={shot.src} alt={shot.alt} formats={['avif', 'webp']} widths={[640, 960, 1280, 1920, 2400].filter((w) => w <= shot.src.width)} sizes={sizes} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} />
+  </div>
+  {caption && <figcaption class="label">{shot.caption}</figcaption>}
+</figure>
+
+<style>
+  .shot { margin: 0; min-width: 0; }
+  .frame { overflow: hidden; background: var(--paper); }
+  .frame :global(picture) { display: block; }
+  .frame :global(img) { display: block; width: 100%; max-width: 100%; height: auto; transition: transform 900ms var(--ease); }
+  figcaption { margin-top: 10px; }
+</style>

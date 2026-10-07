@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Placeholder from '../../components/Placeholder.astro';
+import Shot from '../../components/Shot.astro';
 import { projects, type Project } from '../../data/projects';
 
 export function getStaticPaths() {
@@ -20,6 +21,7 @@ const sections = [
 const facts = [
   ['Client', project.client],
   ['Industry', project.industry],
+  project.location ? ['Location', project.location] : null,
   project.services?.length ? ['Services', project.services.join(', ')] : null,
   project.year ? ['Year', String(project.year)] : null,
 ].filter(Boolean) as [string, string][];
@@ -32,7 +34,9 @@ const facts = [
       {project.summary && <p class="statement summary">{project.summary}</p>}
     </div>
   </section>
-  <Placeholder tone={project.tone} note={`${project.client} · full-width project image`} class="lead-media" clip />
+  {project.cover
+    ? <Shot shot={project.cover} sizes="100vw" class="lead-media" eager />
+    : <Placeholder tone={project.tone} note={`${project.client} · full-width project image`} class="lead-media" clip />}
   <section class="pad facts-wrap">
     <dl class="inner facts">
       {facts.map(([k, v]) => <div><dt class="label">{k}</dt><dd>{v}</dd></div>)}
@@ -46,10 +50,19 @@ const facts = [
       )) : (
         <div class="row"><h2 class="label">[ Case study ]</h2><p class="body-l measure">The full case study for {project.client} is being written. In the meantime, get in touch to hear about the project.</p></div>
       )}
-      <div class="gallery">
-        <Placeholder tone="c" note="Project image · 16:10" clip />
-        <Placeholder tone={project.tone} note="Project image · 4:5" clip />
-      </div>
+      {project.details?.length || project.phone ? (
+        <div class="gallery">
+          <div class="stack">
+            {project.details?.map((d) => <Shot shot={d} sizes="(max-width: 767px) 100vw, 64vw" class="detail" caption />)}
+          </div>
+          {project.phone && <Shot shot={project.phone} sizes="(max-width: 767px) 80vw, 30vw" class="phone" caption />}
+        </div>
+      ) : (
+        <div class="gallery">
+          <Placeholder tone="c" note="Project image · 16:10" clip />
+          <Placeholder tone={project.tone} note="Project image · 4:5" clip />
+        </div>
+      )}
     </div>
   </section>
   {projects.length > 1 && (
@@ -63,14 +76,17 @@ const facts = [
   .head { padding-top: 72px; padding-bottom: 48px; }
   .title { font-size: clamp(44px, 7vw, 112px); font-weight: 500; letter-spacing: -.04em; line-height: .95; margin-top: 18px; }
   .summary { margin-top: 24px; max-width: 900px; }
-  :global(.lead-media) { height: clamp(420px, 60vw, 820px); }
+  :global(.ph.lead-media) { height: clamp(420px, 60vw, 820px); }
   .facts-wrap { border-bottom: 1px solid #E6E7E5; }
   .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 28px 0; }
-  .facts dd { margin-top: 6px; font-size: 15px; }
+  .facts dd { margin-top: 6px; font-size: 15px; overflow-wrap: anywhere; }
   .body { padding-top: 72px; padding-bottom: var(--section); }
   .row { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; padding: 28px 0; border-top: 1px solid #ECEDEB; }
-  .gallery { display: grid; grid-template-columns: 7fr 5fr; gap: 16px; margin-top: 56px; }
+  .gallery { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 56px; align-items: start; }
   .gallery :global(.ph) { height: clamp(360px, 40vw, 640px); }
+  .stack { display: grid; gap: 40px; min-width: 0; }
+  .gallery :global(.phone) { position: sticky; top: 96px; }
+  .gallery :global(.phone .frame) { border: 1px solid #E1E2DF; }
   .next { display: block; background: var(--paper); padding-top: 64px; padding-bottom: 64px; }
   .next .inner { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
   .next-name { font-size: clamp(28px, 4vw, 56px); font-weight: 500; letter-spacing: -.03em; }
@@ -79,6 +95,7 @@ const facts = [
     .facts { grid-template-columns: 1fr 1fr; }
     .row { grid-template-columns: 1fr; gap: 10px; }
     .gallery { grid-template-columns: 1fr; }
+    .gallery :global(.phone) { position: static; max-width: 300px; margin: 0 auto; }
     .next .inner { flex-direction: column; }
   }
 </style>

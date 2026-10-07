@@ -16,7 +16,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 - Shared components in `site/src/components/` (Header, Footer, Hero, Services, Process, ProjectFeature, Placeholder). Shared copy in `site/src/data/site.ts`.
 - Fonts: Hanken Grotesk + IBM Plex Mono, self-hosted via @fontsource.
 - Project facts in `projects.ts` must be confirmed by the user; leave fields out until then.
-- Images still use `Placeholder` blocks; replace with real images in `site/src/assets/` via `astro:assets`.
+- Project images are real site screenshots in `site/src/assets/work/<slug>/` (cover, detail-1, detail-2, phone), rendered by `Shot.astro` (AVIF/WebP). Guerrero’s site uses temporary Pexels footage/photos, so present them only as screenshots of the website, never as Solace photography. Studio/hero images are still placeholders.
 - Commands: `cd site && npm ci`, `npm run dev`, `npm run build` (output `site/dist/`).
 
 ## Deployment
@@ -45,4 +45,4 @@ Use Higgsfield only when custom generated media materially improves the result; 
 
 ## Known issues
 - The contact form validates but does not send yet; it tells visitors to email hello@solaceproduction.com.
-- Project, studio and hero images are placeholders until real assets arrive.
+- Studio and hero images are placeholders until real assets arrive.

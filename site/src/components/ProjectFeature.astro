@@ -1,5 +1,6 @@
 ---
 import Placeholder from './Placeholder.astro';
+import Shot from './Shot.astro';
 import type { Project } from '../data/projects';
 interface Props { project: Project; large?: boolean; headingLevel?: 'h2' | 'h3' }
 const { project, headingLevel = 'h3' } = Astro.props;
@@ -8,7 +9,9 @@ const cats = project.services ?? [];
 ---
 <article class="project" data-cats={cats.join('|')} data-reveal>
   <a class="media" href={`/work/${project.slug}/`} aria-label={`${project.client} — view project`}>
-    <Placeholder tone={project.tone} note={`${project.client} · project image`} clip />
+    {project.cover
+      ? <Shot shot={project.cover} sizes="(max-width: 767px) 100vw, 60vw" class="cover" />
+      : <Placeholder tone={project.tone} note={`${project.client} · project image`} clip />}
   </a>
   <div class="meta">
     <H class="name"><a href={`/work/${project.slug}/`}>{project.client}</a></H>
@@ -23,7 +26,8 @@ const cats = project.services ?? [];
 <style>
   .media { display: block; overflow: hidden; }
   .media :global(.ph) { height: clamp(420px, 42vw, 640px); transition: transform 900ms var(--ease); }
-  .media:hover :global(.ph) { transform: scale(1.03); }
+  .project { min-width: 0; }
+  .media:hover :global(.ph), .media:hover :global(.cover img) { transform: scale(1.03); }
   .meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
   .name { font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: .01em; }
   .name a:hover { color: var(--slate); }
