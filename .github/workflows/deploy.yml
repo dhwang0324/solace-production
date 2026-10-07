@@ -52,8 +52,12 @@ jobs:
           echo "== Files the FTP login sees at its starting folder =="
           root=$(list "")
           echo "$root"
-          # Hostinger's FTP login for solaceproduction.com opens directly in the web root.
-          dir="${OVERRIDE:-./}"
+          # The login opens directly in the web root. Use its absolute path: the upload
+          # action deletes old folders by absolute path, which breaks with "./".
+          start=$(curl -sS -v --user "$FTP_USERNAME:$FTP_PASSWORD" "ftp://$FTP_HOST/" -Q PWD -o /dev/null 2>&1 | sed -n 's/^< 257 "\(.*\)".*/\1/p' | head -1)
+          echo "== Login folder (absolute): ${start:-unknown} =="
+          if [ -n "$start" ]; then auto="${start%/}/"; else auto="./"; fi
+          dir="${OVERRIDE:-$auto}"
           echo "== Uploading into: $dir =="
           [ "$dir" = "./" ] || { echo "== Files currently in $dir =="; list "$dir"; }
           echo "dir=$dir" >> "$GITHUB_OUTPUT"
