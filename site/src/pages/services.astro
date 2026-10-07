@@ -1,13 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
 import { website, management, addOns, seo, pricing } from '../data/services';
-import ServicesTop from '../components/ServicesTop.astro';
-// While choosing the design of the first three sections: PUBLIC_SVC=a|b
-const top = (import.meta.env.PUBLIC_SVC ?? 'a') as 'a' | 'b';
+import ServicesCore from '../components/ServicesCore.astro';
+// While choosing the design of the website and management sections: PUBLIC_SVC=c|d|e
+const core = (import.meta.env.PUBLIC_SVC ?? 'c') as 'c' | 'd' | 'e';
 const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
 ---
 <Base title="Services" description="Website design and development from $500, website management at $100/month, and photography, video, e-commerce and SEO added only when your business needs them.">
-  <ServicesTop variant={top} />
+  <!-- Intro -->
+  <section class="pad head">
+    <div class="inner">
+      <p class="label" data-reveal="both" data-wipe>[ Services ]</p>
+      <h1 class="statement" data-reveal="both" data-split>Your digital presence, <span class="fade">built around your business.</span></h1>
+      <div class="intro">
+        <p class="body-l" data-reveal="both" style="--d:120ms">Every business needs something different. Solace starts with a thoughtfully designed website and gives you the option to add the creative and digital services your business actually needs.</p>
+        <p class="intro__strong" data-reveal="both" style="--d:200ms">No unnecessary packages. <span class="fade">No paying for services you won’t use.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <ServicesCore variant={core} />
 
   <!-- 03 Creative add-ons -->
   <section class="band pad section" id="add" aria-labelledby="add-h">
