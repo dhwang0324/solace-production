@@ -1,0 +1,31 @@
+name: Deploy to Hostinger
+
+# Every push to main publishes solace-html/ to solaceproduction.com.
+# Work branches (claude/*) never deploy; merge them into main to go live.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Upload site to Hostinger over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./solace-html/
+          # Folder on the server the FTP login should upload into.
+          # Override with the FTP_SERVER_DIR repository variable if Hostinger's
+          # FTP login already opens inside public_html (then use ./).
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
