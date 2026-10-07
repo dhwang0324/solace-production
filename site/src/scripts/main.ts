@@ -61,14 +61,56 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
     const watch = el.hasAttribute('data-clip') && el.parentElement ? el.parentElement : el;
     targets.set(watch, [...(targets.get(watch) ?? []), el]);
   });
+  // data-reveal="both" also plays out again when the element leaves the screen,
+  // drifting up when it leaves at the top and down when it leaves at the bottom.
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      targets.get(e.target)?.forEach((el) => el.classList.add('is-in'));
-      io.unobserve(e.target);
+      const els = targets.get(e.target) ?? [];
+      const repeat = els.some((el) => el.dataset.reveal === 'both');
+      if (e.isIntersecting) {
+        els.forEach((el) => el.classList.remove('is-above'));
+        els.forEach((el) => el.classList.add('is-in'));
+        if (!repeat) io.unobserve(e.target);
+      } else if (repeat) {
+        const above = e.boundingClientRect.top < (e.rootBounds?.top ?? 0);
+        els.forEach((el) => { el.classList.remove('is-in'); el.classList.toggle('is-above', above); });
+      }
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
   targets.forEach((_, watch) => io.observe(watch));
+}
+
+/* Words that light up one by one as the line scrolls through the screen */
+const wordLines = [...document.querySelectorAll<HTMLElement>('[data-words]')];
+if (wordLines.length && !reduceMotion) {
+  let ticking = false;
+  const paint = () => {
+    ticking = false;
+    const vh = window.innerHeight;
+    wordLines.forEach((line) => {
+      const words = [...line.querySelectorAll<HTMLElement>('.w')];
+      const r = line.getBoundingClientRect();
+      // 0 when the line's top reaches 85% of the screen, 1 when its bottom reaches 60%
+      const start = vh * 0.85;
+      const end = vh * 0.6;
+      const p = Math.min(1, Math.max(0, (start - r.top) / (start - end + r.height)));
+      const lit = Math.round(p * words.length);
+      words.forEach((w, i) => w.classList.toggle('is-lit', i < lit));
+    });
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
+  paint();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+}
+
+/* The item crossing the middle of the screen is in focus */
+const focusEls = [...document.querySelectorAll<HTMLElement>('[data-focus]')];
+if (focusEls.length && !reduceMotion && 'IntersectionObserver' in window) {
+  const fo = new IntersectionObserver((entries) => {
+    entries.forEach((e) => e.target.classList.toggle('is-focus', e.isIntersecting));
+  }, { rootMargin: '-38% 0px -38% 0px' });
+  focusEls.forEach((el) => fo.observe(el));
 }
 
 /* Hero slideshow */

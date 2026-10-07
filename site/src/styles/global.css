@@ -120,8 +120,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .ph--c .ph__note { color: var(--navy); }
 
 /* Reveal on scroll (JS adds .is-in). Content stays visible without JS. */
-.js [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease); }
+.js [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease); transition-delay: var(--d, 0ms); }
 .js [data-reveal].is-in { opacity: 1; transform: none; }
+.js [data-reveal].is-above { transform: translateY(-16px); }
 .js [data-clip] { clip-path: inset(100% 0 0 0); transition: clip-path 900ms var(--ease); }
 .js [data-clip].is-in { clip-path: inset(0 0 0 0); }
 

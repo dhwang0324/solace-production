@@ -1,40 +1,192 @@
 ---
 import Base from '../layouts/Base.astro';
 import Placeholder from '../components/Placeholder.astro';
+
+const motto = 'Technology makes us faster. The human eye decides what’s good.';
+const approach = ['Better tools.', 'More efficient process.', 'Less unnecessary cost.', 'High creative standards.'];
 const beliefs = [
-  ['Business first', 'We learn how the business works and who it serves before we design anything. Good-looking work that doesn’t help the business isn’t finished.'],
-  ['Design and technology together', 'The people designing the site understand how it’s built, so ideas survive all the way to launch, and the site stays fast and easy to run.'],
-  ['Web, photo and video in one place', 'Most sites fall short because of the images, not the code. We can direct and shoot the content as well as build the site around it.'],
-  ['In it for the long run', 'Launch is the start of the relationship. We stay on to manage, measure and improve as the business grows.'],
+  'Great digital design shouldn’t feel inaccessible.',
+  'Businesses shouldn’t spend thousands only to receive something that already feels outdated.',
+  'Technology should make the creative process more efficient — not replace creativity.',
+  'AI can generate possibilities. Human judgment determines what deserves to exist.',
+  'A business’s digital presence should be as considered as the business itself.',
 ];
 ---
-<Base title="Studio" description="Solace is a boutique creative and digital studio working where design, technology, creative and growth meet.">
+<Base title="Studio" description="Solace combines modern technology with human creative direction to build a digital presence worthy of the business behind it.">
   <section class="pad head">
     <div class="inner">
-      <p class="label">[ The studio ]</p>
-      <h1 class="statement">A small, hands-on studio <span class="fade">where design, technology, creative and growth meet.</span></h1>
+      <p class="label" data-reveal="both">[ The studio ]</p>
+      <h1 class="statement" data-reveal="both" style="--d:80ms">A digital presence <span class="fade">worthy of the business behind it.</span></h1>
+      <p class="body-l intro measure" data-reveal="both" style="--d:160ms">Solace builds digital experiences that feel modern, intentional and distinctive, using better tools and a high creative standard.</p>
     </div>
   </section>
+
   <Placeholder tone="c" note="Studio image · full width" class="studio-media" clip />
-  <section class="pad section">
-    <div class="inner beliefs">
-      {beliefs.map(([h, t], i) => (
-        <div class="belief" data-reveal>
-          <p class="label">0{i + 1}</p>
-          <h2 class="name">{h}</h2>
-          <p class="body-l">{t}</p>
+
+  <!-- Why Solace exists -->
+  <section class="pad section" aria-labelledby="why-h">
+    <div class="inner grid">
+      <p class="label" id="why-h" data-reveal="both">[ 01 · Why Solace exists ]</p>
+      <div>
+        <p class="statement" data-reveal="both">Businesses can spend thousands on websites that still feel outdated, generic or disconnected from the business itself. <span class="fade">We believe businesses deserve better.</span></p>
+        <div class="cols">
+          <p class="body-l" data-reveal="both">Solace was created from a frustration with the traditional website industry. Too often, the quality of the website doesn’t match the quality of the business behind it.</p>
+          <p class="body-l" data-reveal="both" style="--d:120ms">A modern, thoughtfully designed website shouldn’t require unnecessary cost or complexity. We use modern technology to make the process more efficient while keeping a high standard for creativity and design.</p>
         </div>
-      ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AI + human creative direction -->
+  <section class="pad section dark on-dark" aria-labelledby="ai-h">
+    <div class="inner">
+      <p class="label" id="ai-h" data-reveal="both">[ 02 · AI + human creative direction ]</p>
+      <p class="motto" data-words>
+        {motto.split(' ').map((w, i) => <><span class="w">{w}</span>{i < motto.split(' ').length - 1 && ' '}</>)}
+      </p>
+      <p class="body-l lede measure" data-reveal="both">Technology is an important part of how Solace works, but it isn’t a replacement for creative judgment. We combine AI and emerging technology with human creative direction, design judgment and attention to detail.</p>
+      <div class="split">
+        <div class="side" data-reveal="both">
+          <span class="bar"><span class="no">A</span> Technology</span>
+          <p>Helps us explore ideas, iterate faster and make the development process more efficient.</p>
+        </div>
+        <div class="side" data-reveal="both" style="--d:120ms">
+          <span class="bar bar--light"><span class="no">B</span> The human eye</span>
+          <p>Decides what actually looks good, what feels intentional and what properly represents the business.</p>
+        </div>
+      </div>
+      <p class="goal" data-reveal="both">The goal isn’t websites that look AI-generated. <span class="fade">It’s better tools, producing better work.</span></p>
+    </div>
+  </section>
+
+  <!-- What Solace wants to accomplish -->
+  <section class="band pad section" aria-labelledby="goal-h">
+    <div class="inner grid">
+      <p class="label" id="goal-h" data-reveal="both">[ 03 · What we want to accomplish ]</p>
+      <div>
+        <p class="statement" data-reveal="both">A business’s digital presence should reflect the quality of the business itself.</p>
+        <p class="body-l measure gap-copy" data-reveal="both">Businesses put real time and effort into their spaces, products, services, customer experience and reputation. When someone discovers that business online, the digital experience should show the same level of care. <strong>Solace exists to help close that gap.</strong></p>
+        <div class="gap" data-reveal="both" aria-hidden="true">
+          <div class="gap__row"><span class="label">The business</span><span class="gap__track"><span class="gap__fill gap__fill--full"></span></span></div>
+          <div class="gap__row"><span class="label">Its digital presence</span><span class="gap__track"><span class="gap__fill gap__fill--grow"></span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Great design and reasonable cost -->
+  <section class="pad section" aria-labelledby="cost-h">
+    <div class="inner grid">
+      <p class="label" id="cost-h" data-reveal="both">[ 04 · Design and cost ]</p>
+      <div>
+        <p class="statement" data-reveal="both">Businesses shouldn’t have to choose between great design <span class="fade">and reasonable cost.</span></p>
+        <p class="body-l measure cost-copy" data-reveal="both">We deliver high-quality work more efficiently by using modern technology and keeping a lean process. It isn’t about being cheaper. It’s about removing what doesn’t add value.</p>
+        <ol class="approach">
+          {approach.map((a, i) => (
+            <li data-reveal="both" style={`--d:${i * 90}ms`}><span class="no">0{i + 1}</span>{a}</li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beliefs -->
+  <section class="pad section beliefs-wrap" aria-labelledby="believe-h">
+    <div class="inner">
+      <p class="label" id="believe-h" data-reveal="both">[ What we believe ]</p>
+      <ol class="beliefs">
+        {beliefs.map((b, i) => (
+          <li data-reveal="both" data-focus><span class="no">0{i + 1}</span><span class="txt">{b}</span></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Close -->
+  <section class="pad section close" aria-label="Work with us">
+    <div class="inner">
+      <p class="statement" data-reveal="both">Solace builds digital experiences that feel modern, intentional and distinctive, <span class="fade">worthy of the businesses behind them.</span></p>
+      <div class="actions" data-reveal="both" style="--d:120ms">
+        <a class="btn btn--solid" href="/contact/">Start a project <span aria-hidden="true">↗</span></a>
+        <a class="btn btn--ghost" href="/work/">See the work</a>
+      </div>
     </div>
   </section>
 </Base>
+
 <style>
-  .head { padding-top: 72px; padding-bottom: 72px; }
-  .statement { margin-top: 14px; max-width: 980px; }
-  :global(.studio-media) { height: clamp(360px, 46vw, 720px); }
-  .beliefs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-  .name { font-size: 20px; font-weight: 500; letter-spacing: -.01em; margin: 10px 0 12px; }
+  .head { padding-top: 72px; padding-bottom: 64px; }
+  .head .statement { margin-top: 14px; max-width: 980px; }
+  .intro { margin-top: 22px; color: #3C4547; }
+  :global(.studio-media) { height: clamp(320px, 42vw, 640px); }
+
+  .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
   .body-l { color: #3C4547; }
-  @media (max-width: 1023px) { .beliefs { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 639px) { .beliefs { grid-template-columns: 1fr; } }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+
+  /* 02 — dark band with the motto lighting up word by word as it scrolls through */
+  .dark { background: var(--ink); color: var(--white); }
+  .dark .label { color: var(--gray); }
+  .dark .body-l { color: rgba(255,255,255,.78); }
+  .motto { font-size: clamp(36px, 5.4vw, 84px); line-height: 1.04; letter-spacing: -.03em; font-weight: 500; margin: 28px 0 44px; max-width: 15ch; }
+  :global(.js) .motto .w { color: rgba(255,255,255,.26); transition: color 300ms var(--ease); }
+  :global(.js) .motto .w.is-lit { color: var(--white); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+  .side { border-top: 1px solid rgba(255,255,255,.14); }
+  .bar { display: block; background: var(--white); color: var(--ink); font-size: 13px; font-weight: 500; padding: 10px 12px; letter-spacing: .03em; }
+  .bar--light { background: var(--sky); }
+  .no { font-family: var(--mono); font-size: 11px; color: var(--slate); margin-right: 6px; }
+  .side p { font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.78); margin-top: 14px; max-width: 40ch; }
+  .goal { font-size: clamp(20px, 1.8vw, 26px); line-height: 1.3; letter-spacing: -.01em; font-weight: 500; margin-top: 64px; max-width: 30ch; }
+  .goal .fade { color: var(--sky); }
+
+  /* 03 — the gap closing */
+  .gap-copy { margin-top: 28px; }
+  .gap-copy strong { font-weight: 500; color: var(--ink); }
+  .gap { margin-top: 44px; display: grid; gap: 18px; max-width: 720px; }
+  .gap__row { display: grid; grid-template-columns: 160px 1fr; align-items: center; gap: 16px; }
+  .gap__track { height: 10px; background: #E4E5E1; display: block; overflow: hidden; }
+  .gap__fill { display: block; height: 100%; background: var(--ink); }
+  .gap__fill--grow { background: linear-gradient(90deg, var(--sky), var(--blue)); }
+  :global(.js) .gap__fill { transform-origin: left; transition: transform 1200ms var(--ease); }
+  :global(.js) .gap__fill--grow { transform: scaleX(.45); transition-delay: 250ms; }
+  :global(.js) .gap.is-in .gap__fill--grow { transform: scaleX(1); }
+
+  /* 04 — approach, in the black-bar style of the Process section */
+  .cost-copy { margin-top: 28px; }
+  .approach { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 44px; }
+  .approach li { background: var(--ink); color: var(--white); font-size: 14px; font-weight: 500; padding: 12px; min-height: 92px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+  .approach .no { color: var(--gray); }
+
+  /* Beliefs — the line in the middle of the screen is in focus */
+  .beliefs-wrap { padding-top: 0; }
+  .beliefs { margin-top: 24px; border-bottom: 1px solid #E1E2DF; }
+  .beliefs li { display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 28px 0; border-top: 1px solid #E1E2DF; }
+  .beliefs .no { padding-top: 10px; }
+  .beliefs .txt { font-size: clamp(22px, 2.4vw, 36px); line-height: 1.2; letter-spacing: -.02em; font-weight: 500; max-width: 30ch; }
+  :global(.js) .beliefs .txt { color: var(--blue); transition: color 400ms var(--ease); }
+  :global(.js) .beliefs li.is-focus .txt { color: var(--ink); }
+
+  .close { padding-top: 0; }
+  .close .statement { max-width: 980px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+
+  @media (max-width: 1023px) {
+    .approach { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 767px) {
+    .grid { grid-template-columns: 1fr; gap: 16px; }
+    .cols, .split { grid-template-columns: 1fr; gap: 24px; }
+    .cols { margin-top: 28px; }
+    .split { margin-top: 40px; }
+    .goal { margin-top: 44px; }
+    .gap__row { grid-template-columns: 1fr; gap: 8px; }
+    .beliefs li { grid-template-columns: 44px 1fr; gap: 8px; padding: 22px 0; }
+    .beliefs .no { padding-top: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .motto .w { color: var(--white); }
+    :global(.js) .beliefs .txt { color: var(--ink); }
+    :global(.js) .gap__fill--grow { transform: none; }
+  }
 </style>
