@@ -1,12 +1,13 @@
 ---
 import { site, nav } from '../data/site';
 const year = new Date().getFullYear();
-const onContact = Astro.url.pathname.startsWith('/contact');
+// Pages with their own call to action at the bottom skip the footer's ask
+const hideAsk = ['/contact', '/services'].some((p) => Astro.url.pathname.startsWith(p));
 const links = [...nav, { label: 'Contact', href: '/contact/' }];
 ---
 <footer class="f f-a pad">
     <div class="inner">
-      {!onContact && (
+      {!hideAsk && (
         <div class="a-ask">
           <p class="a-q">Have a project in mind? <span class="accent">Tell us about your business.</span></p>
           <a class="btn btn--light" href="/contact/">Start a project <span aria-hidden="true">↗</span></a>

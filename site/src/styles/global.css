@@ -129,11 +129,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .si { display: inline-block; transform: translateY(105%); transition: transform 700ms var(--ease); transition-delay: calc(min(var(--i), 22) * 24ms + var(--d, 0ms)); }
 .is-in .si { transform: none; }
 .is-above .si { transform: translateY(-105%); }
+/* Opt-in reveals: data-wipe draws a label in from the left; data-rise lifts a tile up from its bottom edge */
+.js [data-wipe][data-reveal] { clip-path: inset(0 100% 0 0); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease), clip-path 800ms var(--ease); transition-delay: var(--d, 0ms); }
+.js [data-rise][data-reveal] { clip-path: inset(100% 0 0 0); transition: opacity var(--t-reveal) var(--ease), transform var(--t-reveal) var(--ease), clip-path 800ms var(--ease); transition-delay: var(--d, 0ms); }
+.js [data-wipe][data-reveal].is-in, .js [data-rise][data-reveal].is-in { clip-path: inset(0 0 0 0); }
 .js [data-clip] { clip-path: inset(100% 0 0 0); transition: clip-path 900ms var(--ease); }
 .js [data-clip].is-in { clip-path: inset(0 0 0 0); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; scroll-behavior: auto !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
-  .js [data-clip] { clip-path: none; }
+  .js [data-clip], .js [data-wipe][data-reveal], .js [data-rise][data-reveal] { clip-path: none; }
 }

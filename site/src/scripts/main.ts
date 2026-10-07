@@ -244,6 +244,9 @@ if (filterGroup) {
 /* Contact form: client-side validation; not connected to a sender yet */
 const form = document.querySelector<HTMLFormElement>('[data-form]');
 if (form) {
+  // Links like /contact/?service=photography tick that option
+  const wanted = new URLSearchParams(location.search).get('service');
+  if (wanted) form.querySelectorAll<HTMLInputElement>(`input[data-service="${CSS.escape(wanted)}"]`).forEach((i) => { i.checked = true; });
   const status = form.querySelector<HTMLElement>('[data-status]');
   const fields: [string, (v: string) => boolean][] = [
     ['f-name', (v) => v.trim().length > 0],

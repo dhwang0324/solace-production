@@ -1,19 +1,227 @@
 ---
 import Base from '../layouts/Base.astro';
-import Services from '../components/Services.astro';
-import Process from '../components/Process.astro';
+import { website, management, addOns, seo, pricing } from '../data/services';
+const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
 ---
-<Base title="Services" description="Digital, creative and growth services from Solace: web design and development, photography, video, SEO and ongoing website management.">
+<Base title="Services" description="Website design and development from $500, website management at $100/month, and photography, video, e-commerce and SEO added only when your business needs them.">
+  <!-- Intro -->
   <section class="pad head">
     <div class="inner">
-      <p class="label">[ Services ]</p>
-      <h1 class="statement">The website is the start. <span class="fade">We also make the photos and video it needs, and keep it working after launch.</span></h1>
+      <p class="label" data-reveal="both" data-wipe>[ Services ]</p>
+      <h1 class="statement" data-reveal="both" data-split>Your digital presence, <span class="fade">built around your business.</span></h1>
+      <div class="intro">
+        <p class="body-l" data-reveal="both" style="--d:120ms">Every business needs something different. Solace starts with a thoughtfully designed website and gives you the option to add the creative and digital services your business actually needs.</p>
+        <p class="intro__strong" data-reveal="both" style="--d:200ms">No unnecessary packages. <span class="fade">No paying for services you won’t use.</span></p>
+      </div>
     </div>
   </section>
-  <section class="pad section band"><div class="inner"><Services detailed intro="Three practices, one studio, one point of contact." /></div></section>
-  <section class="pad section"><div class="inner"><Process /></div></section>
+
+  <!-- 01 Website design & development -->
+  <section class="pad section svc" aria-labelledby="web-h">
+    <div class="inner svc__grid">
+      <div class="svc__main">
+        <p class="label" data-reveal="both" data-wipe>[ 01 · Website ]</p>
+        <h2 class="h2" id="web-h" data-reveal="both" data-split>{website.name}</h2>
+        <p class="price" data-reveal="both"><span class="price__lead">{website.price.lead}</span><span class="price__amt">{website.price.amount}</span></p>
+        <p class="lede" data-reveal="both">{website.lede}</p>
+        {website.body.map((t) => <p class="body-l" data-reveal="both">{t}</p>)}
+      </div>
+      <div class="svc__list" data-reveal="both" style="--d:120ms">
+        <p class="label">{website.includesLabel}</p>
+        <ul class="ticks">{website.includes.map((i) => <li>{i}</li>)}</ul>
+        <p class="note">{website.note}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Website management -->
+  <section class="pad section dark on-dark" aria-labelledby="mgmt-h">
+    <div class="inner">
+      <div class="svc__grid">
+        <div class="svc__main">
+          <p class="label" data-reveal="both" data-wipe>[ 02 · After launch ]</p>
+          <h2 class="h2" id="mgmt-h" data-reveal="both" data-split>{management.name}</h2>
+          <p class="price" data-reveal="both"><span class="price__amt">{management.price.amount}</span><span class="price__per">{management.price.per}</span></p>
+          <p class="lede" data-reveal="both">{management.lede}</p>
+          <p class="body-l" data-reveal="both">{management.body}</p>
+        </div>
+        <div class="svc__list" data-reveal="both" style="--d:120ms">
+          <p class="label">{management.includesLabel}</p>
+          <ul class="ticks ticks--2">{management.includes.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      </div>
+      <p class="motto" data-reveal="both" data-split>You run the business. <span class="fade">We take care of the website.</span></p>
+      <p class="note note--dark" data-reveal="both">{management.note}</p>
+    </div>
+  </section>
+
+  <!-- 03 Creative add-ons -->
+  <section class="band pad section" aria-labelledby="add-h">
+    <div class="inner">
+      <p class="label" data-reveal="both" data-wipe>[ 03 · Creative add-ons ]</p>
+      <div class="add__head">
+        <h2 class="statement" id="add-h" data-reveal="both" data-split>A website can only work with the material it has.</h2>
+        <p class="body-l" data-reveal="both" style="--d:120ms">If your business needs stronger visuals or additional functionality, Solace can build those services into the project separately.</p>
+      </div>
+      <div class="cards">
+        {addOns.map((a, i) => (
+          <article class="card" data-reveal="both" data-rise style={`--d:${(i % 2) * 110}ms`} aria-labelledby={`add-${a.id}`}>
+            <div class="card__top">
+              <span class="no">0{i + 1}</span>
+              <a class="card__ask" href={quote(a.id)}>Ask about this <span aria-hidden="true">↗</span></a>
+            </div>
+            <h3 class="card__name" id={`add-${a.id}`}>{a.name}</h3>
+            <p class="card__text">{a.text}</p>
+            <p class="label">{a.label}</p>
+            <ul class="pills">{a.items.map((it) => <li>{it}</li>)}</ul>
+            <p class="card__price">{a.price}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 SEO -->
+  <section class="pad section svc" aria-labelledby="seo-h">
+    <div class="inner svc__grid">
+      <div class="svc__main">
+        <p class="label" data-reveal="both" data-wipe>[ 04 · Growth ]</p>
+        <h2 class="h2" id="seo-h" data-reveal="both" data-split>{seo.name}</h2>
+        <p class="lede" data-reveal="both">{seo.lede}</p>
+        <p class="included" data-reveal="both"><span class="included__dot" aria-hidden="true"></span>{seo.included}</p>
+        <p class="body-l" data-reveal="both">{seo.body}</p>
+      </div>
+      <div class="svc__list" data-reveal="both" style="--d:120ms">
+        <p class="label">{seo.label}</p>
+        <ul class="ticks">{seo.items.map((i) => <li>{i}</li>)}</ul>
+        <p class="note">{seo.price}.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How pricing works -->
+  <section class="band pad section" aria-labelledby="price-h">
+    <div class="inner price-grid">
+      <div>
+        <p class="label" data-reveal="both" data-wipe>[ How pricing works ]</p>
+        <h2 class="statement" id="price-h" data-reveal="both" data-split>Start with the website. <span class="fade">Add what your business needs.</span></h2>
+        <p class="body-l price-copy" data-reveal="both">You don’t need to purchase every service. We’ll determine what your business actually needs and build the project around that.</p>
+      </div>
+      <ul class="rates">
+        {pricing.map((p, i) => (
+          <li data-reveal="both" style={`--d:${i * 60}ms`}>
+            <a href={quote(p.id)}>
+              <span class="rates__name">{p.name}</span>
+              <span class="rates__price">{p.price}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Close -->
+  <section class="pad section close" aria-labelledby="close-h">
+    <div class="inner">
+      <h2 class="statement" id="close-h" data-reveal="both" data-split>Built for the business <span class="fade">you actually run.</span></h2>
+      <p class="body-l close__copy" data-reveal="both">Whether you need a new website, better photography, video, e-commerce or continued support after launch, Solace can build a digital presence around what makes sense for your business.</p>
+      <div class="quote" data-reveal="both" style="--d:120ms">
+        <p class="quote__ask">Tell us about your project.</p>
+        <a class="quote__btn" href={quote()}>Get a free quote <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
 </Base>
+
 <style>
   .head { padding-top: 72px; padding-bottom: 72px; }
-  .statement { margin-top: 14px; max-width: 980px; }
+  .head .statement { margin-top: 14px; max-width: 980px; }
+  .intro { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 40px; max-width: 1100px; align-items: start; }
+  .intro .body-l { color: #3C4547; }
+  .intro__strong { font-size: clamp(20px, 1.8vw, 26px); line-height: 1.3; letter-spacing: -.01em; font-weight: 500; }
+
+  /* Service sections: details left, what's included right */
+  .svc__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .h2 { margin-top: 14px; }
+  .price { display: flex; align-items: baseline; gap: 10px; margin: 22px 0 26px; }
+  .price__lead { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
+  .price__amt { font-size: clamp(44px, 4.6vw, 68px); line-height: 1; letter-spacing: -.03em; font-weight: 500; }
+  .price__per { font-size: 18px; color: var(--slate); }
+  .h2 + .lede { margin-top: 18px; }
+  .lede { font-size: 19px; line-height: 1.4; font-weight: 500; letter-spacing: -.01em; margin-bottom: 14px; }
+  .svc__main .body-l { color: #3C4547; margin-top: 12px; max-width: 56ch; }
+  .svc__list { padding-top: 6px; }
+  .ticks { list-style: none; margin-top: 14px; border-top: 1px solid #E1E2DF; }
+  .ticks li { display: flex; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid #E1E2DF; font-size: 15px; }
+  .ticks li::before { content: ''; flex: 0 0 auto; width: 6px; height: 6px; border-radius: 50%; background: var(--sky); transform: translateY(-2px); }
+  .ticks--2 { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
+  .note { font-size: 13px; color: var(--slate); margin-top: 16px; max-width: 52ch; }
+
+  /* Dark band (management) */
+  .dark { background: var(--ink); color: var(--white); }
+  .dark .label, .dark .price__per, .dark .price__lead { color: var(--gray); }
+  .dark .svc__main .body-l { color: rgba(255,255,255,.78); }
+  .dark .ticks, .dark .ticks li { border-color: rgba(255,255,255,.14); }
+  .dark .ticks li { color: rgba(255,255,255,.88); }
+  .motto { font-size: clamp(32px, 4.4vw, 64px); line-height: 1.06; letter-spacing: -.03em; font-weight: 500; margin-top: 80px; max-width: 18ch; }
+  .motto .fade { color: var(--sky); }
+  .note--dark { color: var(--gray); margin-top: 24px; }
+
+  /* Creative add-ons */
+  .add__head { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 14px; align-items: end; }
+  .add__head .body-l { color: #3C4547; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
+  .card { background: var(--white); padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 12px; }
+  .card__top { display: flex; justify-content: space-between; align-items: center; }
+  .no { font-family: var(--mono); font-size: 11px; color: var(--slate); }
+  .card__ask { font-size: 13px; font-weight: 500; color: var(--slate); }
+  .card__ask:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+  .card__name { font-size: clamp(22px, 2vw, 28px); line-height: 1.15; letter-spacing: -.02em; font-weight: 500; margin-top: 18px; }
+  .card__text { font-size: 15px; color: #3C4547; max-width: 46ch; margin-bottom: 8px; }
+  .pills { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+  .pills li { font-size: 13px; padding: 5px 12px; border: 1px solid #D7D9D9; border-radius: 999px; color: #3C4547; }
+  .card__price { margin-top: auto; padding-top: 18px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
+
+  /* SEO */
+  .included { display: flex; align-items: center; gap: 10px; margin: 16px 0 4px; padding: 12px 16px; background: var(--paper); font-weight: 500; font-size: 15px; width: fit-content; }
+  .included__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--slate); flex: 0 0 auto; }
+
+  /* Pricing table */
+  .price-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+  .price-grid .statement { margin-top: 14px; }
+  .price-copy { color: #3C4547; margin-top: 24px; max-width: 46ch; }
+  .rates { list-style: none; border-top: 1px solid #D7D9D9; }
+  .rates a { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 20px 0; border-bottom: 1px solid #D7D9D9; transition: padding var(--t-fast) var(--ease); }
+  .rates__name { font-size: clamp(17px, 1.5vw, 21px); font-weight: 500; letter-spacing: -.01em; }
+  .rates__price { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); white-space: nowrap; }
+  .rates li:nth-child(-n+2) .rates__price { font-family: var(--sans); font-size: 17px; letter-spacing: 0; text-transform: none; color: var(--ink); font-weight: 500; }
+  .rates a:hover { padding-left: 10px; }
+  .rates a:hover .rates__name { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+
+  /* Close + free quote */
+  .close .statement { max-width: 900px; }
+  .close__copy { color: #3C4547; margin-top: 22px; max-width: 60ch; }
+  .quote { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-top: 48px; padding: 28px 32px; background: var(--ink); color: var(--white); }
+  .quote__ask { font-size: clamp(22px, 2.2vw, 32px); font-weight: 500; letter-spacing: -.02em; }
+  .quote__btn {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 28px; border-radius: 999px; font-size: 15px; font-weight: 600;
+    color: var(--ink); background: linear-gradient(120deg, #D9E4EA, var(--sky) 55%, #C9DCEA); box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 8px 24px rgba(0,0,0,.18);
+    transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+  }
+  .quote__btn:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 #fff, 0 12px 30px rgba(0,0,0,.24); }
+  .quote__btn span { display: inline-block; transition: transform var(--t-fast) var(--ease); }
+  .quote__btn:hover span { transform: translate(2px, -2px); }
+
+  @media (max-width: 1023px) {
+    .svc__grid, .intro, .add__head, .price-grid { grid-template-columns: 1fr; gap: 36px; }
+    .add__head { gap: 18px; }
+  }
+  @media (max-width: 767px) {
+    .cards { grid-template-columns: 1fr; }
+    .ticks--2 { grid-template-columns: 1fr; }
+    .motto { margin-top: 56px; }
+    .rates a { flex-direction: column; gap: 6px; }
+    .quote { padding: 24px 20px; }
+    .quote__btn { width: 100%; justify-content: center; }
+  }
 </style>

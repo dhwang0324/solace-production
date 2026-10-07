@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site, serviceGroups } from '../data/site';
+import { site } from '../data/site';
+import { formOptions } from '../data/services';
 // The form is not connected yet. Set FORM_ENDPOINT to a form service URL or a
 // Hostinger PHP script to start receiving submissions.
 const FORM_ENDPOINT = '';
@@ -44,10 +45,9 @@ const next = [
         <fieldset class="field">
           <legend>What do you need? <span class="opt">(optional)</span></legend>
           <div class="checks">
-            {serviceGroups.map((g) => (
-              <label class="check"><input type="checkbox" name="needs" value={g.name} /><span>{g.name}</span></label>
+            {formOptions.map((o) => (
+              <label class="check"><input type="checkbox" name="needs" value={o.label} data-service={o.id} /><span>{o.label}</span></label>
             ))}
-            <label class="check"><input type="checkbox" name="needs" value="Not sure yet" /><span>Not sure yet</span></label>
           </div>
         </fieldset>
         <div class="field">
