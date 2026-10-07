@@ -86,7 +86,9 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
 } else {
   const targets = new Map<Element, HTMLElement[]>();
   revealEls.forEach((el) => {
-    const watch = el.hasAttribute('data-clip') && el.parentElement ? el.parentElement : el;
+    // Anything that starts fully clipped (image clips, label wipes, rising tiles) is watched via its parent.
+    const clipped = el.hasAttribute('data-clip') || getComputedStyle(el).clipPath !== 'none';
+    const watch = clipped && el.parentElement ? el.parentElement : el;
     targets.set(watch, [...(targets.get(watch) ?? []), el]);
   });
   // data-reveal="both" also plays out again when the element leaves the screen,
