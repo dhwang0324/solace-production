@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Placeholder from '../components/Placeholder.astro';
 import Beliefs from '../components/Beliefs.astro';
+// While choosing the layout of sections 01 and 04: PUBLIC_SEC=a|b|c
+const sec = (import.meta.env.PUBLIC_SEC ?? 'a') as 'a' | 'b' | 'c';
 
 const motto = 'Technology makes us faster. The human eye decides what’s good.';
 const approach = ['Better tools.', 'More efficient process.', 'Less unnecessary cost.', 'High creative standards.'];
@@ -26,14 +28,14 @@ const beliefs = [
 
   <!-- Why Solace exists -->
   <section class="pad section" aria-labelledby="why-h">
-    <div class="inner grid">
-      <p class="label" id="why-h" data-reveal="both">[ 01 · Why Solace exists ]</p>
-      <div>
+    <div class:list={['inner', 'sec', `sec--${sec}`]}>
+      <div class="sec__side"><span class="sec__no" aria-hidden="true">01</span><p class="label" id="why-h" data-reveal="both">[ 01 · Why Solace exists ]</p></div>
+      <div class="sec__head">
         <p class="statement" data-reveal="both" data-split>Businesses can spend thousands on websites that still feel outdated, generic or disconnected from the business itself. <span class="fade">We believe businesses deserve better.</span></p>
-        <div class="cols">
+      </div>
+      <div class="sec__body cols">
           <p class="body-l" data-reveal="both">Solace was created from a frustration with the traditional website industry. Too often, the quality of the website doesn’t match the quality of the business behind it.</p>
           <p class="body-l" data-reveal="both" style="--d:120ms">A modern, thoughtfully designed website shouldn’t require unnecessary cost or complexity. We use modern technology to make the process more efficient while keeping a high standard for creativity and design.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -109,10 +111,12 @@ const beliefs = [
 
   <!-- Great design and reasonable cost -->
   <section class="pad section" aria-labelledby="cost-h">
-    <div class="inner grid">
-      <p class="label" id="cost-h" data-reveal="both">[ 04 · Design and cost ]</p>
-      <div>
+    <div class:list={['inner', 'sec', `sec--${sec}`]}>
+      <div class="sec__side"><span class="sec__no" aria-hidden="true">04</span><p class="label" id="cost-h" data-reveal="both">[ 04 · Design and cost ]</p></div>
+      <div class="sec__head">
         <p class="statement" data-reveal="both" data-split>Businesses shouldn’t have to choose between great design <span class="fade">and reasonable cost.</span></p>
+      </div>
+      <div class="sec__body">
         <p class="body-l measure cost-copy" data-reveal="both">We deliver high-quality work more efficiently by using modern technology and keeping a lean process. It isn’t about being cheaper. It’s about removing what doesn’t add value.</p>
         <ol class="approach">
           {approach.map((a, i) => (
@@ -146,6 +150,28 @@ const beliefs = [
   .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
   .body-l { color: #3C4547; }
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+
+  /* Sections 01 and 04: three layouts while choosing (PUBLIC_SEC) */
+  .sec { display: grid; column-gap: 64px; }
+  .sec__no { display: none; }
+  .sec .statement { max-width: 1100px; }
+  .sec__body { margin-top: 40px; }
+  .sec .cost-copy { margin-top: 0; }
+  /* A — label on top, everything uses the full width */
+  .sec--a { grid-template-areas: "side" "head" "body"; }
+  .sec--a .sec__side { margin-bottom: 28px; }
+  /* B — a large gradient section number fills the left column and holds while you read */
+  .sec--b { grid-template-columns: 1fr 2fr; grid-template-areas: "side head" "side body"; }
+  .sec--b .sec__side { align-self: start; position: sticky; top: 120px; }
+  .sec--b .sec__no { display: block; font-size: clamp(120px, 15vw, 240px); line-height: .8; letter-spacing: -.06em; font-weight: 500; margin: -6px 0 22px -6px;
+    background: linear-gradient(120deg, #D9E4EA, var(--sky) 40%, var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  /* C — label on top; heading on the left half, supporting text on the right */
+  .sec--c { grid-template-columns: 1fr 1fr; grid-template-areas: "side side" "head body"; align-items: start; }
+  .sec--c .sec__side { margin-bottom: 28px; }
+  .sec--c .sec__body { margin-top: 0; padding-top: 10px; }
+  .sec--c .cols { grid-template-columns: 1fr; gap: 20px; }
+  .sec--c .approach { grid-template-columns: 1fr 1fr; }
+  .sec__side { grid-area: side; } .sec__head { grid-area: head; } .sec__body { grid-area: body; }
 
   /* 02 — dark band with the motto lighting up word by word as it scrolls through */
   .dark { background: var(--ink); color: var(--white); }
@@ -243,6 +269,10 @@ const beliefs = [
   }
   @media (max-width: 767px) {
     .grid { grid-template-columns: 1fr; gap: 16px; }
+    .sec { grid-template-columns: 1fr; grid-template-areas: "side" "head" "body"; }
+    .sec__side { position: static !important; margin-bottom: 16px; }
+    .sec--b .sec__no { font-size: 88px; margin-bottom: 14px; }
+    .sec--c .sec__body { padding-top: 0; margin-top: 28px; }
     .cols, .split { grid-template-columns: 1fr; gap: 24px; }
     .cols { margin-top: 28px; }
     .split { margin-top: 40px; }
