@@ -44,5 +44,5 @@ Use Higgsfield only when custom generated media materially improves the result; 
 - Free without approval (no credits): checking balance, browsing capabilities and models, planning concepts, writing prompts, estimating cost.
 
 ## Known issues
-- The contact form validates but does not send yet; it tells visitors to email hello@solaceproduction.com.
+- The contact form validates but does not send yet; it tells visitors to email dani@solaceproduction.com.
 - Studio and hero images are placeholders until real assets arrive.

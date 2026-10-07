@@ -264,7 +264,7 @@ if (form) {
     if (firstBad) { e.preventDefault(); (firstBad as HTMLElement).focus(); return; }
     if (!form.dataset.endpoint) {
       e.preventDefault();
-      if (status) status.textContent = 'Thanks — online sending isn’t switched on yet. Please email hello@solaceproduction.com and we’ll reply personally.';
+      if (status) status.textContent = 'Thanks — online sending isn’t switched on yet. Please email dani@solaceproduction.com and we’ll reply personally.';
     }
   });
 }

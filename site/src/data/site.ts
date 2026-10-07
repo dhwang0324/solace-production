@@ -2,7 +2,7 @@ export const site = {
   name: 'Solace Productions',
   wordmark: 'SOLACE',
   url: 'https://solaceproduction.com',
-  email: 'hello@solaceproduction.com',
+  email: 'dani@solaceproduction.com',
   description:
     'Solace is a creative and digital studio: web design and development, photography, video and the growth work that keeps a business’s digital presence moving.',
   founded: 2026,

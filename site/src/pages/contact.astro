@@ -4,8 +4,6 @@ import { site, serviceGroups } from '../data/site';
 // The form is not connected yet. Set FORM_ENDPOINT to a form service URL or a
 // Hostinger PHP script to start receiving submissions.
 const FORM_ENDPOINT = '';
-// While choosing the layout: PUBLIC_CONTACT=a|b|c
-const layout = (import.meta.env.PUBLIC_CONTACT ?? 'a') as 'a' | 'b' | 'c';
 const next = [
   'We read every message ourselves.',
   'We reply personally with a few questions or a time to talk.',
@@ -13,23 +11,21 @@ const next = [
 ];
 ---
 <Base title="Contact" description="Start a project with Solace. Tell us about your business and we’ll get back to you personally.">
-  <section class:list={['contact', `contact--${layout}`, 'pad']}>
+  <section class="contact pad">
     <div class="inner wrap">
       <div class="intro">
         <p class="label" data-reveal="both">[ Contact ]</p>
         <h1 class="statement" data-reveal="both" data-split>Tell us about your business. <span class="fade">We’ll reply personally.</span></h1>
-        {layout !== 'b' && (
-          <div class="info" data-reveal="both" style="--d:120ms">
-            <div class="info__row">
-              <p class="label">Email</p>
-              <a class="info__mail link-u" href={`mailto:${site.email}`}>{site.email}</a>
-            </div>
-            <div class="info__row">
-              <p class="label">What happens next</p>
-              <ol class="steps">{next.map((n, i) => <li><span class="no">0{i + 1}</span>{n}</li>)}</ol>
-            </div>
+        <div class="info" data-reveal="both" style="--d:120ms">
+          <div class="info__row">
+            <p class="label">Email</p>
+            <a class="info__mail link-u" href={`mailto:${site.email}`}>{site.email}</a>
           </div>
-        )}
+          <div class="info__row">
+            <p class="label">What happens next</p>
+            <ol class="steps">{next.map((n, i) => <li><span class="no">0{i + 1}</span>{n}</li>)}</ol>
+          </div>
+        </div>
       </div>
 
       <form class="form" method="post" action={FORM_ENDPOINT || undefined} novalidate data-form data-endpoint={FORM_ENDPOINT} data-reveal="both" style="--d:160ms">
@@ -61,7 +57,6 @@ const next = [
         </div>
         <div class="send">
           <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
-          {layout === 'b' && <p class="alt">Prefer email? <a class="link-u" href={`mailto:${site.email}`}>{site.email}</a></p>}
         </div>
         <p class="status body-l" role="status" aria-live="polite" data-status></p>
       </form>
@@ -97,7 +92,6 @@ const next = [
   .check input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
   .check input:focus-visible + span { outline: 2px solid var(--slate); outline-offset: 3px; }
   .send { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
-  .alt { font-size: 14px; color: #3C4547; }
   .status:empty { display: none; }
 
   /* Info column */
@@ -108,33 +102,16 @@ const next = [
   .steps li { display: grid; grid-template-columns: 34px 1fr; font-size: 15px; color: #3C4547; padding-top: 10px; border-top: 1px solid #E6E7E5; }
   .no { font-family: var(--mono); font-size: 11px; color: var(--slate); padding-top: 3px; }
 
-  /* A — intro and next steps on the left, the form in a soft card on the right */
-  .contact--a .wrap { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: start; }
-  .contact--a .form { background: var(--paper); padding: 32px; }
-
-  /* B — one centred column */
-  .contact--b .wrap { max-width: 720px; }
-  .contact--b .intro { text-align: center; margin-bottom: 48px; }
-  .contact--b .statement { margin-left: auto; margin-right: auto; }
-
-  /* C — a dark panel with the intro, the form on white beside it */
-  .contact--c { padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0; }
-  .contact--c .wrap { display: grid; grid-template-columns: 1fr 1fr; max-width: none; }
-  .contact--c .intro { background: var(--ink); color: var(--white); padding: 72px var(--side) 96px; }
-  .contact--c .intro .label, .contact--c .no { color: var(--gray); }
-  .contact--c .statement .fade { color: var(--sky); }
-  .contact--c .steps li { color: rgba(255,255,255,.78); border-top-color: rgba(255,255,255,.14); }
-  .contact--c .info__mail { color: var(--white); }
-  .contact--c .form { padding: 72px var(--side) 96px; align-content: start; }
+  /* Intro and next steps on the left, the form in a soft card on the right */
+  .wrap { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: start; }
+  .form { background: var(--paper); padding: 32px; }
 
   @media (max-width: 899px) {
-    .contact--a .wrap, .contact--c .wrap { grid-template-columns: 1fr; gap: 40px; }
-    .contact--c .wrap { gap: 0; }
-    .contact--c .intro, .contact--c .form { padding-top: 56px; padding-bottom: 56px; }
+    .wrap { grid-template-columns: 1fr; gap: 40px; }
   }
   @media (max-width: 639px) {
     .row { grid-template-columns: 1fr; }
-    .contact--a .form { padding: 22px 18px; margin: 0 calc(var(--side) * -1); }
+    .form { padding: 22px 18px; margin: 0 calc(var(--side) * -1); }
     .info { margin-top: 32px; }
   }
 </style>
