@@ -27,7 +27,6 @@ const { title, subtitle, cta, slides } = Astro.props;
       </div>
     ))}
   </div>
-  <div class="glow" aria-hidden="true"></div>
   <div class="shade" aria-hidden="true"></div>
   <div class="cap">
     <h1 class="title">{title}</h1>
@@ -53,13 +52,6 @@ const { title, subtitle, cta, slides } = Astro.props;
   .slide__media :global(picture), .slide__media :global(.slide__img), .slide__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .slide__video { opacity: 0; transition: opacity 600ms var(--ease); }
   .slide__video.is-playing { opacity: 1; }
-  /* Mouse interaction (fine pointers only): the scene tilts toward the cursor and a soft light follows it */
-  @media (hover: hover) and (pointer: fine) {
-    .slides { will-change: transform; transform: perspective(1400px) scale(1.07) translate3d(calc(var(--mx, 0) * -16px), calc(var(--my, 0) * -10px), 0) rotateY(calc(var(--mx, 0) * 1.6deg)) rotateX(calc(var(--my, 0) * -1.2deg)); }
-  }
-  .glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 500ms var(--ease); mix-blend-mode: screen;
-    background: radial-gradient(560px circle at var(--gx, 50%) var(--gy, 50%), rgba(165, 201, 225, .46), rgba(165, 201, 225, .14) 40%, transparent 70%); }
-  .hero.is-live .glow { opacity: 1; }
   .shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(31,38,39,.66), rgba(31,38,39,.12) 55%, rgba(31,38,39,.28)); pointer-events: none; }
   .cap { position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%); width: min(90%, 760px); text-align: center; }
   .title { font-size: 30px; font-weight: 500; letter-spacing: .3em; margin-right: -.3em; line-height: 1.15; text-transform: uppercase; }
