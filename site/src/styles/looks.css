@@ -1,66 +1,50 @@
-/* Colour "looks" — previews for bringing more life into the site (PUBLIC_LOOK=subtle|bold).
-   Nothing here applies unless <html> has look-subtle (and look-bold for the bold version). */
+/* "Living" look: brand colours used boldly, the banner's world carried down the page.
+   Prefixed with html.lively so it outranks component styles; Base.astro always sets the class. */
 
 .svc-ico, .look-strip { display: none; }
 
-/* ---------- Subtle: brand colours used more boldly, no new colours ---------- */
-html.look-subtle {
-  --tint: color-mix(in srgb, var(--sky) 22%, var(--paper));
+html.lively {
   --navy-glow: radial-gradient(90% 130% at 88% 0%, rgba(120, 138, 149, .38), transparent 60%), radial-gradient(70% 90% at 0% 100%, rgba(165, 201, 225, .14), transparent 60%), var(--navy);
-}
-/* Soft blue wash instead of flat grey bands */
-html.look-subtle .band { background: linear-gradient(180deg, var(--paper) 0%, var(--tint) 100%); }
-/* Dark surfaces become deep navy with a faint blue glow */
-html.look-subtle footer.f-a,
-html.look-subtle section.dark,
-html.look-subtle .c-card--dark,
-html.look-subtle .quote,
-html.look-subtle .stack .card--2 { background: var(--navy-glow); }
-html.look-subtle .process .bar,
-html.look-subtle .approach li { background: linear-gradient(100deg, var(--navy), #2E4350); }
-html.look-subtle .process .no { color: var(--sky); }
-/* Sky-blue details */
-html.look-subtle .site-header .links a::after { height: 2px; background: var(--sky); }
-html.look-subtle .link-u { text-decoration-color: var(--sky); }
-html.look-subtle .chip:hover { border-color: var(--sky); background: color-mix(in srgb, var(--sky) 18%, var(--white)); }
-html.look-subtle .btn--solid:hover { background: linear-gradient(100deg, var(--navy), var(--slate)); border-color: var(--navy); }
-html.look-subtle .services .group .label,
-html.look-subtle .spec__no,
-html.look-subtle .stack .card__no { color: var(--slate); }
-/* Service icons on the homepage */
-html.look-subtle .svc-ico { display: block; width: 34px; height: 34px; color: var(--slate); margin-bottom: 16px; }
-html.look-subtle .svc-ico svg { width: 100%; height: 100%; }
-html.look-subtle .services .group { border-top: 2px solid var(--sky); padding-top: 18px; }
-/* Project images take on a light blue tint on hover */
-html.look-subtle .project .media { position: relative; }
-html.look-subtle .project .media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(165, 201, 225, .0), rgba(165, 201, 225, .28)); opacity: 0; transition: opacity 400ms var(--ease); pointer-events: none; }
-html.look-subtle .project .media:hover::after { opacity: 1; }
-/* Cards pick up a thin coloured top edge */
-html.look-subtle #add .card { border-top: 3px solid var(--sky); }
-html.look-subtle .contact .form { background: linear-gradient(180deg, var(--paper), var(--tint)); }
-
-/* ---------- Bold: + imagery from the banner world, a warm sunlight accent, stronger washes ---------- */
-html.look-bold {
-  --sun: #E7B565;
   --wash: linear-gradient(125deg, color-mix(in srgb, var(--sky) 14%, var(--white)) 0%, color-mix(in srgb, var(--sky) 45%, var(--paper)) 100%);
 }
-html.look-bold .band { background: var(--wash); }
-/* The banner's world continues down the page */
-html.look-bold .look-strip { display: block; height: clamp(220px, 26vw, 400px); background: url('/look/world-strip.jpg') center / cover no-repeat; }
-html.look-bold .studio-media { background: url('/look/world-studio.jpg') center / cover no-repeat !important; }
-html.look-bold .studio-media .ph__note { display: none; }
-html.look-bold footer.f-a { background: linear-gradient(180deg, rgba(35, 48, 54, .80), rgba(35, 48, 54, .97) 46%), url('/look/world-valley.jpg') center top / cover no-repeat; }
-/* Warm sunlight accent, used sparingly */
-html.look-bold footer.f-a .accent,
-html.look-bold .hs__words,
-html.look-bold .process .no,
-html.look-bold .stack .card--2 .card__no,
-html.look-bold .goal .fade { color: var(--sun) !important; }
-html.look-bold .services .group { border-top-color: var(--sun); }
-html.look-bold .svc-ico { color: var(--navy); }
-html.look-bold #add .card { border-top: 3px solid transparent; border-image: linear-gradient(90deg, var(--sky), var(--sun)) 1; }
-html.look-bold .c-card:not(.c-card--dark) { background: var(--wash); }
-html.look-bold .c-card--dark .c-price__amt { background: linear-gradient(120deg, #FBE7C2, var(--sun) 40%, var(--sky)) !important; -webkit-background-clip: text !important; background-clip: text !important; }
-html.look-bold .stack .card--1 { background: var(--wash); }
-html.look-bold .stack .card--5 { background: linear-gradient(135deg, #FFF7E8, color-mix(in srgb, var(--sun) 35%, var(--white))); border-color: transparent; }
-html.look-bold .chip.is-on, html.look-bold .chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); box-shadow: inset 0 -2px 0 var(--sun); }
+
+/* Blue washes instead of flat grey bands */
+html.lively .band { background: var(--wash); }
+html.lively .stack .card--1 { background: var(--wash); }
+html.lively .contact .form { background: var(--wash); }
+
+/* Dark surfaces: deep navy with a faint blue glow instead of near-black */
+html.lively section.dark,
+html.lively .c-card--dark,
+html.lively .quote,
+html.lively .stack .card--2 { background: var(--navy-glow); }
+html.lively .process .bar,
+html.lively .approach li { background: linear-gradient(100deg, var(--navy), color-mix(in srgb, var(--navy) 75%, var(--slate))); }
+html.lively .process .no { color: var(--sky); }
+
+/* Sky-blue details */
+html.lively .site-header .links a::after { height: 2px; background: var(--sky); }
+html.lively .link-u { text-decoration-color: var(--sky); }
+html.lively .chip:hover { border-color: var(--sky); background: color-mix(in srgb, var(--sky) 18%, var(--white)); }
+html.lively .btn--solid:hover { background: linear-gradient(100deg, var(--navy), var(--slate)); border-color: var(--navy); }
+
+/* Service icons on the homepage */
+html.lively .svc-ico { display: block; width: 34px; height: 34px; color: var(--slate); margin-bottom: 16px; }
+html.lively .svc-ico svg { width: 100%; height: 100%; }
+html.lively .services .group { border-top: 2px solid var(--sky); padding-top: 18px; }
+
+/* Project images take on a light blue tint on hover */
+html.lively .project .media { position: relative; }
+html.lively .project .media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(165, 201, 225, 0), rgba(165, 201, 225, .28)); opacity: 0; transition: opacity 400ms var(--ease); pointer-events: none; }
+html.lively .project .media:hover::after { opacity: 1; }
+
+/* The banner's world continues down the page (frames from the approved Higgsfield video) */
+html.lively .look-strip { display: block; height: clamp(220px, 26vw, 400px); background: url('/look/world-strip.jpg') center / cover no-repeat; }
+html.lively .studio-media { background: url('/look/world-studio.jpg') center / cover no-repeat !important; }
+html.lively .studio-media .ph__note { display: none; }
+html.lively footer.f-a { background: linear-gradient(180deg, rgba(35, 48, 54, .80), rgba(35, 48, 54, .97) 46%), url('/look/world-valley.jpg') center top / cover no-repeat; }
+
+/* Services page: blue-to-sunlight accents */
+html.lively #add .card { border-top: 3px solid transparent; border-image: linear-gradient(90deg, var(--sky), var(--sun)) 1; }
+html.lively .c-card:not(.c-card--dark) { background: var(--wash); }
+html.lively .c-card--dark .c-price__amt { background: linear-gradient(120deg, color-mix(in srgb, var(--sun) 35%, var(--white)), var(--sun) 40%, var(--sky)) !important; -webkit-background-clip: text !important; background-clip: text !important; }

@@ -86,6 +86,12 @@ blue on white 3.6:1 (large text ≥ 24px only) · gray on ink 6.2:1 · paper on 
 - **Formats:** AVIF + WebP with JPEG fallback, responsive `srcset` (640–2560px), lazy-loaded below the fold, explicit width/height to prevent layout shift. Hero image ≤ 250KB at 1920px.
 - **Video:** MP4 (H.264) + WebM, muted, `playsinline`, looping 6–12s, ≤ 4MB for the hero, poster image always set. Not loaded on Save-Data or with reduced motion (the poster shows instead).
 
+## 7b. Colour in use ("living" look — `site/src/styles/looks.css`)
+- Grey bands use a soft blue wash (`--sky` mixed into white/paper); dark surfaces are `--navy` with a faint blue glow, not near-black.
+- Sky details: nav underline, link underlines, Process numbers, chip hovers, service-group rules; line icons for Digital / Creative / Growth on the homepage.
+- Imagery from the approved Higgsfield banner world continues down the page: homepage strip, Studio image, footer background (`site/public/look/`). Atmosphere only, never presented as client work.
+- `--sun` (#E7B565) is a warm accent used only on the Services page (add-on card edges, the management price). Never for text on white.
+
 ## 8. Motion
 - **Easing:** `cubic-bezier(.2,.7,.2,1)`. **Durations:** 150ms hovers, 400ms reveals, 600ms slide crossfades, 900ms image clip reveals.
 - **Allowed:** opacity, transform, clip-path. Content fades up 16px once as it enters the screen. Project images reveal with a clip from bottom to top, and scale from 1.04 to 1 on hover. The header shrinks and turns solid on scroll.

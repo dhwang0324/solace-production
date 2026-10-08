@@ -8,6 +8,7 @@
   --blue: #788A95;
   --sky: #A5C9E1;
   --gray: #A2A4A5;
+  --sun: #E7B565;   /* warm accent, used sparingly (Services page highlights only) */
 
   --sans: 'Hanken Grotesk', system-ui, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
