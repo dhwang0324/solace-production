@@ -7,9 +7,12 @@ import Process from '../components/Process.astro';
 import { projects } from '../data/projects';
 import { filters } from '../data/site';
 
+import technologyPoster from '../assets/hero/technology-poster.jpg';
+
+// Hero slides: Design, Technology, Creative, Growth. Technology has its Higgsfield video; the others are placeholders for now.
 const slides = [
   { tone: 'a' as const, note: 'Hero background' },
-  { tone: 'c' as const, note: 'Hero background' },
+  { tone: 'c' as const, note: 'Technology', poster: technologyPoster, video: { mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' } },
   { tone: 'b' as const, note: 'Hero background' },
   { tone: 'a' as const, note: 'Hero background' },
 ];

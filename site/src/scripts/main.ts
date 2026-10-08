@@ -170,6 +170,14 @@ if (hero) {
   let hoverPaused = false;
   hero.style.setProperty('--dur', `${DURATION}ms`);
 
+  // Slides with a video play only while they're showing; with reduced motion or Save-Data the poster stays.
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  const syncVideos = () => slides.forEach((s, n) => {
+    const v = s.querySelector<HTMLVideoElement>('[data-hero-video]');
+    if (!v || reduceMotion || saveData) return;
+    if (n === current) { v.play().then(() => v.classList.add('is-playing')).catch(() => {}); }
+    else { v.pause(); }
+  });
   const show = (i: number) => {
     current = (i + slides.length) % slides.length;
     slides.forEach((s, n) => {
@@ -180,6 +188,7 @@ if (hero) {
       b.removeAttribute('aria-current');
       if (n === current) { void b.offsetWidth; b.setAttribute('aria-current', 'true'); }
     });
+    syncVideos();
   };
   const schedule = () => {
     window.clearTimeout(timer);
@@ -212,6 +221,24 @@ if (hero) {
   });
   if (reduceMotion) hero.classList.add('no-auto');
   setPaused(userPaused);
+  // Mouse interaction: the scene tilts toward the cursor and a soft light follows it (mouse and trackpad only)
+  if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    let tx = 0, ty = 0, x = 0, y = 0, gx = 0, gy = 0, raf = 0;
+    const tick = () => {
+      x += (tx - x) * 0.08; y += (ty - y) * 0.08;
+      hero.style.setProperty('--mx', x.toFixed(4)); hero.style.setProperty('--my', y.toFixed(4));
+      hero.style.setProperty('--gx', `${gx}px`); hero.style.setProperty('--gy', `${gy}px`);
+      raf = Math.abs(tx - x) > 0.001 || Math.abs(ty - y) > 0.001 ? requestAnimationFrame(tick) : 0;
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    hero.addEventListener('pointermove', (e) => {
+      const r = hero.getBoundingClientRect();
+      gx = e.clientX - r.left; gy = e.clientY - r.top;
+      tx = (gx / r.width) * 2 - 1; ty = (gy / r.height) * 2 - 1;
+      hero.classList.add('is-live'); kick();
+    });
+    hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; hero.classList.remove('is-live'); kick(); });
+  }
 }
 
 /* Work filters */
