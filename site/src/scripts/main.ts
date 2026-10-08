@@ -168,18 +168,21 @@ if (hero) {
   let timer: number | undefined;
   let userPaused = reduceMotion;
   let hoverPaused = false;
-  hero.style.setProperty('--dur', `${DURATION}ms`);
+  // A slide can stay longer than the default, e.g. to let its video play through
+  const durOf = (i: number) => Number(slides[i]?.dataset.duration) || DURATION;
+  hero.style.setProperty('--dur', `${durOf(0)}ms`);
 
   // Slides with a video play only while they're showing; with reduced motion or Save-Data the poster stays.
   const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
   const syncVideos = () => slides.forEach((s, n) => {
     const v = s.querySelector<HTMLVideoElement>('[data-hero-video]');
     if (!v || reduceMotion || saveData) return;
-    if (n === current) { v.play().then(() => v.classList.add('is-playing')).catch(() => {}); }
+    if (n === current) { v.currentTime = 0; v.play().then(() => v.classList.add('is-playing')).catch(() => {}); }
     else { v.pause(); }
   });
   const show = (i: number) => {
     current = (i + slides.length) % slides.length;
+    hero.style.setProperty('--dur', `${durOf(current)}ms`);
     slides.forEach((s, n) => {
       s.classList.toggle('is-active', n === current);
       if (n === current) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
@@ -194,7 +197,7 @@ if (hero) {
     window.clearTimeout(timer);
     const paused = userPaused || hoverPaused;
     hero.classList.toggle('is-paused', paused);
-    if (!paused) timer = window.setTimeout(() => { show(current + 1); schedule(); }, DURATION);
+    if (!paused) timer = window.setTimeout(() => { show(current + 1); schedule(); }, durOf(current));
   };
   const setPaused = (p: boolean) => {
     userPaused = p;

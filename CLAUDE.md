@@ -45,4 +45,4 @@ Use Higgsfield only when custom generated media materially improves the result; 
 
 ## Known issues
 - The contact form validates but does not send yet; it tells visitors to email dani@solaceproduction.com.
-- Studio and hero images are placeholders until real assets arrive.
+- Hero slides (Design, Technology, Creative, Growth): Technology has its Higgsfield video (`site/public/hero/technology.mp4/.webm`, poster `site/src/assets/hero/technology-poster.jpg`, Kling 3.0 Std 8 s from a GPT Image 2.5 still). The other three and the studio image are still placeholders.
