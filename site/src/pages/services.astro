@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import { Picture } from 'astro:assets';
 import { website, management, addOns, seo, pricing } from '../data/services';
 import ServicesCore from '../components/ServicesCore.astro';
 const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
@@ -30,12 +29,7 @@ const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
       </div>
       <div class="cards">
         {addOns.map((a, i) => (
-          <article class:list={['card', { 'card--photo': a.photo }]} data-reveal="both" data-rise style={`--d:${(i % 2) * 110}ms`} aria-labelledby={`add-${a.id}`}>
-            {a.photo && (
-              <div class="card__img">
-                <Picture src={a.photo.src} alt={a.photo.alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[400, 640, 1024]} sizes="(max-width: 767px) 100vw, 260px" loading="lazy" />
-              </div>
-            )}
+          <article class="card" data-reveal="both" data-rise style={`--d:${(i % 2) * 110}ms`} aria-labelledby={`add-${a.id}`}>
             <div class="card__top">
               <span class="no">0{i + 1}</span>
               <a class="card__ask" href={quote(a.id)}>Ask about this <span aria-hidden="true">↗</span></a>
@@ -128,13 +122,6 @@ const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
   .add__head .body-l { color: #3C4547; }
   .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
   .card { background: var(--white); padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 12px; }
-  /* A card with a photo: the image fills a column on the right */
-  .card--photo { display: grid; grid-template-columns: 1fr minmax(180px, 38%); column-gap: 24px; align-content: start; }
-  .card--photo > :not(.card__img) { grid-column: 1; }
-  .card__img { grid-column: 2; grid-row: 1 / span 8; margin: -24px -26px -26px 0; overflow: hidden; background: var(--paper); }
-  .card__img :global(picture), .card__img :global(img) { display: block; width: 100%; height: 100%; }
-  .card__img :global(img) { object-fit: cover; object-position: 50% 30%; transition: transform 900ms var(--ease); }
-  .card--photo:hover .card__img :global(img) { transform: scale(1.04); }
   .card__top { display: flex; justify-content: space-between; align-items: center; }
   .no { font-family: var(--mono); font-size: 11px; color: var(--slate); }
   .card__ask { font-size: 13px; font-weight: 500; color: var(--slate); }
@@ -181,8 +168,6 @@ const quote = (id?: string) => (id ? `/contact/?service=${id}` : '/contact/');
   }
   @media (max-width: 767px) {
     .cards { grid-template-columns: 1fr; }
-    .card--photo { display: flex; }
-    .card__img { margin: -24px -26px 8px; aspect-ratio: 4 / 5; }
     .rates a { flex-direction: column; gap: 6px; }
     .quote { padding: 24px 20px; }
     .quote__btn { width: 100%; justify-content: center; }
