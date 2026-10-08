@@ -8,13 +8,9 @@ import { projects } from '../data/projects';
 import { filters } from '../data/site';
 
 import technologyPoster from '../assets/hero/technology-poster.jpg';
-
-// While choosing the single-banner design: PUBLIC_HERO=a|b|c
-const heroVariant = (import.meta.env.PUBLIC_HERO ?? 'a') as 'a' | 'b' | 'c';
 ---
-<Base overHero={heroVariant !== 'c'}>
+<Base overHero>
   <HeroSingle
-    variant={heroVariant}
     poster={technologyPoster}
     video={{ mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }}
     words={['Design', 'Technology', 'Creative', 'Growth']}

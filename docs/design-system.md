@@ -70,7 +70,7 @@ blue on white 3.6:1 (large text ≥ 24px only) · gray on ink 6.2:1 · paper on 
 
 ## 6. Components
 - **Header:** 3-part grid (links · centred wordmark · Contact + menu). Transparent with white text over the hero; after scrolling past the hero it turns `--white` with `--ink` text and a hairline. Phone: centred wordmark + menu button; menu opens a full-screen white panel with large links.
-- **Hero:** full-bleed, 88vh desktop / 80vh phone, 3–4 slides (image or muted looping video), dark gradient at the bottom for text contrast, centred title + one-line subtitle + outline button. Progress lines: 4 × 1px bars, the active one fills over 6s. Pauses on hover/focus; arrow keys and swipe change slides; no autoplay with reduced motion.
+- **Hero:** one full-bleed looping video (muted, 92vh desktop / 86vh phone) with a poster image, dark gradient at the bottom, centred uppercase title, a line where the theme word rotates (Design → Technology → Creative → Growth, every 2.4s) + “— thoughtfully built.”, and an outline button. A Pause button stops the video and the word; reduced motion and Save-Data show the poster and no rotation.
 - **Bracket label:** `[ LABEL ]` in `label` style, `--slate`. Starts every section.
 - **Statement:** 1/3 label column + 2/3 text column; two-tone (`--ink` then `--blue`).
 - **Selected work:** `--paper` band; heading + underlined MORE on the left, filter chips on the right; two projects at 7:5 width, 600px tall, square corners; caption row = uppercase name + mono tags. Chips filter on the Work page; on Home they link to the filtered Work page.
@@ -117,7 +117,7 @@ Organization JSON-LD, favicon set.
 ## 11. Assets needed
 | Asset | Source | Status |
 |---|---|---|
-| Hero visuals (3–4 slides) | Real Solace photo/video shoot, or Higgsfield atmosphere (no fake clients, people or places) | Needed; any Higgsfield use gets a full cost quote first |
+| Hero video (one, looping) | Real Solace photo/video shoot, or Higgsfield atmosphere (no fake clients, people or places) | Needed; any Higgsfield use gets a full cost quote first |
 | Project images | Real client screenshots and photography | Needed for each confirmed project |
 | Wordmark files (SVG) | Typeset from Hanken Grotesk, tracked 0.42em | Will produce in the build |
 | Favicon + social share image | Built from the wordmark | Will produce in the build |

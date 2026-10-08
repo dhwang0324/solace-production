@@ -13,7 +13,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 | Contact | `/contact/` | `site/src/pages/contact.astro` (form not connected yet: set `FORM_ENDPOINT`) |
 
 - Design rules: `docs/design-system.md`. Tokens and base styles: `site/src/styles/global.css` (use tokens, not new hex values).
-- Shared components in `site/src/components/` (Header, Footer (compact dark), Hero, Services, Process, ProjectFeature, Shot, Placeholder). Shared copy in `site/src/data/site.ts`.
+- Shared components in `site/src/components/` (Header, Footer (compact dark), HeroSingle, Services, Process, ProjectFeature, Shot, Placeholder). Shared copy in `site/src/data/site.ts`.
 - Fonts: Hanken Grotesk + IBM Plex Mono, self-hosted via @fontsource.
 - Project facts in `projects.ts` must be confirmed by the user; leave fields out until then. `draft: true` keeps a project off the site (Guerrero Boxing Gym is a draft until the user says its site is finished).
 - Project images are real site screenshots in `site/src/assets/work/<slug>/` (cover, detail-1, detail-2, phone), rendered by `Shot.astro` (AVIF/WebP). Guerrero’s site uses temporary Pexels footage/photos, so present them only as screenshots of the website, never as Solace photography. Studio/hero images are still placeholders.
@@ -45,4 +45,4 @@ Use Higgsfield only when custom generated media materially improves the result; 
 
 ## Known issues
 - The contact form validates but does not send yet; it tells visitors to email dani@solaceproduction.com.
-- Hero slides (Design, Technology, Creative, Growth): Technology has its Higgsfield video (`site/public/hero/technology.mp4/.webm`, poster `site/src/assets/hero/technology-poster.jpg`, Kling 3.0 Std 8 s from a GPT Image 2.5 still). The other three and the studio image are still placeholders.
+- Homepage banner is one looping video (`HeroSingle.astro`; `site/public/hero/technology.mp4/.webm`, smoothed to 48 fps, poster `site/src/assets/hero/technology-poster.jpg`; Higgsfield: Kling 3.0 Std 8 s from a GPT Image 2.5 still) with the words Design / Technology / Creative / Growth rotating under the title. The studio image is still a placeholder.
