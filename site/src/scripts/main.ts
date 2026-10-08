@@ -159,7 +159,7 @@ if (stack && !reduceMotion) {
 
 /* Hero slideshow */
 const hero = document.querySelector<HTMLElement>('[data-hero]');
-if (hero) {
+if (hero && hero.querySelector('[data-slide]')) {
   const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
   const bars = [...hero.querySelectorAll<HTMLButtonElement>('[data-goto]')];
   const pauseBtn = hero.querySelector<HTMLButtonElement>('[data-pause]');
@@ -224,6 +224,37 @@ if (hero) {
   });
   if (reduceMotion) hero.classList.add('no-auto');
   setPaused(userPaused);
+}
+
+/* Single hero: looping video and a rotating theme word, both stopped by the Pause button */
+const single = document.querySelector<HTMLElement>('[data-hero-single]');
+if (single) {
+  const video = single.querySelector<HTMLVideoElement>('[data-hs-video]');
+  const words = [...single.querySelectorAll<HTMLElement>('.hs__word')];
+  const pauseBtn = single.querySelector<HTMLButtonElement>('[data-hs-pause]');
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  let i = 0;
+  let timer: number | undefined;
+  let paused = reduceMotion;
+  const next = () => {
+    const prev = words[i];
+    i = (i + 1) % words.length;
+    prev.classList.remove('is-on'); prev.classList.add('is-out');
+    words[i].classList.remove('is-out'); words[i].classList.add('is-on');
+    window.setTimeout(() => prev.classList.remove('is-out'), 650);
+  };
+  const run = () => {
+    window.clearInterval(timer);
+    if (!paused && words.length > 1) timer = window.setInterval(next, 2400);
+    if (video && !reduceMotion && !saveData) {
+      if (paused) video.pause();
+      else video.play().then(() => video.classList.add('is-playing')).catch(() => {});
+    }
+    if (pauseBtn) { pauseBtn.textContent = paused ? 'Play' : 'Pause'; pauseBtn.setAttribute('aria-pressed', String(paused)); }
+  };
+  pauseBtn?.addEventListener('click', () => { paused = !paused; run(); });
+  if (reduceMotion && pauseBtn) pauseBtn.hidden = true;
+  run();
 }
 
 /* Work filters */

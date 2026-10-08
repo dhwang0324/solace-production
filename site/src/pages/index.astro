@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
+import HeroSingle from '../components/HeroSingle.astro';
 import ProjectFeature from '../components/ProjectFeature.astro';
 import Services from '../components/Services.astro';
 import Process from '../components/Process.astro';
@@ -9,20 +9,16 @@ import { filters } from '../data/site';
 
 import technologyPoster from '../assets/hero/technology-poster.jpg';
 
-// Hero slides: Design, Technology, Creative, Growth. Technology has its Higgsfield video; the others are placeholders for now.
-const slides = [
-  { tone: 'a' as const, note: 'Hero background' },
-  { tone: 'c' as const, note: 'Technology', poster: technologyPoster, video: { mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }, duration: 8000 },
-  { tone: 'b' as const, note: 'Hero background' },
-  { tone: 'a' as const, note: 'Hero background' },
-];
+// While choosing the single-banner design: PUBLIC_HERO=a|b|c
+const heroVariant = (import.meta.env.PUBLIC_HERO ?? 'a') as 'a' | 'b' | 'c';
 ---
-<Base overHero>
-  <Hero
-    title="Digital Presence"
-    subtitle="Design, technology, creative and growth — thoughtfully built."
+<Base overHero={heroVariant !== 'c'}>
+  <HeroSingle
+    variant={heroVariant}
+    poster={technologyPoster}
+    video={{ mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }}
+    words={['Design', 'Technology', 'Creative', 'Growth']}
     cta={{ label: 'View work', href: '/work/' }}
-    slides={slides}
   />
 
   <section class="statement-row pad section" aria-labelledby="about-h">

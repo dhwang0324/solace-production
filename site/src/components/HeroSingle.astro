@@ -1,0 +1,102 @@
+---
+// One full banner with a looping video and a rotating theme word (Design → Technology → Creative → Growth).
+// Designs while choosing: 'a' centred · 'b' big word, bottom-left · 'c' framed on white.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  variant?: 'a' | 'b' | 'c';
+  poster: ImageMetadata;
+  video: { mp4: string; webm?: string };
+  words: string[];
+  cta: { label: string; href: string };
+}
+const { variant = 'a', poster, video, words, cta } = Astro.props;
+---
+<section class:list={['hs', `hs--${variant}`, variant !== 'c' && 'on-dark']} aria-label="Introduction" data-hero data-hero-single>
+  <div class="hs__frame">
+    <div class="hs__media">
+      <Picture src={poster} alt="" formats={['avif', 'webp']} fallbackFormat="jpg" widths={[960, 1440, 1920, 2560].filter((w) => w <= poster.width)} sizes="100vw" loading="eager" fetchpriority="high" class="hs__img" />
+      <video class="hs__video" muted loop playsinline preload="none" aria-hidden="true" data-hs-video>
+        {video.webm && <source src={video.webm} type="video/webm" />}
+        <source src={video.mp4} type="video/mp4" />
+      </video>
+    </div>
+    <div class="hs__shade" aria-hidden="true"></div>
+
+    <div class="hs__copy">
+      {variant === 'b' ? <h1 class="label hs__kicker">[ Digital presence ]</h1> : <h1 class="hs__title">Digital Presence</h1>}
+      <p class="hs__line">
+        <span class="sr-only">{words.join(', ')} — thoughtfully built.</span>
+        <span class="hs__words" aria-hidden="true" data-hs-words>
+          {words.map((w, i) => <span class:list={['hs__word', { 'is-on': i === 0 }]}>{w}</span>)}
+        </span>
+        <span class="hs__rest" aria-hidden="true">— thoughtfully built.</span>
+      </p>
+      <a class:list={['btn', variant === 'c' ? 'btn--solid' : 'btn--light', 'hs__cta']} href={cta.href}>{cta.label}</a>
+    </div>
+
+    <button type="button" class="hs__pause label" data-hs-pause aria-pressed="false">Pause</button>
+  </div>
+</section>
+
+<style>
+  .hs { position: relative; color: var(--white); }
+  .hs__frame { position: relative; height: 92vh; min-height: 600px; overflow: hidden; background: var(--navy); }
+  .hs__media, .hs__media :global(picture), .hs__media :global(.hs__img), .hs__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hs__video { opacity: 0; transition: opacity 800ms var(--ease); }
+  .hs__video.is-playing { opacity: 1; }
+  .hs__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(31,38,39,.66), rgba(31,38,39,.12) 55%, rgba(31,38,39,.28)); }
+  .hs__copy { position: absolute; }
+  .hs__title { font-weight: 500; text-transform: uppercase; line-height: 1.1; }
+
+  /* Rotating word: the current word rises in, the last one rises out */
+  .hs__words { display: inline-grid; vertical-align: bottom; overflow: hidden; }
+  .hs__word { grid-area: 1 / 1; transform: translateY(100%); opacity: 0; transition: transform 600ms var(--ease), opacity 600ms var(--ease); white-space: nowrap; }
+  .hs__word.is-on { transform: none; opacity: 1; }
+  .hs__word.is-out { transform: translateY(-100%); opacity: 0; }
+
+  .hs__pause { position: absolute; right: var(--side); bottom: 30px; background: none; border: 0; color: rgba(255,255,255,.85); cursor: pointer; min-height: 44px; }
+  .hs__pause:hover { color: var(--white); }
+
+  /* A · centred */
+  .hs--a .hs__copy { left: 50%; bottom: 112px; transform: translateX(-50%); width: min(90%, 820px); text-align: center; }
+  .hs--a .hs__title { font-size: clamp(26px, 2.6vw, 38px); letter-spacing: .3em; margin-right: -.3em; }
+  .hs--a .hs__line { font-size: 17px; margin: 14px 0 28px; display: flex; justify-content: center; gap: 8px; }
+  .hs--a .hs__words { font-weight: 600; }
+
+  /* B · huge rotating word, bottom-left */
+  .hs--b .hs__shade { background: linear-gradient(to top, rgba(31,38,39,.72), rgba(31,38,39,.10) 60%, rgba(31,38,39,.30)), linear-gradient(to right, rgba(31,38,39,.35), transparent 60%); }
+  .hs--b .hs__copy { left: var(--side); right: var(--side); bottom: 84px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 0 32px; }
+  .hs--b .hs__kicker { grid-column: 1 / -1; color: rgba(255,255,255,.85); margin-bottom: 10px; }
+  .hs--b .hs__line { display: flex; flex-direction: column; }
+  .hs--b .hs__words { font-size: clamp(64px, 11vw, 176px); line-height: .92; letter-spacing: -.045em; font-weight: 500; }
+  .hs--b .hs__rest { font-size: clamp(18px, 1.8vw, 26px); margin-top: 14px; letter-spacing: -.01em; }
+  .hs--b .hs__cta { margin-bottom: 6px; }
+
+  /* C · framed on white: light page, the video sits in a rounded frame below the header */
+  .hs--c { padding: 0 16px 16px; background: var(--white); }
+  .hs--c .hs__frame { height: calc(100vh - 110px); min-height: 560px; border-radius: 22px; }
+  .hs--c .hs__shade { background: linear-gradient(to top, rgba(31,38,39,.55), rgba(31,38,39,.05) 55%); }
+  .hs--c .hs__copy { left: 50%; bottom: 72px; transform: translateX(-50%); width: min(90%, 820px); text-align: center; color: var(--white); }
+  .hs--c .hs__title { font-size: clamp(30px, 3.4vw, 52px); letter-spacing: -.02em; text-transform: none; }
+  .hs--c .hs__line { margin: 18px 0 28px; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 16px; }
+  .hs--c .hs__words { padding: 6px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.5); background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.08)); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-weight: 600; }
+  .hs--c .hs__cta { background: var(--white); color: var(--ink); border-color: var(--white); }
+  .hs--c .hs__cta:hover { background: var(--paper); border-color: var(--paper); }
+
+  @media (max-width: 639px) {
+    .hs__frame { height: 86vh; min-height: 540px; }
+    .hs--a .hs__copy { bottom: 92px; }
+    .hs--a .hs__line { font-size: 15px; flex-wrap: wrap; }
+    .hs--b .hs__copy { grid-template-columns: 1fr; bottom: 76px; }
+    .hs--b .hs__cta { justify-self: start; margin-top: 22px; }
+    .hs--c { padding: 0 10px 10px; }
+    .hs--c .hs__frame { height: calc(86vh - 70px); border-radius: 16px; }
+    .hs--c .hs__copy { bottom: 64px; }
+    .hs--c .hs__line { flex-wrap: wrap; }
+    .hs__pause { bottom: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hs__video { display: none; }
+  }
+</style>
