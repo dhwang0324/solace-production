@@ -1,7 +1,7 @@
 ---
 // Services page: Website Design & Development + Website Management.
 // Shown side by side: Website on light, Management on dark.
-import { website, management } from '../data/services';
+import { website, management, launch } from '../data/services';
 const quote = (id: string) => `/contact/?service=${id}`;
 const svcs = [
   { s: website, no: '01', tag: 'Website', amt: website.price.amount, lead: website.price.lead, per: '', body: website.body, btn: 'Get a free quote', dark: false },
@@ -14,7 +14,12 @@ const svcs = [
         <article class:list={['c-card', { 'c-card--dark on-dark': x.dark }]} id={x.dark ? 'mgmt' : undefined} data-reveal="both" style={`--d:${i * 140}ms`} aria-labelledby={`c-${x.s.id}`}>
           <p class="label">[ {x.no} · {x.tag} ]</p>
           <h2 class="c-name" id={`c-${x.s.id}`}>{x.s.name}</h2>
-          <p class="c-price">{x.lead && <span class="c-price__lead">{x.lead}</span>}<span class="c-price__amt">{x.amt}</span>{x.per && <span class="c-price__per">{x.per}</span>}</p>
+          <p class="c-launch"><span class="c-launch__tag">{launch.label}</span><span class="c-launch__limit">{launch.limit}</span></p>
+          <p class="c-price">
+            {x.lead && <span class="c-price__lead">{x.lead}</span>}
+            {x.s.price.was && <s class="c-price__was"><span class="sr-only">Regular price </span>{x.s.price.was}</s>}
+            <span class="c-price__amt"><span class="sr-only">Launch price </span>{x.amt}</span>{x.per && <span class="c-price__per">{x.per}</span>}
+          </p>
           <p class="c-lede">{x.s.lede}</p>
           {x.body.map((t) => <p class="c-body">{t}</p>)}
           <p class="label c-inc">{x.s.includesLabel}</p>
@@ -24,6 +29,7 @@ const svcs = [
           <a class="c-btn" href={quote(x.s.id)}>{x.btn} <span aria-hidden="true">↗</span></a>
         </article>
       ))}
+      <p class="c-fine" data-reveal="both">{launch.note}</p>
     </div>
   </section>
 
@@ -37,7 +43,16 @@ const svcs = [
   .c-card--dark { background: var(--ink); color: var(--white); }
   .c-card--dark .label { color: var(--gray); }
   .c-name { margin-top: 18px; font-size: clamp(28px, 2.6vw, 38px); line-height: 1.08; letter-spacing: -.025em; font-weight: 500; }
-  .c-price { display: flex; align-items: baseline; gap: 10px; margin: 26px 0 24px; padding-bottom: 24px; border-bottom: 1px solid #DCDDD9; }
+  /* Launch offer */
+  .c-launch { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .c-launch__tag { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: color-mix(in srgb, var(--sky) 45%, var(--white)); color: var(--navy); }
+  .c-card--dark .c-launch__tag { background: var(--sky); color: var(--ink); }
+  .c-launch__limit { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
+  .c-card--dark .c-launch__limit { color: var(--gray); }
+  .c-price__was { font-size: clamp(20px, 1.8vw, 26px); letter-spacing: -.02em; color: var(--slate); text-decoration-thickness: 2px; text-decoration-color: var(--slate); }
+  .c-card--dark .c-price__was { color: var(--gray); text-decoration-color: var(--gray); }
+  .c-fine { grid-column: 1 / -1; font-size: 13px; color: var(--slate); margin-top: 6px; }
+  .c-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin: 18px 0 24px; padding-bottom: 24px; border-bottom: 1px solid #DCDDD9; }
   .c-card--dark .c-price { border-color: rgba(255,255,255,.14); }
   .c-price__lead { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
   .c-card--dark .c-price__lead, .c-card--dark .c-price__per { color: var(--gray); }

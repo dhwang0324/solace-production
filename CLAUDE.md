@@ -8,7 +8,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 | Home | `/` | `site/src/pages/index.astro` |
 | Work | `/work/` | `site/src/pages/work/index.astro` |
 | Case study | `/work/<slug>/` | `site/src/pages/work/[slug].astro` (data: `site/src/data/projects.ts`) |
-| Services | `/services/` | `site/src/pages/services.astro` (content and prices: `site/src/data/services.ts`, supplied by the user — don't change prices without asking) |
+| Services | `/services/` | `site/src/pages/services.astro` (content and prices: `site/src/data/services.ts`, supplied by the user — don't change prices without asking; launch offer: $500 / $100 a month for the first 10 clients, regular $1,000 / $150 — remove the offer (`launch` and `was` fields) when the user says it has ended) |
 | Studio | `/studio/` | `site/src/pages/studio.astro` |
 | Contact | `/contact/` | `site/src/pages/contact.astro` (form not connected yet: set `FORM_ENDPOINT`) |
 

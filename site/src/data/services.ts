@@ -1,10 +1,13 @@
 // Services page content and pricing (supplied by the user — don't change prices or wording without asking).
 // `id` is also used by the contact form: /contact/?service=<id> ticks that option.
 
+// Launch offer: the regular prices ($1,000 / $150 a month) apply once the first 10 clients have signed.
+export const launch = { label: 'Launch pricing', limit: 'First 10 clients', note: 'Launch pricing for our first 10 clients. Regular pricing applies after that.' };
+
 export const website = {
   id: 'website',
   name: 'Website Design & Development',
-  price: { lead: 'Starting at', amount: '$500' },
+  price: { lead: 'Starting at', amount: '$500', was: '$1,000' },
   lede: 'Custom websites designed and developed specifically for your business.',
   body: [
     'We don’t believe a professional website needs to cost thousands of dollars just to look modern. By combining an efficient development process, modern technology, AI and human creative direction, we’re able to create high-quality digital experiences without the traditional agency overhead.',
@@ -29,7 +32,7 @@ export const website = {
 export const management = {
   id: 'management',
   name: 'Website Management',
-  price: { amount: '$100', per: '/month' },
+  price: { amount: '$100', per: '/month', was: '$150' },
   lede: 'Launching the website isn’t where our relationship has to end.',
   body: 'Solace can continue managing the website after launch so business owners don’t have to worry about hosting, maintenance, technical issues or every small change that comes up.',
   includesLabel: 'Website management includes',
@@ -99,8 +102,8 @@ export const seo = {
 };
 
 export const pricing = [
-  { id: 'website', name: 'Website Design & Development', price: 'Starting at $500' },
-  { id: 'management', name: 'Website Management', price: '$100/month' },
+  { id: 'website', name: 'Website Design & Development', price: 'Starting at $500', was: '$1,000' },
+  { id: 'management', name: 'Website Management', price: '$100/month', was: '$150/month' },
   { id: 'photography', name: 'Photography', price: 'Custom quote' },
   { id: 'videography', name: 'Videography', price: 'Custom quote' },
   { id: 'ecommerce', name: 'E-Commerce', price: 'Custom quote' },
