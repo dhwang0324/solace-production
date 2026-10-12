@@ -65,7 +65,6 @@ const allProjects: Project[] = [
     ],
     phone: { src: gbPhone, alt: 'Guerrero Boxing Gym homepage on a phone.', caption: 'Homepage, phone' },
     tone: 'a',
-    draft: true, // client site not finished yet — do not publish until the user says so
   },
 ];
 
