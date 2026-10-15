@@ -189,6 +189,9 @@ if (single) {
   }
 }
 
+/* About the studio: spinning word cloud */
+import './word-cloud';
+
 /* Work filters */
 const filterGroup = document.querySelector<HTMLElement>('[data-filters]');
 if (filterGroup) {

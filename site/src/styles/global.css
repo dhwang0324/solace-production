@@ -141,3 +141,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .js [data-reveal] { opacity: 1; transform: none; }
   .js [data-clip], .js [data-wipe][data-reveal], .js [data-rise][data-reveal] { clip-path: none; }
 }
+
+/* Word cloud (homepage, About the studio) */
+.cloud { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.cloud.is-dragging { cursor: grabbing; }
+.cloud__list { position: absolute; inset: 0; list-style: none; }
+.cloud__list li { position: absolute; left: 50%; top: 50%; white-space: nowrap; font-size: var(--cloud-fs, 28px); font-weight: 500; letter-spacing: -.02em; line-height: 1; color: var(--ink); will-change: transform, opacity; }
+@media (prefers-reduced-motion: reduce) { .cloud { cursor: default; } }

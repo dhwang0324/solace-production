@@ -17,6 +17,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 - Fonts: Hanken Grotesk + IBM Plex Mono, self-hosted via @fontsource.
 - Project facts in `projects.ts` must be confirmed by the user; leave fields out until then. `draft: true` keeps a project off the site (Guerrero Boxing Gym is published; the user confirmed they are done with it).
 - Project images are real site screenshots in `site/src/assets/work/<slug>/` (cover, detail-1, detail-2, phone), rendered by `Shot.astro` (AVIF/WebP). Guerrero’s site used temporary Pexels footage/photos; the user confirmed on 2026-10-15 that its images are now Solace’s own. Still present them as screenshots of the website. Studio/hero images are still placeholders.
+- Homepage "About the studio": statement on the left, a drag-to-turn word cloud on the right (`site/src/scripts/word-cloud.ts`, ported from a Framer component; words come from `serviceGroups` in `site.ts`; static under reduced motion).
 - Commands: `cd site && npm ci`, `npm run dev`, `npm run build` (output `site/dist/`).
 
 ## Deployment
