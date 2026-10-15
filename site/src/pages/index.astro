@@ -4,20 +4,19 @@ import HeroSingle from '../components/HeroSingle.astro';
 import ProjectFeature from '../components/ProjectFeature.astro';
 import Services from '../components/Services.astro';
 import Process from '../components/Process.astro';
-import { getImage } from 'astro:assets';
 import { projects } from '../data/projects';
 import { filters, serviceGroups } from '../data/site';
 
-// Banner cards: the real project screenshots (every published project), as 720px-wide WebP files
-const shots = projects.flatMap((p) => [p.cover, ...(p.details ?? []), p.phone]).filter((x): x is NonNullable<typeof x> => !!x);
-const bannerImages = await Promise.all(shots.map(async (x) => (await getImage({ src: x.src, width: 720, format: 'webp', quality: 78 })).src));
+
+import technologyPoster from '../assets/hero/technology-poster.jpg';
 
 // Words in the studio's rotating cloud: the three service groups and everything listed under them
 const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
 ---
 <Base overHero>
   <HeroSingle
-    images={bannerImages}
+    poster={technologyPoster}
+    video={{ mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }}
     words={['Design', 'Technology', 'Creative', 'Growth']}
     cta={{ label: 'View work', href: '/work/' }}
   />
@@ -63,18 +62,19 @@ const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
 </Base>
 
 <style>
-  .statement-row { overflow-x: clip; }
+  .statement-row { overflow-x: clip; padding-top: 64px; padding-bottom: 64px; }
   .about { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
   .about__text .statement { margin-top: 18px; }
-  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 430px; justify-self: center; }
+  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 300px; justify-self: center; }
   .work-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
   .more { display: inline-block; margin-top: 8px; font-size: 13px; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-top: 40px; }
   .process-wrap { padding-bottom: var(--section); }
   @media (max-width: 767px) {
-    .about { grid-template-columns: 1fr; gap: 24px; }
-    .cloud { justify-self: center; max-width: 330px; }
+    .about { grid-template-columns: 1fr; gap: 12px; }
+    .statement-row { padding-top: 48px; padding-bottom: 48px; }
+    .cloud { justify-self: center; max-width: 210px; }
     .projects { grid-template-columns: 1fr; gap: 32px; }
   }
 </style>

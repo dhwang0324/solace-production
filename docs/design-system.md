@@ -70,7 +70,7 @@ blue on white 3.6:1 (large text ≥ 24px only) · gray on ink 6.2:1 · paper on 
 
 ## 6. Components
 - **Header:** 3-part grid (links · centred wordmark · Contact + menu). Transparent with white text over the hero; after scrolling past the hero it turns `--white` with `--ink` text and a hairline. Phone: centred wordmark + menu button; menu opens a full-screen white panel with large links.
-- **Hero:** one full-bleed banner (92vh desktop / 86vh phone) on `--navy`: a twisting 3D belt of project screenshots drawn with three.js (loads after the page; static under reduced motion), a dark fade at the top and bottom for legibility, a centred uppercase title, a line where the theme word rotates (Design → Technology → Creative → Growth, every 2.4s) + “— thoughtfully built.”, and an outline button. A Pause button stops the belt and the word. Cards are real project screenshots only.
+- **Hero:** one full-bleed looping video (muted, 92vh desktop / 86vh phone) with a poster image, dark gradient at the bottom, centred uppercase title, a line where the theme word rotates (Design → Technology → Creative → Growth, every 2.4s) + “— thoughtfully built.”, and an outline button. A Pause button stops the video and the word; reduced motion and Save-Data show the poster and no rotation.
 - **Bracket label:** `[ LABEL ]` in `label` style, `--slate`. Starts every section.
 - **Statement:** 1/3 label column + 2/3 text column; two-tone (`--ink` then `--blue`).
 - **Selected work:** `--paper` band; heading + underlined MORE on the left, filter chips on the right; two projects at 7:5 width, 600px tall, square corners; caption row = uppercase name + mono tags. Chips filter on the Work page; on Home they link to the filtered Work page.
