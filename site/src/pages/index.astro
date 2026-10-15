@@ -66,7 +66,7 @@ const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
   .statement-row { overflow-x: clip; }
   .about { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
   .about__text .statement { margin-top: 18px; }
-  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 560px; justify-self: end; }
+  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 430px; justify-self: center; }
   .work-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
   .more { display: inline-block; margin-top: 8px; font-size: 13px; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -74,7 +74,7 @@ const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
   .process-wrap { padding-bottom: var(--section); }
   @media (max-width: 767px) {
     .about { grid-template-columns: 1fr; gap: 24px; }
-    .cloud { justify-self: center; max-width: 420px; }
+    .cloud { justify-self: center; max-width: 330px; }
     .projects { grid-template-columns: 1fr; gap: 32px; }
   }
 </style>
