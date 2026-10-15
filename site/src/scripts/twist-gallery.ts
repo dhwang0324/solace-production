@@ -23,9 +23,9 @@ if (mount) {
     const props = () => {
       const w = mount.clientWidth || 1200;
       return {
-        count: Math.max(16, images.length * 2), ...motion(),
-        phaseStepDeg: 10, spacing: 56, cardW: 180, cardH: 220, radius: 18, curveAmp: 120, angleDeg: -12, tiltYdeg: 8,
-        camYawDeg: 12, camPitchDeg: -6, camRollDeg: 0, camDist: w < 640 ? 1500 : w < 1024 ? 1150 : 900, camFovDeg: 32,
+        count: Math.max(28, images.length * 4), ...motion(),
+        phaseStepDeg: 16, spacing: 34, cardW: 92, cardH: 118, radius: 10, curveAmp: 46, angleDeg: -10, tiltYdeg: 8,
+        camYawDeg: 12, camPitchDeg: -6, camRollDeg: 0, camDist: w < 640 ? 1250 : w < 1024 ? 1050 : 900, camFovDeg: 32,
         camTargetX: 0, camTargetY: w < 640 ? -40 : -35, camTargetZ: 0,
       };
     };
