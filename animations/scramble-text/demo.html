@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scramble text demo</title>
+<style>body{margin:0;padding:48px 24px;font:500 28px/1.3 "IBM Plex Mono",ui-monospace,monospace;color:#1F2627;background:#fff}h2{margin:0 0 40px;font-weight:500}small{display:block;font:11px/1.4 ui-monospace,monospace;letter-spacing:.04em;text-transform:uppercase;color:#546B7C;margin-bottom:8px}.gap{height:900px}</style></head>
+<body>
+<small>trigger: view (once, when it scrolls into view)</small>
+<h2 data-scramble data-trigger="view">Digital presence, thoughtfully built.</h2>
+<small>trigger: hover (hover or keyboard focus)</small>
+<h2 data-scramble data-trigger="hover" data-duration="700" tabindex="0">Hover over this line</h2>
+<small>trigger: view-repeat (plays again every time it scrolls back in)</small>
+<h2 data-scramble data-trigger="view-repeat" data-duration="1200" data-ease="inout">Scroll away and back</h2>
+<div class="gap"></div>
+<small>intensity 0.4: fewer letters flicker</small>
+<h2 data-scramble data-trigger="view-repeat" data-intensity="0.4" data-charset="01">Binary flicker, fewer letters</h2>
+<script>(() => {
+  // ../animations/scramble-text/scramble-text.ts
+  var DEFAULT_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%*";
+  var easePortion = (t, mode) => mode === "linear" ? t : mode === "out" ? 1 - Math.pow(1 - t, 3) : t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  function scrambleText(el, opts = {}) {
+    const final = (el.textContent ?? "").replace(/\s+$/, "");
+    const { duration = 900, fps = 30, ease = "out", intensity = 1, charset = DEFAULT_CHARSET } = opts;
+    const pool = charset.split("");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.setAttribute("aria-label", final);
+    const view = document.createElement("span");
+    view.setAttribute("aria-hidden", "true");
+    view.textContent = final;
+    el.textContent = "";
+    el.appendChild(view);
+    let running = false;
+    let raf = 0;
+    const letters = final.split("");
+    const movable = letters.map((c, i) => /\s/.test(c) ? -1 : i).filter((i) => i >= 0);
+    return () => {
+      if (running || reduceMotion || movable.length === 0) return;
+      running = true;
+      const frames = Math.max(1, Math.round(duration / 1e3 * fps));
+      const order = movable.slice();
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.random() * (i + 1) | 0;
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      const frameMs = 1e3 / fps;
+      let frame = 0;
+      let last = 0;
+      const tick = (now) => {
+        if (now - last >= frameMs || last === 0) {
+          last = now;
+          const revealed = Math.floor(easePortion((frame + 1) / frames, ease) * order.length);
+          const out = letters.slice();
+          const pending = order.length - revealed;
+          const flicker = Math.floor(intensity * pending);
+          for (let k = 0; k < flicker; k++) out[order[revealed + k]] = pool[Math.random() * pool.length | 0];
+          view.textContent = out.join("");
+          frame++;
+          if (frame >= frames) {
+            view.textContent = final;
+            running = false;
+            return;
+          }
+        }
+        raf = requestAnimationFrame(tick);
+      };
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    };
+  }
+  function initScrambleText(root = document) {
+    root.querySelectorAll("[data-scramble]").forEach((el) => {
+      const d = el.dataset;
+      const play = scrambleText(el, {
+        duration: d.duration ? +d.duration : void 0,
+        fps: d.fps ? +d.fps : void 0,
+        ease: d.ease?.toLowerCase() || void 0,
+        intensity: d.intensity ? +d.intensity : void 0,
+        charset: d.charset || void 0
+      });
+      const trigger = d.trigger ?? "view";
+      if (trigger === "hover") {
+        el.addEventListener("pointerenter", play);
+        el.addEventListener("focusin", play);
+      } else {
+        const once = trigger !== "view-repeat";
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) {
+            if (!e.isIntersecting || e.intersectionRatio < 0.25) continue;
+            play();
+            if (once) io.disconnect();
+          }
+        }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+        io.observe(el);
+      }
+    });
+  }
+  initScrambleText();
+})();
+</script>
+</body></html>

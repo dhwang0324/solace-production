@@ -5,9 +5,10 @@ Reusable animations built for solaceproduction.com. They are **not** part of the
 | Folder | What it is | Status on the live site |
 |---|---|---|
 | [`twist-ribbon/`](twist-ribbon/README.md) | A twisting 3D ribbon of tall rounded cards (project screenshots), drawn with three.js in a web worker. Used as the homepage banner. | Removed (video banner kept). |
+| [`scramble-text/`](scramble-text/README.md) | Text that flickers through random characters and settles into the real words (on scroll-in or hover). Includes a `demo.html` preview. | Not used yet. |
 | [`word-cloud-sphere/`](word-cloud-sphere/README.md) | A sphere of words you can roll in any direction, with a slow self-spin. Used in "About the studio". | **Live** on the homepage. |
 
-Both were ported from Framer code components the owner supplied and rewritten as plain TypeScript for the Astro site (no React, no Framer).
+All were ported from Framer code components the owner supplied and rewritten as plain TypeScript for the Astro site (no React, no Framer).
 
 ## Rules for using them
 - Follow the design rules in `docs/design-system.md` (tokens only, motion must respect `prefers-reduced-motion`, keep a Pause control for anything that moves for more than 5 seconds).
