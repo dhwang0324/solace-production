@@ -4,15 +4,17 @@ import HeroSingle from '../components/HeroSingle.astro';
 import ProjectFeature from '../components/ProjectFeature.astro';
 import Services from '../components/Services.astro';
 import Process from '../components/Process.astro';
+import { getImage } from 'astro:assets';
 import { projects } from '../data/projects';
 import { filters } from '../data/site';
 
-import technologyPoster from '../assets/hero/technology-poster.jpg';
+// Banner cards: the real project screenshots (every published project), as 720px-wide WebP files
+const shots = projects.flatMap((p) => [p.cover, ...(p.details ?? []), p.phone]).filter((x): x is NonNullable<typeof x> => !!x);
+const bannerImages = await Promise.all(shots.map(async (x) => (await getImage({ src: x.src, width: 720, format: 'webp', quality: 78 })).src));
 ---
 <Base overHero>
   <HeroSingle
-    poster={technologyPoster}
-    video={{ mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }}
+    images={bannerImages}
     words={['Design', 'Technology', 'Creative', 'Growth']}
     cta={{ label: 'View work', href: '/work/' }}
   />

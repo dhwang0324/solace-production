@@ -157,13 +157,12 @@ if (stack && !reduceMotion) {
   window.addEventListener('resize', onScroll);
 }
 
-/* Single hero: looping video and a rotating theme word, both stopped by the Pause button */
+/* Single hero: a rotating theme word and the twisting card gallery, both stopped by the Pause button */
 const single = document.querySelector<HTMLElement>('[data-hero-single]');
 if (single) {
-  const video = single.querySelector<HTMLVideoElement>('[data-hs-video]');
+  const gallery = single.querySelector<HTMLElement>('[data-twist]');
   const words = [...single.querySelectorAll<HTMLElement>('.hs__word')];
   const pauseBtn = single.querySelector<HTMLButtonElement>('[data-hs-pause]');
-  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
   let i = 0;
   let timer: number | undefined;
   let paused = reduceMotion;
@@ -177,15 +176,17 @@ if (single) {
   const run = () => {
     window.clearInterval(timer);
     if (!paused && words.length > 1) timer = window.setInterval(next, 2400);
-    if (video && !reduceMotion && !saveData) {
-      if (paused) video.pause();
-      else video.play().then(() => video.classList.add('is-playing')).catch(() => {});
-    }
+    if (gallery) { gallery.dataset.paused = String(paused); gallery.dispatchEvent(new Event('twist-motion')); }
     if (pauseBtn) { pauseBtn.textContent = paused ? 'Play' : 'Pause'; pauseBtn.setAttribute('aria-pressed', String(paused)); }
   };
   pauseBtn?.addEventListener('click', () => { paused = !paused; run(); });
   if (reduceMotion && pauseBtn) pauseBtn.hidden = true;
   run();
+  // Load the 3D gallery (three.js) after the page itself, so the headline appears first
+  if (gallery) {
+    const start = () => import('./twist-gallery');
+    if ('requestIdleCallback' in window) (window as any).requestIdleCallback(start, { timeout: 1500 }); else window.setTimeout(start, 300);
+  }
 }
 
 /* Work filters */
