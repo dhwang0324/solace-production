@@ -215,13 +215,16 @@ if (filterGroup) {
   if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
 }
 
-/* Contact form: client-side validation; not connected to a sender yet */
+/* Contact form: client-side validation, then sent to /send-message.php, which emails the studio */
 const form = document.querySelector<HTMLFormElement>('[data-form]');
 if (form) {
   // Links like /contact/?service=photography tick that option
   const wanted = new URLSearchParams(location.search).get('service');
   if (wanted) form.querySelectorAll<HTMLInputElement>(`input[data-service="${CSS.escape(wanted)}"]`).forEach((i) => { i.checked = true; });
   const status = form.querySelector<HTMLElement>('[data-status]');
+  const back = new URLSearchParams(location.search);
+  if (status && back.get('sent')) status.textContent = 'Thanks, your message is on its way. We reply personally.';
+  if (status && back.get('error')) { status.textContent = 'Sorry, that didn’t send. Please email dani@solaceproduction.com and we’ll reply personally.'; status.classList.add('is-error'); }
   const fields: [string, (v: string) => boolean][] = [
     ['f-name', (v) => v.trim().length > 0],
     ['f-email', (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())],
@@ -239,9 +242,26 @@ if (form) {
       if (!valid && !firstBad) firstBad = input;
     });
     if (firstBad) { e.preventDefault(); (firstBad as HTMLElement).focus(); return; }
-    if (!form.dataset.endpoint) {
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) {
       e.preventDefault();
       if (status) status.textContent = 'Thanks — online sending isn’t switched on yet. Please email dani@solaceproduction.com and we’ll reply personally.';
+      return;
     }
+    // Send in the background so the visitor stays on the page; without JavaScript the form posts normally.
+    e.preventDefault();
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const say = (text: string, isError = false) => { if (status) { status.textContent = text; status.classList.toggle('is-error', isError); } };
+    const fallback = 'Sorry, that didn’t send. Please email dani@solaceproduction.com and we’ll reply personally.';
+    if (button) button.disabled = true;
+    say('Sending…');
+    fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+      .then((r) => r.json().then((d) => ({ ok: r.ok && d.ok, message: d.message as string })))
+      .then(({ ok, message }) => {
+        if (ok) { form.reset(); say(message || 'Thanks, your message is on its way.'); }
+        else say(message || fallback, true);
+      })
+      .catch(() => say(fallback, true))
+      .finally(() => { if (button) button.disabled = false; });
   });
 }

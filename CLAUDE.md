@@ -10,7 +10,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 | Case study | `/work/<slug>/` | `site/src/pages/work/[slug].astro` (data: `site/src/data/projects.ts`) |
 | Services | `/services/` | `site/src/pages/services.astro` (content and prices: `site/src/data/services.ts`, supplied by the user — don't change prices without asking; launch offer: $500 / $100 a month for the first 10 clients, regular $1,000 / $150 — remove the offer (`launch` and `was` fields) when the user says it has ended) |
 | Studio | `/studio/` | `site/src/pages/studio.astro` |
-| Contact | `/contact/` | `site/src/pages/contact.astro` (form not connected yet: set `FORM_ENDPOINT`) |
+| Contact | `/contact/` | `site/src/pages/contact.astro` (form posts to `/send-message.php`, `site/public/send-message.php`, which emails dani@solaceproduction.com with PHP `mail()` on Hostinger) |
 
 - Design rules: `docs/design-system.md`. Tokens and base styles: `site/src/styles/global.css` (use tokens, not new hex values).
 - Shared components in `site/src/components/` (Header, Footer (compact dark), HeroSingle, Services, Process, ProjectFeature, Shot, Placeholder). Shared copy in `site/src/data/site.ts`.
@@ -44,5 +44,5 @@ Use Higgsfield only when custom generated media materially improves the result; 
 - Free without approval (no credits): checking balance, browsing capabilities and models, planning concepts, writing prompts, estimating cost.
 
 ## Known issues
-- The contact form validates but does not send yet; it tells visitors to email dani@solaceproduction.com.
+- The contact form emails dani@solaceproduction.com through `send-message.php` (PHP `mail()`, From no-reply@solaceproduction.com, Reply-To the visitor, honeypot field `company`, 5 per hour per visitor). It was tested locally only; real delivery needs one test submission after the first deploy. If mail lands in spam or never arrives, create the no-reply@ mailbox in Hostinger or switch to a form service.
 - Homepage banner is one looping video (`HeroSingle.astro`; `site/public/hero/technology.mp4/.webm`, smoothed to 48 fps, poster `site/src/assets/hero/technology-poster.jpg`; Higgsfield: Kling 3.0 Std 8 s from a GPT Image 2.5 still) with the words Design / Technology / Creative / Growth rotating under the title. The studio image is still a placeholder.

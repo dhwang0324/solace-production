@@ -2,9 +2,8 @@
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 import { formOptions } from '../data/services';
-// The form is not connected yet. Set FORM_ENDPOINT to a form service URL or a
-// Hostinger PHP script to start receiving submissions.
-const FORM_ENDPOINT = '';
+// Submissions go to /send-message.php (site/public/send-message.php), which emails the studio inbox.
+const FORM_ENDPOINT = '/send-message.php';
 const next = [
   'We read every message ourselves.',
   'We reply personally with a few questions or a time to talk.',
@@ -46,7 +45,7 @@ const next = [
           <legend>What do you need? <span class="opt">(optional)</span></legend>
           <div class="checks">
             {formOptions.map((o) => (
-              <label class="check"><input type="checkbox" name="needs" value={o.label} data-service={o.id} /><span>{o.label}</span></label>
+              <label class="check"><input type="checkbox" name="needs[]" value={o.label} data-service={o.id} /><span>{o.label}</span></label>
             ))}
           </div>
         </fieldset>
@@ -54,6 +53,10 @@ const next = [
           <label for="f-msg">Message</label>
           <textarea id="f-msg" name="message" rows="5" required placeholder="A few lines about your business and what you have in mind."></textarea>
           <p class="err" id="f-msg-err" hidden>Please tell us a little about the project.</p>
+        </div>
+        <div class="trap" aria-hidden="true">
+          <label for="f-company">Company (leave this empty)</label>
+          <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off" />
         </div>
         <div class="send">
           <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
@@ -93,6 +96,9 @@ const next = [
   .check input:focus-visible + span { outline: 2px solid var(--slate); outline-offset: 3px; }
   .send { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
   .status:empty { display: none; }
+  .status.is-error { color: #9B3B32; }
+  /* Spam trap: invisible to visitors, filled in by bots */
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
   /* Info column */
   .info { margin-top: 44px; display: grid; gap: 28px; }
