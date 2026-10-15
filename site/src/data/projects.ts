@@ -19,7 +19,11 @@ export interface Project {
   website?: string;
   year?: number;
   services?: string[]; // must match `filters` labels to be filterable
-  summary?: string;
+  summary?: string; // meta description
+  headline?: string; // short line shown under the title
+  deliverables?: string[]; // shown in the facts row (services is used for filters and tags)
+  stats?: { value: string; label: string }[];
+  palette?: { name: string; hex: string }[];
   challenge?: string;
   strategy?: string;
   design?: string;
@@ -56,8 +60,25 @@ const allProjects: Project[] = [
     industry: 'Boxing gym',
     location: 'Norcross, Georgia',
     website: 'https://guerreroboxinggym.com/',
-    services: ['Web design', 'Development'],
+    services: ['Web design', 'Development', 'Photography', 'Video'],
+    deliverables: ['Strategy', 'Copywriting', 'Web design', 'Development', 'Photography', 'Videography'],
     summary: 'Website design and development for Guerrero Boxing Gym, a family-owned boxing gym in Norcross, Georgia.',
+    headline: 'A digital home built with the heart of a warrior.',
+    stats: [
+      { value: '2011', label: 'Serving Norcross since' },
+      { value: '4', label: 'Pages: story, training, schedule, contact' },
+      { value: '10+', label: 'Ages welcome, beginner to competitor' },
+    ],
+    challenge: 'A professional website that keeps the feel of a neighborhood gym and its Mexican heritage, not a generic fitness template.',
+    strategy: 'Built on Guerrero’s own logo, with custom photography and a cinematic homepage video of Coach Lucio and the athletes.',
+    results: 'A personal, local online presence that shows the coaching and community as the gym’s strength.',
+    palette: [
+      { name: 'Black', hex: '#0b0b0b' },
+      { name: 'Warm ivory', hex: '#f5f1e8' },
+      { name: 'Oxblood red', hex: '#981b1e' },
+      { name: 'Mexican green', hex: '#0f7833' },
+      { name: 'Silver', hex: '#d9dddf' },
+    ],
     cover: { src: gbCover, alt: 'Guerrero Boxing Gym website section titled “A local gym with a fighter’s heart” with three photo cards: Built in Norcross, Every level, In your corner.', caption: 'About section, desktop' },
     details: [
       { src: gbDetail1, alt: 'Guerrero Boxing Gym homepage hero on black with the headline “Train like a warrior.” in white and red.', caption: 'Homepage hero, desktop' },

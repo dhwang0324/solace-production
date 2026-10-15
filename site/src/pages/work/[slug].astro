@@ -12,17 +12,17 @@ const idx = projects.findIndex((p) => p.slug === project.slug);
 const next = projects[(idx + 1) % projects.length];
 const sections = [
   ['Challenge', project.challenge],
-  ['Strategy', project.strategy],
+  ['Approach', project.strategy],
   ['Design', project.design],
   ['Development', project.development],
   ['Photography & content', project.content],
-  ['Results', project.results],
+  ['Outcome', project.results],
 ].filter(([, v]) => v) as [string, string][];
 const facts = [
   ['Client', project.client],
   ['Industry', project.industry],
   project.location ? ['Location', project.location] : null,
-  project.services?.length ? ['Services', project.services.join(', ')] : null,
+  (project.deliverables ?? project.services)?.length ? ['Services', (project.deliverables ?? project.services)!.join(' · ')] : null,
   project.year ? ['Year', String(project.year)] : null,
 ].filter(Boolean) as [string, string][];
 ---
@@ -31,7 +31,7 @@ const facts = [
     <div class="inner">
       <p class="label"><a href="/work/" class="link-u">Work</a> / {project.client}</p>
       <h1 class="title">{project.client}</h1>
-      {project.summary && <p class="statement summary">{project.summary}</p>}
+      {(project.headline ?? project.summary) && <p class="statement summary">{project.headline ?? project.summary}</p>}
     </div>
   </section>
   {project.cover
@@ -43,13 +43,36 @@ const facts = [
       {project.website && <div><dt class="label">Website</dt><dd><a class="link-u" href={project.website} rel="noopener" target="_blank">{project.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a></dd></div>}
     </dl>
   </section>
+  {project.stats?.length ? (
+    <section class="pad stats-wrap" aria-label="At a glance">
+      <ul class="inner stats">
+        {project.stats.map((st, i) => (
+          <li data-reveal="both" style={`--d:${i * 90}ms`}><span class="stat-v">{st.value}</span><span class="label">{st.label}</span></li>
+        ))}
+      </ul>
+    </section>
+  ) : null}
   <section class="pad body">
     <div class="inner">
-      {sections.length ? sections.map(([h, t]) => (
-        <div class="row" data-reveal><h2 class="label">[ {h} ]</h2><p class="body-l measure">{t}</p></div>
-      )) : (
+      {sections.length ? (
+        <div class="cols">
+          {sections.map(([h, t], i) => (
+            <div class="col" data-reveal style={`--d:${i * 90}ms`}><h2 class="label">[ {h} ]</h2><p class="col-t">{t}</p></div>
+          ))}
+        </div>
+      ) : (
         <div class="row"><h2 class="label">[ Case study ]</h2><p class="body-l measure">The full case study for {project.client} is being written. In the meantime, get in touch to hear about the project.</p></div>
       )}
+      {project.palette?.length ? (
+        <div class="palette" data-reveal>
+          <p class="label">[ Palette ]</p>
+          <ul class="swatches">
+            {project.palette.map((c) => (
+              <li><span class="chip-sw" style={`background:${c.hex}`} aria-hidden="true"></span><span class="sw-name">{c.name}</span><span class="label">{c.hex}</span></li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       {project.details?.length || project.phone ? (
         <div class="gallery">
           <div class="stack">
@@ -80,7 +103,18 @@ const facts = [
   .facts-wrap { border-bottom: 1px solid #E6E7E5; }
   .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 28px 0; }
   .facts dd { margin-top: 6px; font-size: 15px; overflow-wrap: anywhere; }
+  .stats-wrap { border-bottom: 1px solid #E6E7E5; }
+  .stats { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 44px 0; }
+  .stats li { display: flex; flex-direction: column; gap: 10px; }
+  .stat-v { font-size: clamp(56px, 7vw, 104px); line-height: .9; letter-spacing: -.04em; font-weight: 500; }
   .body { padding-top: 72px; padding-bottom: var(--section); }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; padding-top: 28px; border-top: 1px solid #ECEDEB; }
+  .col-t { margin-top: 14px; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.35; letter-spacing: -.01em; font-weight: 500; max-width: 30ch; }
+  .palette { margin-top: 64px; padding-top: 28px; border-top: 1px solid #ECEDEB; }
+  .swatches { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 18px; }
+  .swatches li { display: flex; flex-direction: column; gap: 6px; }
+  .chip-sw { display: block; height: 92px; border: 1px solid #E1E2DF; }
+  .sw-name { font-size: 14px; font-weight: 500; }
   .row { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; padding: 28px 0; border-top: 1px solid #ECEDEB; }
   .gallery { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 56px; align-items: start; }
   .gallery :global(.ph) { height: clamp(360px, 40vw, 640px); }
@@ -93,6 +127,8 @@ const facts = [
   .next:hover .next-name { color: var(--slate); }
   @media (max-width: 767px) {
     .facts { grid-template-columns: 1fr 1fr; }
+    .stats { grid-template-columns: 1fr; gap: 28px; padding: 32px 0; }
+    .swatches { grid-template-columns: repeat(2, 1fr); }
     .row { grid-template-columns: 1fr; gap: 10px; }
     .gallery { grid-template-columns: 1fr; }
     .gallery :global(.phone) { position: static; max-width: 300px; margin: 0 auto; }
