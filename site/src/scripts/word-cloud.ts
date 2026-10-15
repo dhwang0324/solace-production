@@ -5,7 +5,7 @@ if (host) {
   const words: string[] = JSON.parse(host.dataset.words ?? '[]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SPEED = reduceMotion ? 0 : 0.006; // radians per frame
-  const FONT_SCALE = 0.07;                // font size relative to the cloud's width
+  const FONT_SCALE = 0.078;               // font size relative to the cloud's width
   const SENS = 0.004;                     // radians per px dragged
 
   const list = document.createElement('ul');
@@ -39,13 +39,14 @@ if (host) {
     const theta = base + scrub;
     const sin = Math.sin(theta), cos = Math.cos(theta), t = 1 - cos;
     const half = size / 2;
+    const spread = size < 300 ? 0.72 : 0.95; // how far from the centre the words reach (smaller on phones so they stay on screen)
     host.style.setProperty('--cloud-fs', `${Math.max(12, size * FONT_SCALE)}px`);
     for (let i = 0; i < tags.length; i++) {
       const [x, y, z] = points[i];
       const X = (cos + ux * ux * t) * x + (ux * uy * t - uz * sin) * y + (ux * uz * t + uy * sin) * z;
       const Y = (uy * ux * t + uz * sin) * x + (cos + uy * uy * t) * y + (uy * uz * t - ux * sin) * z;
       const Z = (uz * ux * t - uy * sin) * x + (uz * uy * t + ux * sin) * y + (cos + uz * uz * t) * z;
-      tags[i].style.transform = `translate(-50%, -50%) translate(${half * 0.72 * X}px, ${half * 0.72 * Y}px) scale(${(Z + 2) / 3})`;
+      tags[i].style.transform = `translate(-50%, -50%) translate(${half * spread * X}px, ${half * spread * Y}px) scale(${(Z + 2) / 3})`;
       tags[i].style.opacity = String(Math.max(0.08, Math.min(1, (Z + 1.5) / 2.5)));
     }
   };
