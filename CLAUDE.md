@@ -15,7 +15,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 - Design rules: `docs/design-system.md`. Tokens and base styles: `site/src/styles/global.css` (use tokens, not new hex values).
 - Shared components in `site/src/components/` (Header, Footer (compact dark), HeroSingle, Services, Process, ProjectFeature, Shot, Placeholder). Shared copy in `site/src/data/site.ts`.
 - Fonts: Hanken Grotesk + IBM Plex Mono, self-hosted via @fontsource.
-- Project facts in `projects.ts` must be confirmed by the user; leave fields out until then. `draft: true` keeps a project off the site (Guerrero Boxing Gym is a draft again at the user's request; publish it only when the user says so).
+- Project facts in `projects.ts` must be confirmed by the user; leave fields out until then. `draft: true` keeps a project off the site (Guerrero Boxing Gym is published; the user confirmed they are done with it).
 - Project images are real site screenshots in `site/src/assets/work/<slug>/` (cover, detail-1, detail-2, phone), rendered by `Shot.astro` (AVIF/WebP). Guerrero’s site uses temporary Pexels footage/photos, so present them only as screenshots of the website, never as Solace photography. Studio/hero images are still placeholders.
 - Commands: `cd site && npm ci`, `npm run dev`, `npm run build` (output `site/dist/`).
 
