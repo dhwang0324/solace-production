@@ -188,6 +188,9 @@ if (single) {
   run();
 }
 
+/* Scramble text: headlines marked data-scramble flicker into place */
+import './scramble-text';
+
 /* About the studio: spinning word cloud */
 import './word-cloud';
 

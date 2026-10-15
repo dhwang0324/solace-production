@@ -13,7 +13,7 @@
 <small>intensity 0.4: fewer letters flicker</small>
 <h2 data-scramble data-trigger="view-repeat" data-intensity="0.4" data-charset="01">Binary flicker, fewer letters</h2>
 <script>(() => {
-  // ../animations/scramble-text/scramble-text.ts
+  // src/scripts/scramble-text.ts
   var DEFAULT_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%*";
   var easePortion = (t, mode) => mode === "linear" ? t : mode === "out" ? 1 - Math.pow(1 - t, 3) : t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   function scrambleText(el, opts = {}) {
@@ -34,6 +34,10 @@
     return () => {
       if (running || reduceMotion || movable.length === 0) return;
       running = true;
+      const oneLine = view.getClientRects().length === 1;
+      view.style.display = "inline-block";
+      view.style.width = `${Math.ceil(view.getBoundingClientRect().width)}px`;
+      if (oneLine) view.style.whiteSpace = "nowrap";
       const frames = Math.max(1, Math.round(duration / 1e3 * fps));
       const order = movable.slice();
       for (let i = order.length - 1; i > 0; i--) {
@@ -55,6 +59,7 @@
           frame++;
           if (frame >= frames) {
             view.textContent = final;
+            view.style.display = view.style.width = view.style.whiteSpace = "";
             running = false;
             return;
           }
@@ -68,13 +73,16 @@
   function initScrambleText(root = document) {
     root.querySelectorAll("[data-scramble]").forEach((el) => {
       const d = el.dataset;
-      const play = scrambleText(el, {
+      const playNow = scrambleText(el, {
         duration: d.duration ? +d.duration : void 0,
         fps: d.fps ? +d.fps : void 0,
         ease: d.ease?.toLowerCase() || void 0,
         intensity: d.intensity ? +d.intensity : void 0,
         charset: d.charset || void 0
       });
+      const play = () => {
+        (document.fonts?.ready ?? Promise.resolve()).then(playNow);
+      };
       const trigger = d.trigger ?? "view";
       if (trigger === "hover") {
         el.addEventListener("pointerenter", play);

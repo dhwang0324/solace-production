@@ -43,6 +43,11 @@ export function scrambleText(el: HTMLElement, opts: ScrambleOptions = {}): () =>
   return () => {
     if (running || reduceMotion || movable.length === 0) return;
     running = true;
+    // Hold the width steady while the letters change, so centred or wrapped text does not jiggle (released when it finishes)
+    const oneLine = view.getClientRects().length === 1; // a single line must not wrap when a random letter is wider than the real one
+    view.style.display = 'inline-block';
+    view.style.width = `${Math.ceil(view.getBoundingClientRect().width)}px`;
+    if (oneLine) view.style.whiteSpace = 'nowrap';
     const frames = Math.max(1, Math.round((duration / 1000) * fps));
     const order = movable.slice();
     for (let i = order.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [order[i], order[j]] = [order[j], order[i]]; }
@@ -59,7 +64,7 @@ export function scrambleText(el: HTMLElement, opts: ScrambleOptions = {}): () =>
         for (let k = 0; k < flicker; k++) out[order[revealed + k]] = pool[(Math.random() * pool.length) | 0];
         view.textContent = out.join('');
         frame++;
-        if (frame >= frames) { view.textContent = final; running = false; return; }
+        if (frame >= frames) { view.textContent = final; view.style.display = view.style.width = view.style.whiteSpace = ''; running = false; return; }
       }
       raf = requestAnimationFrame(tick);
     };
@@ -72,13 +77,15 @@ export function scrambleText(el: HTMLElement, opts: ScrambleOptions = {}): () =>
 export function initScrambleText(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el) => {
     const d = el.dataset;
-    const play = scrambleText(el, {
+    const playNow = scrambleText(el, {
       duration: d.duration ? +d.duration : undefined,
       fps: d.fps ? +d.fps : undefined,
       ease: (d.ease?.toLowerCase() as Ease) || undefined,
       intensity: d.intensity ? +d.intensity : undefined,
       charset: d.charset || undefined,
     });
+    // Wait for the web fonts first, so the line is measured in its real font (a fallback font is wider and can wrap)
+    const play = () => { (document.fonts?.ready ?? Promise.resolve()).then(playNow); };
     const trigger = d.trigger ?? 'view';
     if (trigger === 'hover') {
       el.addEventListener('pointerenter', play);
