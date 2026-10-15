@@ -4,7 +4,7 @@
 // No credentials are stored here; mail goes out through the server's own mail().
 
 const TO_EMAIL   = 'dani@solaceproduction.com';
-const FROM_EMAIL = 'no-reply@solaceproduction.com'; // must be on the site's own domain so the mail is not marked as spoofed
+const FROM_EMAIL = 'dani@solaceproduction.com'; // a real mailbox on the site's own domain, so servers accept the mail
 const SITE_NAME  = 'Solace Productions';
 const MAX_PER_HOUR = 5; // per visitor, to stop floods
 
@@ -81,6 +81,10 @@ $headers = [
     'X-Mailer: solaceproduction.com contact form',
 ];
 $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+
+// Backup copy in a private file one level above the public website folder, so no enquiry is lost if delivery fails
+$backup = dirname(__DIR__) . '/solace-enquiries.log';
+@file_put_contents($backup, '[' . date('Y-m-d H:i:s') . "] $name <$email> | needs: " . ($needs ? implode(', ', $needs) : '-') . "\n" . $message . "\n----------\n", FILE_APPEND | LOCK_EX);
 
 $sent = @mail(TO_EMAIL, $encodedSubject, $body, implode("\r\n", $headers), '-f' . FROM_EMAIL);
 if (!$sent) {
