@@ -1,12 +1,13 @@
 // Spinning cloud of words on a sphere (ported from the supplied Framer component).
-// Drag sideways to turn it; it also turns slowly by itself unless the visitor prefers reduced motion.
+// Drag in any direction to roll it like a ball; it also turns slowly by itself unless the visitor prefers reduced motion.
 const host = document.querySelector<HTMLElement>('[data-cloud]');
 if (host) {
   const words: string[] = JSON.parse(host.dataset.words ?? '[]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const SPEED = reduceMotion ? 0 : 0.006; // radians per frame
-  const FONT_SCALE = 0.078;               // font size relative to the cloud's width
-  const SENS = 0.004;                     // radians per px dragged
+  const AUTO = reduceMotion ? 0 : 0.004; // slow self-spin, radians per frame
+  const FONT_SCALE = 0.078;              // font size relative to the cloud's width
+  const SENS = 0.006;                    // radians per px dragged
+  const FRICTION = 0.94;                 // how quickly a flick slows down
 
   const list = document.createElement('ul');
   list.className = 'cloud__list';
@@ -28,24 +29,38 @@ if (host) {
     return [Math.cos(a) * r, y, Math.sin(a) * r] as const;
   });
 
-  // Rotation about a fixed axis (Rodrigues)
-  const len = Math.hypot(0.6, 1, 0.2);
-  const [ux, uy, uz] = [0.6 / len, 1 / len, 0.2 / len];
-  let base = 0;
-  let scrub = 0;
-  let size = host.clientWidth;
+  // The ball's orientation is a 3x3 rotation matrix. Each drag or spin step turns it a little about a screen axis.
+  type M3 = number[]; // row-major
+  let m: M3 = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+  const mul = (a: M3, b: M3): M3 => {
+    const o = new Array(9).fill(0);
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) for (let k = 0; k < 3; k++) o[r * 3 + c] += a[r * 3 + k] * b[k * 3 + c];
+    return o;
+  };
+  const axisAngle = (x: number, y: number, z: number, ang: number): M3 => {
+    const l = Math.hypot(x, y, z) || 1; x /= l; y /= l; z /= l;
+    const s = Math.sin(ang), c = Math.cos(ang), t = 1 - c;
+    return [c + x * x * t, x * y * t - z * s, x * z * t + y * s, y * x * t + z * s, c + y * y * t, y * z * t - x * s, z * x * t - y * s, z * y * t + x * s, c + z * z * t];
+  };
+  const tidy = () => { // keep the matrix a true rotation despite rounding drift
+    const n = (i: number) => Math.hypot(m[i], m[i + 1], m[i + 2]) || 1;
+    for (let r = 0; r < 3; r++) { const l = n(r * 3); for (let c = 0; c < 3; c++) m[r * 3 + c] /= l; }
+  };
+  const spin = (dx: number, dy: number) => { // dx turns it about the vertical axis, dy about the horizontal axis
+    if (dx) m = mul(axisAngle(0, 1, 0, dx), m);
+    if (dy) m = mul(axisAngle(1, 0, 0, dy), m);
+  };
 
+  let size = host.clientWidth;
   const paint = () => {
-    const theta = base + scrub;
-    const sin = Math.sin(theta), cos = Math.cos(theta), t = 1 - cos;
     const half = size / 2;
     const spread = size < 300 ? 0.72 : 0.95; // how far from the centre the words reach (smaller on phones so they stay on screen)
     host.style.setProperty('--cloud-fs', `${Math.max(12, size * FONT_SCALE)}px`);
     for (let i = 0; i < tags.length; i++) {
       const [x, y, z] = points[i];
-      const X = (cos + ux * ux * t) * x + (ux * uy * t - uz * sin) * y + (ux * uz * t + uy * sin) * z;
-      const Y = (uy * ux * t + uz * sin) * x + (cos + uy * uy * t) * y + (uy * uz * t - ux * sin) * z;
-      const Z = (uz * ux * t - uy * sin) * x + (uz * uy * t + ux * sin) * y + (cos + uz * uz * t) * z;
+      const X = m[0] * x + m[1] * y + m[2] * z;
+      const Y = m[3] * x + m[4] * y + m[5] * z;
+      const Z = m[6] * x + m[7] * y + m[8] * z;
       tags[i].style.transform = `translate(-50%, -50%) translate(${half * spread * X}px, ${half * spread * Y}px) scale(${(Z + 2) / 3})`;
       tags[i].style.opacity = String(Math.max(0.08, Math.min(1, (Z + 1.5) / 2.5)));
     }
@@ -54,21 +69,32 @@ if (host) {
   new ResizeObserver(() => { size = host.clientWidth; paint(); }).observe(host);
   paint();
 
-  // Turn by dragging (horizontal only, so the page can still be scrolled up and down)
-  let dragging = false, lastX = 0;
-  host.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; host.classList.add('is-dragging'); host.setPointerCapture(e.pointerId); });
-  host.addEventListener('pointermove', (e) => { if (!dragging) return; scrub += (e.clientX - lastX) * SENS; lastX = e.clientX; if (SPEED === 0) paint(); });
+  // Drag to roll the ball in any direction; a quick flick keeps it rolling for a moment
+  let dragging = false, lastX = 0, lastY = 0, vx = 0, vy = 0;
+  host.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; lastY = e.clientY; vx = vy = 0; host.classList.add('is-dragging'); host.setPointerCapture(e.pointerId); });
+  host.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    vx = (e.clientX - lastX) * SENS; vy = -(e.clientY - lastY) * SENS; // the front of the ball follows the finger
+    lastX = e.clientX; lastY = e.clientY;
+    spin(vx, vy);
+    if (!running) paint();
+  });
   const end = (e: PointerEvent) => { if (!dragging) return; dragging = false; host.classList.remove('is-dragging'); try { host.releasePointerCapture(e.pointerId); } catch { /* already released */ } };
   host.addEventListener('pointerup', end);
   host.addEventListener('pointercancel', end);
 
   // Only animate while the cloud is on screen
-  let raf = 0;
-  const tick = () => { base += SPEED; paint(); raf = requestAnimationFrame(tick); };
-  if (SPEED > 0) {
-    new IntersectionObserver(([entry]) => {
-      cancelAnimationFrame(raf);
-      if (entry.isIntersecting) raf = requestAnimationFrame(tick);
-    }).observe(host);
-  }
+  let running = false, raf = 0, frames = 0;
+  const tick = () => {
+    if (!dragging) { spin(vx, vy); vx *= FRICTION; vy *= FRICTION; if (Math.abs(vx) < 1e-5) vx = 0; if (Math.abs(vy) < 1e-5) vy = 0; }
+    if (AUTO) m = mul(axisAngle(0.3, 1, 0.1, AUTO), m);
+    if (++frames % 120 === 0) tidy();
+    paint();
+    raf = requestAnimationFrame(tick);
+  };
+  new IntersectionObserver(([entry]) => {
+    cancelAnimationFrame(raf);
+    running = entry.isIntersecting;
+    if (running) raf = requestAnimationFrame(tick);
+  }).observe(host);
 }
