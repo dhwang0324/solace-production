@@ -18,15 +18,15 @@ if (mount) {
     // Sizes tuned per screen: more distance on narrow screens so several cards stay in view
     const motion = () => {
       const paused = mount.dataset.paused === 'true' || reduceMotion;
-      return { scrollSpeed: paused ? 0 : 0.8, spinDeg: paused ? 0 : 24 };
+      return { scrollSpeed: paused ? 0 : 1.4, spinDeg: paused ? 0 : 14 };
     };
     const props = () => {
       const w = mount.clientWidth || 1200;
       return {
-        count: Math.max(28, images.length * 4), ...motion(),
-        phaseStepDeg: 16, spacing: 34, cardW: 92, cardH: 118, radius: 10, curveAmp: 46, angleDeg: -10, tiltYdeg: 8,
-        camYawDeg: 12, camPitchDeg: -6, camRollDeg: 0, camDist: w < 640 ? 1250 : w < 1024 ? 1050 : 900, camFovDeg: 32,
-        camTargetX: 0, camTargetY: w < 640 ? -40 : -35, camTargetZ: 0,
+        count: 96, ...motion(),
+        phaseStepDeg: 9, spacing: 12, cardW: 56, cardH: 150, radius: 28, curveAmp: 22, angleDeg: -24, tiltYdeg: 0,
+        camYawDeg: 10, camPitchDeg: -4, camRollDeg: 0, camDist: w < 640 ? 1050 : w < 1024 ? 880 : 900, camFovDeg: 32,
+        camTargetX: 0, camTargetY: w < 640 ? -20 : -40, camTargetZ: 0,
       };
     };
 

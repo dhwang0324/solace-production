@@ -171,7 +171,8 @@ const loop = (single: any = false) => {
     sumY += y;
     it.group.position.set(it.u, y, z);
     const spin = deg2rad(prm.spinDeg) * tSec + deg2rad(prm.phaseStepDeg) * (it.u / spacingNow);
-    it.group.rotation.set(0, deg2rad(prm.tiltYdeg), spin);
+    // Each card turns about its own tall axis, a little more than its neighbour, so the strip reads as a twisting ribbon
+    it.group.rotation.set(0, deg2rad(prm.tiltYdeg) + spin, 0);
     it.front.material.opacity = op;
     it.group.visible = op > 0.001;
   }
