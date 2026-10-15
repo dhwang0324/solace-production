@@ -1,0 +1,33 @@
+// Replaces the video block in site/src/scripts/main.ts: rotating word, Pause button, and lazy-loading of the ribbon.
+/* Single hero: a rotating theme word and the twisting card gallery, both stopped by the Pause button */
+const single = document.querySelector<HTMLElement>('[data-hero-single]');
+if (single) {
+  const gallery = single.querySelector<HTMLElement>('[data-twist]');
+  const words = [...single.querySelectorAll<HTMLElement>('.hs__word')];
+  const pauseBtn = single.querySelector<HTMLButtonElement>('[data-hs-pause]');
+  let i = 0;
+  let timer: number | undefined;
+  let paused = reduceMotion;
+  const next = () => {
+    const prev = words[i];
+    i = (i + 1) % words.length;
+    prev.classList.remove('is-on'); prev.classList.add('is-out');
+    words[i].classList.remove('is-out'); words[i].classList.add('is-on');
+    window.setTimeout(() => prev.classList.remove('is-out'), 650);
+  };
+  const run = () => {
+    window.clearInterval(timer);
+    if (!paused && words.length > 1) timer = window.setInterval(next, 2400);
+    if (gallery) { gallery.dataset.paused = String(paused); gallery.dispatchEvent(new Event('twist-motion')); }
+    if (pauseBtn) { pauseBtn.textContent = paused ? 'Play' : 'Pause'; pauseBtn.setAttribute('aria-pressed', String(paused)); }
+  };
+  pauseBtn?.addEventListener('click', () => { paused = !paused; run(); });
+  if (reduceMotion && pauseBtn) pauseBtn.hidden = true;
+  run();
+  // Load the 3D gallery (three.js) after the page itself, so the headline appears first
+  if (gallery) {
+    const start = () => import('./twist-gallery');
+    if ('requestIdleCallback' in window) (window as any).requestIdleCallback(start, { timeout: 1500 }); else window.setTimeout(start, 300);
+  }
+}
+

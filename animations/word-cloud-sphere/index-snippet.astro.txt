@@ -1,0 +1,27 @@
+<!-- Markup: left column = text, right column = the cloud. data-words is a JSON list of the words. -->
+  <section class="statement-row pad section" aria-labelledby="about-h">
+    <div class="inner about">
+      <div class="about__text">
+        <p class="label" id="about-h" data-reveal>[ About the studio ]</p>
+        <p class="statement" data-reveal>
+          A website is where the relationship starts, not where it ends.{' '}
+          <span class="fade">So we stay — designing, shooting, building and improving as your business grows.</span>
+        </p>
+      </div>
+      <div class="cloud" data-cloud data-words={JSON.stringify(cloudWords)} role="group" aria-label="What we do: drag to turn the cloud" data-reveal style="--d:120ms"></div>
+    </div>
+  </section>
+
+<!-- Frontmatter -->
+<!-- import { serviceGroups } from '../data/site'; const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]); -->
+
+/* Scoped CSS for that section (index.astro <style>) */
+  .statement-row { overflow-x: clip; padding-top: 64px; padding-bottom: 64px; }
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .about__text .statement { margin-top: 18px; }
+  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 300px; justify-self: center; }
+    .about { grid-template-columns: 1fr; gap: 12px; }
+    .statement-row { padding-top: 48px; padding-bottom: 48px; }
+    .cloud { justify-self: center; max-width: 210px; }
+
+// main.ts: add this line once:  import './word-cloud';

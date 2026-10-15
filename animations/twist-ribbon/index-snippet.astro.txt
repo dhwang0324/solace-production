@@ -1,0 +1,9 @@
+// How the homepage (site/src/pages/index.astro) fed the ribbon its images, and what the banner looked like in markup.
+// Frontmatter:
+import { getImage } from 'astro:assets';
+// Banner cards: the real project screenshots (every published project), as 720px-wide WebP files
+const shots = projects.flatMap((p) => [p.cover, ...(p.details ?? []), p.phone]).filter((x): x is NonNullable<typeof x> => !!x);
+const bannerImages = await Promise.all(shots.map(async (x) => (await getImage({ src: x.src, width: 720, format: 'webp', quality: 78 })).src));
+
+// Markup:
+//   <HeroSingle images={bannerImages} words={['Design','Technology','Creative','Growth']} cta={{ label: 'View work', href: '/work/' }} />
