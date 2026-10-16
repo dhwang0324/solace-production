@@ -70,7 +70,8 @@ const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
   .statement-row { overflow-x: clip; padding-top: 64px; padding-bottom: 64px; }
   .about { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
   .about__text .statement { margin-top: 18px; }
-  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 300px; justify-self: center; }
+  /* Bigger sphere that still takes up only 300px of height: the extra size hangs over the section's padding */
+  .cloud { position: relative; width: 100%; aspect-ratio: 1; max-width: 460px; justify-self: center; margin-block: calc((300px - min(100%, 460px)) / 2); }
   .work-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
   .more { display: inline-block; margin-top: 8px; font-size: 13px; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -80,7 +81,7 @@ const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
     .about { grid-template-columns: 1fr; gap: 12px; text-align: center; }
     .statement-row { padding-top: 48px; padding-bottom: 48px; }
     /* full phone width: break out of the side padding */
-    .cloud { max-width: none; width: 100vw; justify-self: center; margin-inline: calc(50% - 50vw); }
+    .cloud { max-width: none; width: 100vw; justify-self: center; margin-block: 0; margin-inline: calc(50% - 50vw); }
     .projects { grid-template-columns: 1fr; gap: 32px; }
   }
 </style>
