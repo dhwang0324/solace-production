@@ -1,12 +1,12 @@
-# Hero reveal (day photo, night photo revealed by a splash that follows the pointer)
+# Hero split reveal (day left, night right, invisible edge follows the cursor)
 
 Live on the homepage banner (`HeroSingle.astro` with the `reveal` prop, script `site/src/scripts/reveal.ts`).
 
-- Two photos of the same scene: day is the normal image, night sits in a hidden `<img data-reveal-night>`.
-- Soft blobs are thresholded (alpha ~0.4-0.5 becomes a defined edge) so the reveal reads as thick wet paint: merged puddles, flung droplets, drips running down, a splat on click, and slow drying that pulls the edge in.
-- A 2D canvas draws the night photo "cover" and keeps only what a soft mask allows (`destination-in`).
-- The mask is a quarter-size canvas: pointer movement stamps soft blobs (radius grows with speed, lobes and droplets for a splash edge) and the mask fades out behind the pointer, so the reveal melts away.
-- One intro sweep runs on load so touch screens and idle visitors see the effect. Touch: dragging reveals (`pointermove`).
-- Reduced motion: canvas hidden, day photo only. Loop runs only while the banner is on screen and the pointer was recently active.
-- Tuning: radius `Math.min(w,1600)*0.07` (mask at 0.33 scale), drying `dt*0.0006`, threshold 0.4-0.5, drip chance 0.07 per stamp.
-- Both images must be generated with identical composition (night from the day image as reference).
+- Two photos of the same scene stacked: day underneath, night on top inside `[data-reveal-night]`.
+- The night layer is cut with `clip-path: inset(0 0 0 var(--split))`. `--split` starts at 50% and eases (14% per frame) toward the pointer's x position, so moving left shows more night, moving right shows more day... (left of the edge is day, right is night; the edge sits under the cursor).
+- No visible bar or handle. Touch: dragging moves the edge (`touch-action: pan-y` keeps vertical scroll). Reduced motion: stays 50/50, no tracking.
+- Runs only while the banner is on screen. No canvas, so both photos stay at full resolution.
+- Both images must share the same composition (night generated from the day image as the reference).
+
+## Earlier version
+A wet-paint splash reveal (canvas mask, thresholded blobs, flung droplets, drips, click splat) is in git history: commits 7b13cf5 and 9b831c6 (`site/src/scripts/reveal.ts`).

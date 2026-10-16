@@ -19,8 +19,9 @@ const { poster, video, reveal, words, cta } = Astro.props;
       {reveal ? (
         <>
           <Picture src={reveal.day} alt={reveal.dayAlt} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[960, 1440, 1920, 2560, reveal.day.width].filter((w) => w <= reveal.day.width)} quality={92} sizes="100vw" loading="eager" fetchpriority="high" class="hs__img" />
-          <Picture src={reveal.night} alt="" formats={['avif', 'webp']} fallbackFormat="jpg" widths={[1440, 1920, 2560, reveal.night.width].filter((w) => w <= reveal.night.width)} quality={92} sizes="100vw" loading="eager" class="hs__night" data-reveal-night pictureAttributes={{ class: 'hs__night-pic', 'aria-hidden': 'true' }} />
-          <canvas class="hs__canvas" data-reveal-canvas aria-hidden="true"></canvas>
+          <div class="hs__night" data-reveal-night aria-hidden="true">
+            <Picture src={reveal.night} alt="" formats={['avif', 'webp']} fallbackFormat="jpg" widths={[1440, 1920, 2560, reveal.night.width].filter((w) => w <= reveal.night.width)} quality={92} sizes="100vw" loading="eager" class="hs__img" />
+          </div>
         </>
       ) : poster && (
         <>
@@ -56,8 +57,9 @@ const { poster, video, reveal, words, cta } = Astro.props;
   .hs { position: relative; color: var(--white); }
   .hs__frame { position: relative; height: 92vh; min-height: 600px; overflow: hidden; background: var(--navy); }
   .hs__media, .hs__media :global(picture), .hs__media :global(.hs__img), .hs__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .hs__canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-  .hs__media :global(.hs__night-pic) { display: none; }
+  /* Night photo sits over the day photo and is cut by an invisible vertical edge (--split) that follows the pointer */
+  .hs__night { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--split, 50%)); }
+  [data-reveal-hero] { touch-action: pan-y; }
   .hs__video { opacity: 0; transition: opacity 800ms var(--ease); }
   .hs__video.is-playing { opacity: 1; }
   .hs__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(31,38,39,.66), rgba(31,38,39,.12) 55%, rgba(31,38,39,.28)); }
@@ -85,6 +87,6 @@ const { poster, video, reveal, words, cta } = Astro.props;
     .hs__pause { bottom: 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hs__video, .hs__canvas { display: none; }
+    .hs__video { display: none; }
   }
 </style>
