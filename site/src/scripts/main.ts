@@ -188,6 +188,9 @@ if (single) {
   run();
 }
 
+/* Hero reveal: night city shown through a splash that follows the pointer */
+import './reveal';
+
 /* Scramble text: headlines marked data-scramble flicker into place */
 import './scramble-text';
 
