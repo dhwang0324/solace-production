@@ -18,7 +18,7 @@ if (hero && canvas && nightImg && !reduce) {
 
   const size = () => {
     const r = hero.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = Math.round(r.width * dpr); h = Math.round(r.height * dpr);
     canvas.width = w; canvas.height = h;
     mask.width = edge.width = Math.max(1, Math.round(w * MS));

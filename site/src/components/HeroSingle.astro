@@ -18,8 +18,8 @@ const { poster, video, reveal, words, cta } = Astro.props;
     <div class="hs__media">
       {reveal ? (
         <>
-          <Picture src={reveal.day} alt={reveal.dayAlt} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[960, 1440, 1920, 2560].filter((w) => w <= reveal.day.width)} sizes="100vw" loading="eager" fetchpriority="high" class="hs__img" />
-          <Picture src={reveal.night} alt="" formats={['avif', 'webp']} fallbackFormat="jpg" widths={[1440, 1920, 2560].filter((w) => w <= reveal.night.width)} sizes="100vw" loading="eager" class="hs__night" data-reveal-night pictureAttributes={{ class: 'hs__night-pic', 'aria-hidden': 'true' }} />
+          <Picture src={reveal.day} alt={reveal.dayAlt} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[960, 1440, 1920, 2560, reveal.day.width].filter((w) => w <= reveal.day.width)} quality={92} sizes="100vw" loading="eager" fetchpriority="high" class="hs__img" />
+          <Picture src={reveal.night} alt="" formats={['avif', 'webp']} fallbackFormat="jpg" widths={[1440, 1920, 2560, reveal.night.width].filter((w) => w <= reveal.night.width)} quality={92} sizes="100vw" loading="eager" class="hs__night" data-reveal-night pictureAttributes={{ class: 'hs__night-pic', 'aria-hidden': 'true' }} />
           <canvas class="hs__canvas" data-reveal-canvas aria-hidden="true"></canvas>
         </>
       ) : poster && (
