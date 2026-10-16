@@ -57,8 +57,10 @@ const { poster, video, reveal, words, cta } = Astro.props;
   .hs { position: relative; color: var(--white); }
   .hs__frame { position: relative; height: 92vh; min-height: 600px; overflow: hidden; background: var(--navy); }
   .hs__media, .hs__media :global(picture), .hs__media :global(.hs__img), .hs__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  /* Night photo sits over the day photo and is cut by an invisible vertical edge (--split) that follows the pointer */
-  .hs__night { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--split, 50%)); }
+  /* Night photo sits over the day photo; a soft, feathered vertical edge (--a to --b) that follows the pointer blends the two */
+  .hs__night { position: absolute; inset: 0; --a: 38%; --b: 62%;
+    -webkit-mask-image: linear-gradient(to right, transparent var(--a), #000 var(--b));
+    mask-image: linear-gradient(to right, transparent var(--a), #000 var(--b)); }
   [data-reveal-hero] { touch-action: pan-y; }
   .hs__video { opacity: 0; transition: opacity 800ms var(--ease); }
   .hs__video.is-playing { opacity: 1; }

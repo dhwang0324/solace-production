@@ -1,18 +1,24 @@
 /* Hero split: day photo on the left, night photo on the right, cut by an invisible vertical edge.
-   The edge starts at the middle and glides after the pointer, so moving left or right shows more of one side. */
+   The soft-edged blend starts at the middle and glides after the pointer, so moving left or right shows more of one side. */
 const hero = document.querySelector<HTMLElement>('[data-reveal-hero]');
 const night = hero?.querySelector<HTMLElement>('[data-reveal-night]');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (hero && night && !reduce) {
   let target = 50, current = 50, raf = 0, visible = true;
-  const apply = () => night.style.setProperty('--split', `${current.toFixed(2)}%`);
+  const FEATHER = 13; // half-width of the soft blend, in % of the banner width
+  const apply = () => {
+    // map 0-100 so the blend leaves the banner completely at either end
+    const p = -FEATHER + (current / 100) * (100 + 2 * FEATHER);
+    night.style.setProperty('--a', `${(p - FEATHER).toFixed(2)}%`);
+    night.style.setProperty('--b', `${(p + FEATHER).toFixed(2)}%`);
+  };
 
   const tick = () => {
     raf = 0;
     const d = target - current;
     if (Math.abs(d) < 0.03) { current = target; apply(); return; }
-    current += d * 0.14; // ease toward the pointer
+    current += d * 0.1; // ease toward the pointer
     apply();
     if (visible) raf = requestAnimationFrame(tick);
   };
