@@ -54,8 +54,10 @@ if (host) {
   let size = host.clientWidth;
   const paint = () => {
     const half = size / 2;
-    const spread = size < 300 ? 0.72 : 0.95; // how far from the centre the words reach (smaller on phones so they stay on screen)
-    host.style.setProperty('--cloud-fs', `${Math.max(12, size * FONT_SCALE)}px`);
+    // On a phone the cloud is as wide as the screen, so smaller words that stay within it
+    const phone = size < 520;
+    const spread = phone ? 0.7 : 0.95; // how far from the centre the words reach
+    host.style.setProperty('--cloud-fs', `${Math.max(12, size * (phone ? 0.056 : FONT_SCALE))}px`);
     for (let i = 0; i < tags.length; i++) {
       const [x, y, z] = points[i];
       const X = m[0] * x + m[1] * y + m[2] * z;

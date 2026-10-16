@@ -77,9 +77,10 @@ const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
   .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-top: 40px; }
   .process-wrap { padding-bottom: var(--section); }
   @media (max-width: 767px) {
-    .about { grid-template-columns: 1fr; gap: 12px; }
+    .about { grid-template-columns: 1fr; gap: 12px; text-align: center; }
     .statement-row { padding-top: 48px; padding-bottom: 48px; }
-    .cloud { justify-self: center; max-width: 210px; }
+    /* full phone width: break out of the side padding */
+    .cloud { max-width: none; width: 100vw; justify-self: center; margin-inline: calc(50% - 50vw); }
     .projects { grid-template-columns: 1fr; gap: 32px; }
   }
 </style>
