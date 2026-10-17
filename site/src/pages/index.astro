@@ -8,20 +8,15 @@ import { projects } from '../data/projects';
 import { filters, serviceGroups } from '../data/site';
 
 
-import revealDay from '../assets/hero/reveal-day.jpg';
-import revealNight from '../assets/hero/reveal-night.jpg';
+import technologyPoster from '../assets/hero/technology-poster.jpg';
 
 // Words in the studio's rotating cloud: the three service groups and everything listed under them
 const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
 ---
 <Base overHero>
   <HeroSingle
-    reveal={{
-      day: revealDay,
-      night: revealNight,
-      dayAlt: 'A wildflower meadow, lake and snow-capped mountains in soft morning light.',
-      nightAlt: '',
-    }}
+    poster={technologyPoster}
+    video={{ mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }}
     words={['Design', 'Technology', 'Creative', 'Growth']}
     cta={{ label: 'View work', href: '/work/' }}
   />
