@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import Placeholder from '../components/Placeholder.astro';
+import { Picture } from 'astro:assets';
+import seagulls from '../assets/studio/seagulls.jpg';
 import Beliefs from '../components/Beliefs.astro';
 
 const motto = 'Technology makes us faster. The human eye decides what’s good.';
@@ -22,7 +23,11 @@ const beliefs = [
     </div>
   </section>
 
-  <div class="media-wrap"><Placeholder tone="c" note="Studio image · full width" class="studio-media" clip /></div>
+  <div class="media-wrap">
+    <div class="studio-media" data-clip>
+      <Picture src={seagulls} alt="A flock of seagulls in flight over a beach, with the sea and a mountain ridge behind." formats={['avif', 'webp']} fallbackFormat="jpg" quality={90} widths={[960, 1440, 1920, 2560, 3504]} sizes="100vw" loading="eager" />
+    </div>
+  </div>
 
   <!-- Why Solace exists -->
   <section class="pad section" aria-labelledby="why-h">
@@ -143,7 +148,9 @@ const beliefs = [
   .head { padding-top: 72px; padding-bottom: 64px; }
   .head .statement { margin-top: 14px; max-width: 980px; }
   .intro { margin-top: 22px; color: #3C4547; }
-  :global(.studio-media) { height: clamp(320px, 42vw, 640px); }
+  .studio-media { height: clamp(320px, 42vw, 640px); overflow: hidden; background: var(--paper); }
+  .studio-media :global(picture), .studio-media :global(img) { display: block; width: 100%; height: 100%; }
+  .studio-media :global(img) { object-fit: cover; object-position: 50% 52%; }
 
   .body-l { color: #3C4547; }
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
