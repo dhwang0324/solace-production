@@ -25,7 +25,7 @@ const beliefs = [
 
   <div class="media-wrap">
     <div class="studio-media" data-clip>
-      <Picture src={seagulls} alt="A flock of seagulls in flight over a beach, with the sea and a mountain ridge behind." formats={['avif', 'webp']} fallbackFormat="jpg" quality={90} widths={[960, 1440, 1920, 2560, 3504]} sizes="100vw" loading="eager" />
+      <Picture src={seagulls} alt="A flock of seagulls in flight over a beach, with the sea and a mountain ridge behind." formats={['avif', 'webp']} fallbackFormat="jpg" quality={90} widths={[960, 1440, 1920, 2560, 3840]} sizes="100vw" loading="eager" />
     </div>
   </div>
 
@@ -148,8 +148,8 @@ const beliefs = [
   .head { padding-top: 72px; padding-bottom: 64px; }
   .head .statement { margin-top: 14px; max-width: 980px; }
   .intro { margin-top: 22px; color: #3C4547; }
-  /* the whole photo shows, uncropped (same 3:2 shape as the image) */
-  .studio-media { aspect-ratio: 3 / 2; overflow: hidden; background: var(--paper); }
+  /* the whole photo shows, uncropped (same wide shape as the image) */
+  .studio-media { aspect-ratio: 3840 / 1648; overflow: hidden; background: var(--paper); }
   .studio-media :global(picture), .studio-media :global(img) { display: block; width: 100%; height: 100%; }
   .studio-media :global(img) { object-fit: cover; }
 
