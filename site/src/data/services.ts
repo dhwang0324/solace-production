@@ -81,11 +81,11 @@ export const addOns = [
     price: 'Custom quote based on store size and requirements',
   },
   {
-    id: 'features',
-    name: 'Additional Website Features',
-    text: 'Some businesses need more than a standard informational website.',
-    label: 'Quoted based on the project, such as',
-    items: ['Additional pages', 'Advanced forms', 'Booking integrations', 'Menu systems', 'Galleries', 'Custom interactive features', 'Third-party integrations', 'Advanced animations', 'Specialized functionality'],
+    id: 'social',
+    name: 'Social Media Management',
+    text: 'Ongoing social media for businesses that want a consistent, professional presence without managing it themselves.',
+    label: 'Depending on the business, this may include',
+    items: ['Content planning', 'Post design', 'Short-form video content', 'Caption writing', 'Scheduling and posting', 'Community engagement', 'Profile setup and optimization', 'Performance reporting'],
     price: 'Custom quote based on project',
   },
 ];
@@ -108,7 +108,7 @@ export const pricing = [
   { id: 'videography', name: 'Videography', price: 'Custom quote' },
   { id: 'ecommerce', name: 'E-Commerce', price: 'Custom quote' },
   { id: 'seo', name: 'Advanced SEO & Optimization', price: 'Custom quote' },
-  { id: 'features', name: 'Additional Features & Custom Work', price: 'Custom quote' },
+  { id: 'social', name: 'Social Media Management', price: 'Custom quote' },
 ];
 
 // Options on the contact form
@@ -119,6 +119,6 @@ export const formOptions = [
   { id: 'videography', label: 'Videography' },
   { id: 'ecommerce', label: 'E-commerce' },
   { id: 'seo', label: 'SEO' },
-  { id: 'features', label: 'Custom features' },
+  { id: 'social', label: 'Social media management' },
   { id: 'unsure', label: 'Not sure yet' },
 ];
