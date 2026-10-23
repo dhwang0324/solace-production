@@ -44,7 +44,7 @@ const allProjects: Project[] = [
     industry: 'Nail salon',
     location: 'Marietta, Georgia',
     website: 'https://xpressnailssalon.com/',
-    services: ['Web design', 'Development'],
+    services: ['Web design/development'],
     summary: 'Website design and development for Nail Xpress, a nail salon in Marietta, Georgia.',
     cover: { src: nxCover, alt: 'Nail Xpress homepage: a soft, blush-toned hero photo of a manicured hand beside the words Nail Xpress and a Book Appointment button.', caption: 'Homepage, desktop' },
     details: [
@@ -60,7 +60,7 @@ const allProjects: Project[] = [
     industry: 'Boxing gym',
     location: 'Norcross, Georgia',
     website: 'https://guerreroboxinggym.com/',
-    services: ['Web design', 'Development', 'Photography', 'Video'],
+    services: ['Web design/development', 'Photography', 'Video'],
     deliverables: ['Strategy', 'Copywriting', 'Web design', 'Development', 'Photography', 'Videography'],
     summary: 'Website design and development for Guerrero Boxing Gym, a family-owned boxing gym in Norcross, Georgia.',
     headline: 'A digital home built with the heart of a warrior.',

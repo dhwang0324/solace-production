@@ -42,4 +42,4 @@ export const process = [
   { no: '04', name: 'Grow', text: 'SEO, management and ongoing improvements after launch.' },
 ];
 
-export const filters = ['Web design', 'Development', 'Photography', 'Video', 'SEO'];
+export const filters = ['Web design/development', 'Photography', 'Video', 'SEO'];
