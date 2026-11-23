@@ -22,7 +22,7 @@
    ],
    "caption": "Businesses can spend thousands on websites that still feel generic. We believe they deserve better.\n\nSolace is a creative and digital studio: web design and development, photography, video and the growth work that keeps a business's digital presence moving. Modern tools, human creative direction, built around the business behind it.\n\nSee the studio at solaceproduction.com\n\n#webdesign #webdevelopment #creativestudio #smallbusinesswebsite #digitalstudio",
    "alt": [
-    "Statement on a white background: Businesses can spend thousands on websites that still feel outdated, generic or disconnected. We believe businesses deserve better. Solace, creative and digital studio."
+    "Night city skyline of glass towers beside a lit river, with the words: A digital presence worthy of the business behind it. Solace, creative and digital studio."
    ],
    "targets": [
     {
@@ -32,6 +32,7 @@
    ],
    "checklist": [
     "Paste the alt text",
+    "Turn on the AI info label (the image is AI-generated)",
     "Confirm the link in the bio points to solaceproduction.com"
    ]
   },
@@ -47,10 +48,10 @@
    ],
    "caption": "Digital, Creative, Growth: how Solace works with a business, in three parts.\n\nSwipe for what each one covers: web design and development, photography and video, and the SEO and website management that keep a site working after launch.\n\nKnow a business owner who deserves a better website? Send this to them.\n\n#webdesign #photography #seo #creativestudio #smallbusinesswebsite",
    "alt": [
-    "Cover on dark blue: What we do. Digital. Creative. Growth. A creative and digital studio.",
-    "Digital: websites designed around how your customers actually decide, then built to be fast, accessible and easy to run. Web design, web development, digital experiences.",
-    "Creative: the photos, video and visual direction that make a business look like itself, made for the web from the start. Creative direction, photography, videography, visual content.",
-    "Growth: what happens after launch, being found, keeping the site current and improving it as the business changes. SEO foundations, website management, digital strategy, ongoing optimization.",
+    "Cover over an illustrated landscape of a futuristic city among trees: Digital. Creative. Growth. A creative and digital studio.",
+    "Top of the Nail Xpress website, a blush-toned hero with a manicured hand. Digital: websites designed around how your customers actually decide, then built to be fast, accessible and easy to run.",
+    "Guerrero Boxing Gym website hero, Train like a warrior. Creative: the photos, video and visual direction that make a business look like itself, made for the web from the start.",
+    "Seagulls flying over a beach with mountains behind. Growth: what happens after launch, being found, keeping the site current and improving it as the business changes.",
     "Know a business that deserves a better website? Send this to them. Start a project, solaceproduction.com."
    ],
    "targets": [
@@ -60,7 +61,9 @@
     }
    ],
    "checklist": [
-    "Paste the alt text per slide"
+    "Paste the alt text per slide",
+    "Turn on the AI info label (cover and slide 4 images are AI-generated)",
+    "Client OK to show Nail Xpress and Guerrero screenshots"
    ]
   },
   {
@@ -75,10 +78,10 @@
    ],
    "caption": "Launching a website isn't where the work has to end.\n\nSolace website management covers hosting, security and backups, plus the small updates that come up all the time: hours, prices, menus, photos. You run the business. We take care of the website.\n\nBigger changes like redesigns or new pages get a separate quote first. Save this for when you're deciding who looks after your site.\n\n#websitemanagement #webdesign #smallbusiness #websitemaintenance #creativestudio",
    "alt": [
-    "Cover on light grey: Website management. Launching isn't where it ends.",
+    "Cover over an illustrated alpine lake and snow-capped mountains: Website management. Launching isn't where it ends.",
     "You run the business. We take care of the website.",
-    "Kept running, so it never goes down: hosting, SSL and security, backups, maintenance, technical support, performance monitoring.",
-    "Kept current, so it always matches the business: hours updates, price updates, service and menu updates, photo replacements, small text changes, minor content changes.",
+    "Guerrero Boxing Gym website gallery of training photos. Kept running, so it never goes down: hosting, SSL and security, backups, performance monitoring.",
+    "Nail Xpress website gallery of salon interiors. Kept current, so it always matches the business: hours updates, price updates, photo replacements, small text changes.",
     "Bigger changes: redesigns, new pages or major functionality get a separate quote before any work begins. Start a project, solaceproduction.com."
    ],
    "targets": [
@@ -88,7 +91,9 @@
     }
    ],
    "checklist": [
-    "Paste the alt text per slide"
+    "Paste the alt text per slide",
+    "Turn on the AI info label (cover image is AI-generated)",
+    "Client OK to show Nail Xpress and Guerrero screenshots"
    ]
   }
  ]

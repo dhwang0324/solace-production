@@ -3,6 +3,9 @@
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)(process.env.PW_PATH || 'playwright');
 import { mkdirSync, readFileSync } from 'node:fs';
+const assets = resolve(dirname(new URL(import.meta.url).pathname), '../site/src/assets');
+const cache = new Map();
+const asset = (rel) => { if (!cache.has(rel)) cache.set(rel, 'data:image/jpeg;base64,' + readFileSync(resolve(assets, rel)).toString('base64')); return cache.get(rel); };
 import { resolve, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -41,6 +44,18 @@ body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
 .dark .row{border-color:rgba(162,164,165,.5)}
 .row .n{font-family:var(--mono);font-weight:400;font-size:26px;color:var(--slate);min-width:52px;letter-spacing:.04em}
 .pill{display:inline-block;margin-top:64px;padding:26px 52px;border:2px solid currentColor;border-radius:999px;font-size:34px;font-weight:500}
+
+.bg{position:absolute;inset:0;background-size:cover}
+.grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(31,38,39,.94) 0%,rgba(31,38,39,.72) 42%,rgba(31,38,39,0) 70%),linear-gradient(to bottom,rgba(31,38,39,.45) 0%,rgba(31,38,39,0) 18%)}
+.photo{color:var(--paper);background:var(--ink)}
+.photo .mark{color:#fff}
+.photo .label{color:rgba(245,245,242,.85)}
+.photo .base{color:rgba(245,245,242,.85)}
+.photo .fade{color:rgba(245,245,242,.7)}
+.band-img{position:absolute;left:0;right:0;top:0;height:580px;background-size:cover}
+.band-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(31,38,39,.5),rgba(31,38,39,0) 25%)}
+.has-band .mark{color:#fff;z-index:2}
+.items{margin-top:40px;font-family:var(--mono);font-size:26px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);line-height:1.8}
 .pill.solid{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 `;
 
@@ -49,7 +64,7 @@ const bracket = (t) => `<p class="label">[ ${t} ]</p>`;
 const base = (l, r = '') => `<div class="base"><span>${l}</span><span>${r}</span></div>`;
 const rows = (items) => `<ul class="list" style="list-style:none">${items.map((t, i) => `<li class="row"><span class="n">${String(i + 1).padStart(2, '0')}</span><span>${t}</span></li>`).join('')}</ul>`;
 
-export const T = { mark, bracket, base, rows };
+export const T = { mark, bracket, base, rows, asset };
 
 const specFile = process.argv[2];
 const { posts } = await import(pathToFileURL(resolve(specFile)).href);
