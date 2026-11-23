@@ -8,7 +8,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 | Home | `/` | `site/src/pages/index.astro` |
 | Work | `/work/` | `site/src/pages/work/index.astro` |
 | Case study | `/work/<slug>/` | `site/src/pages/work/[slug].astro` (data: `site/src/data/projects.ts`) |
-| Services | `/services/` | `site/src/pages/services.astro` (content: `site/src/data/services.ts` `serviceSections`, supplied by the user: Websites, Content, Social Media Content, each with a list and a call to action, no prices. The old price data — launch offer $0 setup / $100 a month, regular $500 / $150 — is kept in `services.ts` but no longer shown; don't show prices without asking) |
+| Services | `/services/` | `site/src/pages/services.astro` (content: `site/src/data/services.ts`, supplied by the user. Prices are NOT shown any more (2026-11): calls to action like "Start a project" / "Request a quote" instead. The price fields (launch offer $0 setup / $100 a month, regular $500 / $150) stay in `services.ts` but are unused; don't show prices without asking) |
 | Studio | `/studio/` | `site/src/pages/studio.astro` |
 | Contact | `/contact/` | `site/src/pages/contact.astro` (form posts to `/send-message.php`, `site/public/send-message.php`, which emails dani@solaceproduction.com with PHP `mail()` on Hostinger) |
 
