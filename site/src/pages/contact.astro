@@ -82,8 +82,8 @@ const next = [
 
   /* Shared form styling: boxed fields, mono labels */
   .form { display: grid; gap: 22px; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .field { display: grid; gap: 8px; border: 0; min-width: 0; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .field { display: grid; gap: 8px; align-content: start; border: 0; min-width: 0; }
   label, legend { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
   legend { margin-bottom: 8px; }
   .opt { text-transform: none; }

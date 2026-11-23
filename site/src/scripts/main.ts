@@ -254,15 +254,26 @@ if (form) {
     ['f-email', (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())],
     ['f-msg', (v) => v.trim().length > 0],
   ];
+  // Shows or clears one field's error message
+  const check = (id: string, ok: (v: string) => boolean) => {
+    const input = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`#${id}`)!;
+    const err = form.querySelector<HTMLElement>(`#${id}-err`)!;
+    const valid = ok(input.value);
+    input.setAttribute('aria-invalid', String(!valid));
+    if (!valid) input.setAttribute('aria-describedby', `${id}-err`); else input.removeAttribute('aria-describedby');
+    err.hidden = valid;
+    return { input, valid };
+  };
+  // Once a message is showing, clear it as soon as the visitor fixes the field
+  fields.forEach(([id, ok]) => {
+    form.querySelector(`#${id}`)?.addEventListener('input', () => {
+      if (!form.querySelector<HTMLElement>(`#${id}-err`)!.hidden) check(id, ok);
+    });
+  });
   form.addEventListener('submit', (e) => {
     let firstBad: HTMLElement | null = null;
     fields.forEach(([id, ok]) => {
-      const input = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`#${id}`)!;
-      const err = form.querySelector<HTMLElement>(`#${id}-err`)!;
-      const valid = ok(input.value);
-      input.setAttribute('aria-invalid', String(!valid));
-      if (!valid) input.setAttribute('aria-describedby', `${id}-err`); else input.removeAttribute('aria-describedby');
-      err.hidden = valid;
+      const { input, valid } = check(id, ok);
       if (!valid && !firstBad) firstBad = input;
     });
     if (firstBad) { e.preventDefault(); (firstBad as HTMLElement).focus(); return; }
