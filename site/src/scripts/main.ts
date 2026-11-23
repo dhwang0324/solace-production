@@ -230,6 +230,21 @@ if (form) {
   // Links like /contact/?service=photography tick that option
   const wanted = new URLSearchParams(location.search).get('service');
   if (wanted) form.querySelectorAll<HTMLInputElement>(`input[data-service="${CSS.escape(wanted)}"]`).forEach((i) => { i.checked = true; });
+  // "Other" pill: ticking it opens a box where they describe what they need
+  const otherPill = form.querySelector<HTMLInputElement>('input[data-service="other"]');
+  const otherWrap = form.querySelector<HTMLElement>('[data-other]');
+  const otherText = form.querySelector<HTMLTextAreaElement>('#f-other');
+  const syncOther = (focus = false) => {
+    if (!otherPill || !otherWrap) return;
+    otherWrap.hidden = !otherPill.checked;
+    otherPill.setAttribute('aria-expanded', String(otherPill.checked));
+    if (focus && otherPill.checked) otherText?.focus();
+  };
+  if (otherPill && otherWrap) {
+    otherPill.setAttribute('aria-controls', 'f-other-wrap');
+    otherPill.addEventListener('change', () => syncOther(true));
+    syncOther();
+  }
   const status = form.querySelector<HTMLElement>('[data-status]');
   const back = new URLSearchParams(location.search);
   if (status && back.get('sent')) status.textContent = 'Thanks, your message is on its way. We reply personally.';
@@ -266,13 +281,14 @@ if (form) {
     say('Sending…');
     // The ticked services go as one tidy line ('Websites, Content') instead of a list field
     const data = new FormData(form);
-    const needs = data.getAll('needs[]').map(String);
+    const otherNeed = (otherText?.value ?? '').trim();
+    const needs = data.getAll('needs[]').map((n) => (String(n) === 'Other' && otherNeed ? `Other: ${otherNeed}` : String(n)));
     data.delete('needs[]');
     data.append('needs', needs.length ? needs.join(', ') : 'not specified');
     fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
       .then((r) => r.json().then((d) => ({ ok: r.ok && d.ok === true, message: undefined as string | undefined })))
       .then(({ ok, message }) => {
-        if (ok) { form.reset(); say(message || 'Thanks, your message is on its way.'); }
+        if (ok) { form.reset(); syncOther(); say(message || 'Thanks, your message is on its way.'); }
         else say(message || fallback, true);
       })
       .catch(() => say(fallback, true))

@@ -120,5 +120,6 @@ export const formOptions = [
   { id: 'ecommerce', label: 'E-commerce' },
   { id: 'seo', label: 'SEO' },
   { id: 'social', label: 'Social media management' },
+  { id: 'other', label: 'Other' },
   { id: 'unsure', label: 'Not sure yet' },
 ];

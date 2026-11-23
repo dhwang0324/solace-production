@@ -49,6 +49,14 @@ const next = [
             ))}
           </div>
         </fieldset>
+        <div class="field" id="f-other-wrap" data-other hidden>
+          <label for="f-other">Tell us what you need</label>
+          <textarea id="f-other" name="other_need" rows="3" maxlength="500" placeholder="Describe what you’re looking for."></textarea>
+        </div>
+        <div class="field">
+          <label for="f-budget">Budget <span class="opt">(optional)</span></label>
+          <input id="f-budget" name="budget" type="text" maxlength="100" autocomplete="off" placeholder="Your budget, if you have one in mind" />
+        </div>
         <div class="field">
           <label for="f-msg">Message</label>
           <textarea id="f-msg" name="message" rows="5" required placeholder="A few lines about your business and what you have in mind."></textarea>
@@ -66,6 +74,7 @@ const next = [
       </form>
     </div>
   </section>
+  <noscript><style>[data-other][hidden] { display: grid; }</style></noscript>
 </Base>
 <style>
   .contact { padding-top: 72px; padding-bottom: 96px; }
@@ -78,6 +87,8 @@ const next = [
   label, legend { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); }
   legend { margin-bottom: 8px; }
   .opt { text-transform: none; }
+  .field[hidden] { display: none; }
+  #f-other { min-height: 90px; }
   input[type="text"], input[type="email"], textarea {
     width: 100%; border: 1px solid #D7D9D9; border-radius: 10px; padding: 13px 14px; font-size: 16px; background: var(--white);
     transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
