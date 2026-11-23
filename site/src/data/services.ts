@@ -1,7 +1,16 @@
-// Services page content and pricing (supplied by the user — don't change prices or wording without asking).
+// Services page content (supplied by the user — don't change wording without asking).
+// 2026-11: the page shows `serviceSections` with a call to action instead of prices. The older price data below
+// (launch offer, website, management, addOns, seo, pricing) is kept for reference and is no longer shown.
 // `id` is also used by the contact form: /contact/?service=<id> ticks that option.
 
-// Launch offer: the regular prices ($500 setup / $150 a month) apply once the first 10 clients have signed.
+// Services shown on the page: three groups, each with a list and a call to action (no prices).
+export const serviceSections = [
+  { id: 'website', no: '01', tag: 'Websites', name: 'Websites', items: ['Custom web design', 'Development', 'Mobile optimization', 'Hosting/deployment setup', 'Ongoing maintenance and support'], cta: 'Start a project' },
+  { id: 'content', no: '02', tag: 'Content', name: 'Content', items: ['Photography', 'Videography', 'Short-form content', 'Long-form brand video', 'On-location shoots', 'Website and social media content'], cta: 'Request a quote' },
+  { id: 'social', no: '03', tag: 'Social media', name: 'Social Media Content', items: ['Feed posts', 'Carousels', 'Reels', 'Promotional graphics', 'Launch campaigns', 'Monthly content packages'], cta: 'Tell us about your project' },
+];
+
+// Launch offer (no longer shown): the regular prices ($500 setup / $150 a month) apply once the first 10 clients have signed.
 export const launch = { label: 'Launch pricing', limit: 'First 10 clients', note: 'Launch pricing for our first 10 clients. Regular pricing applies after that.' };
 
 export const website = {
@@ -113,12 +122,8 @@ export const pricing = [
 
 // Options on the contact form
 export const formOptions = [
-  { id: 'website', label: 'Website' },
-  { id: 'management', label: 'Website management' },
-  { id: 'photography', label: 'Photography' },
-  { id: 'videography', label: 'Videography' },
-  { id: 'ecommerce', label: 'E-commerce' },
-  { id: 'seo', label: 'SEO' },
-  { id: 'social', label: 'Social media management' },
+  { id: 'website', label: 'Websites' },
+  { id: 'content', label: 'Content (photo / video)' },
+  { id: 'social', label: 'Social media content' },
   { id: 'unsure', label: 'Not sure yet' },
 ];
