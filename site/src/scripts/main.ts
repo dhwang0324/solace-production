@@ -224,7 +224,7 @@ if (filterGroup) {
   if (initial && buttons.some((b) => b.dataset.filter === initial)) apply(initial);
 }
 
-/* Contact form: client-side validation, then sent to /send-message.php, which emails the studio */
+/* Contact form: client-side validation, then sent to Formspree, which emails the studio */
 const form = document.querySelector<HTMLFormElement>('[data-form]');
 if (form) {
   // Links like /contact/?service=photography tick that option
@@ -264,8 +264,13 @@ if (form) {
     const fallback = 'Sorry, that didn’t send. Please email dani@solaceproduction.com and we’ll reply personally.';
     if (button) button.disabled = true;
     say('Sending…');
-    fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-      .then((r) => r.json().then((d) => ({ ok: r.ok && d.ok, message: d.message as string })))
+    // The ticked services go as one tidy line ('Websites, Content') instead of a list field
+    const data = new FormData(form);
+    const needs = data.getAll('needs[]').map(String);
+    data.delete('needs[]');
+    data.append('needs', needs.length ? needs.join(', ') : 'not specified');
+    fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then((r) => r.json().then((d) => ({ ok: r.ok && d.ok === true, message: undefined as string | undefined })))
       .then(({ ok, message }) => {
         if (ok) { form.reset(); say(message || 'Thanks, your message is on its way.'); }
         else say(message || fallback, true);

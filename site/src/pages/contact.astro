@@ -2,8 +2,8 @@
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 import { formOptions } from '../data/services';
-// Submissions go to /send-message.php (site/public/send-message.php), which emails the studio inbox.
-const FORM_ENDPOINT = '/send-message.php';
+// Submissions go to Formspree (a form service), which emails the studio inbox (dani@solaceproduction.com) and keeps a copy in its dashboard.
+const FORM_ENDPOINT = 'https://formspree.io/f/mdegplov';
 const next = [
   'We read every message ourselves.',
   'We reply personally with a few questions or a time to talk.',
@@ -54,9 +54,10 @@ const next = [
           <textarea id="f-msg" name="message" rows="5" required placeholder="A few lines about your business and what you have in mind."></textarea>
           <p class="err" id="f-msg-err" hidden>Please tell us a little about the project.</p>
         </div>
+        <input type="hidden" name="_subject" value="New enquiry from the Solace website" />
         <div class="trap" aria-hidden="true">
           <label for="f-company">Company (leave this empty)</label>
-          <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+          <input id="f-company" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
         </div>
         <div class="send">
           <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
