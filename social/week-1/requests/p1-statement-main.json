@@ -1,0 +1,24 @@
+{
+ "content": [
+  {
+   "text": "Businesses can spend thousands on websites that still feel generic. We believe they deserve better.\n\nSolace is a creative and digital studio: web design and development, photography, video and the growth work that keeps a business's digital presence moving. Modern tools, human creative direction, built around the business behind it.\n\nSee the studio at solaceproduction.com\n\n#webdesign #webdevelopment #creativestudio #smallbusinesswebsite #digitalstudio",
+   "media": [
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-01.jpg>"
+    }
+   ]
+  }
+ ],
+ "socialAccounts": [
+  {
+   "platform": "INSTAGRAM",
+   "socialAccountId": "<socialAccountId for main>",
+   "postType": "POST"
+  }
+ ],
+ "schedule": {
+  "type": "SCHEDULE_FOR_LATER",
+  "scheduledFor": "2026-11-25T17:00:00Z"
+ }
+}

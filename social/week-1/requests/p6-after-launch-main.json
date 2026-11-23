@@ -1,0 +1,40 @@
+{
+ "content": [
+  {
+   "text": "Launching a website isn't where the work has to end.\n\nSolace website management covers hosting, security and backups, plus the small updates that come up all the time: hours, prices, menus, photos. You run the business. We take care of the website.\n\nBigger changes like redesigns or new pages get a separate quote first. Save this for when you're deciding who looks after your site.\n\n#websitemanagement #webdesign #smallbusiness #websitemaintenance #creativestudio",
+   "media": [
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-01.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-02.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-03.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-04.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-05.jpg>"
+    }
+   ]
+  }
+ ],
+ "socialAccounts": [
+  {
+   "platform": "INSTAGRAM",
+   "socialAccountId": "<socialAccountId for main>",
+   "postType": "POST"
+  }
+ ],
+ "schedule": {
+  "type": "SCHEDULE_FOR_LATER",
+  "scheduledFor": "2026-11-27T17:00:00Z"
+ }
+}

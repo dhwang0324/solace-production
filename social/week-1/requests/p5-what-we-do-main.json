@@ -1,0 +1,40 @@
+{
+ "content": [
+  {
+   "text": "Digital, Creative, Growth: how Solace works with a business, in three parts.\n\nSwipe for what each one covers: web design and development, photography and video, and the SEO and website management that keep a site working after launch.\n\nKnow a business owner who deserves a better website? Send this to them.\n\n#webdesign #photography #seo #creativestudio #smallbusinesswebsite",
+   "media": [
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-01.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-02.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-03.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-04.jpg>"
+    },
+    {
+     "type": "MEDIA_LIBRARY",
+     "mediaId": "<mediaId for slide-05.jpg>"
+    }
+   ]
+  }
+ ],
+ "socialAccounts": [
+  {
+   "platform": "INSTAGRAM",
+   "socialAccountId": "<socialAccountId for main>",
+   "postType": "POST"
+  }
+ ],
+ "schedule": {
+  "type": "SCHEDULE_FOR_LATER",
+  "scheduledFor": "2026-11-26T17:00:00Z"
+ }
+}
