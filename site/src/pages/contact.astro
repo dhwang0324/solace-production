@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 import { formOptions } from '../data/services';
+import Mascot from '../components/Mascot.astro';
 // Submissions go to Formspree (a form service), which emails the studio inbox (dani@solaceproduction.com) and keeps a copy in its dashboard.
 const FORM_ENDPOINT = 'https://formspree.io/f/mdegplov';
 const next = [
@@ -25,6 +26,7 @@ const next = [
             <p class="label">What happens next</p>
             <ol class="steps">{next.map((n, i) => <li><span class="no">0{i + 1}</span>{n}</li>)}</ol>
           </div>
+          <div class="hello"><Mascot name="hello" width={150} /></div>
         </div>
       </div>
 
@@ -71,6 +73,7 @@ const next = [
           <button class="btn btn--solid" type="submit">Send message <span aria-hidden="true">↗</span></button>
         </div>
         <p class="status body-l" role="status" aria-live="polite" data-status></p>
+        <div class="sent" data-sent hidden><Mascot name="run" width={120} /></div>
       </form>
     </div>
   </section>
@@ -88,6 +91,9 @@ const next = [
   legend { margin-bottom: 8px; }
   .opt { text-transform: none; }
   .field[hidden] { display: none; }
+  .sent[hidden] { display: none; }
+  .hello { justify-self: start; }
+  @media (max-width: 899px) { .hello { display: none; } }
   #f-other { min-height: 90px; }
   input[type="text"], input[type="email"], textarea {
     width: 100%; border: 1px solid #D7D9D9; border-radius: 10px; padding: 13px 14px; font-size: 16px; background: var(--white);

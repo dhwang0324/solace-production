@@ -1,0 +1,18 @@
+---
+// The Solace robot. Animated WebP (lossless, transparent) with a still frame for visitors who prefer reduced motion.
+// Files live in public/mascot/: run, walk, hello (originals are in animations/mascot/).
+interface Props { name: 'run' | 'walk' | 'hello'; width?: number; alt?: string; class?: string }
+const sizes = { run: [295, 246], walk: [265, 258], hello: [269, 300] } as const;
+const { name, width = 140, alt = '', class: cls } = Astro.props;
+const [w, h] = sizes[name];
+const height = Math.round((width * h) / w);
+---
+<picture class:list={['mascot', cls]} style={`width:${width}px`}>
+  <source media="(prefers-reduced-motion: reduce)" srcset={`/mascot/${name}-still.png`} />
+  <img src={`/mascot/${name}.webp`} width={width} height={height} alt={alt} loading="lazy" decoding="async" aria-hidden={alt ? undefined : 'true'} />
+</picture>
+
+<style>
+  .mascot { display: inline-block; line-height: 0; max-width: 100%; }
+  .mascot img { display: block; width: 100%; height: auto; }
+</style>

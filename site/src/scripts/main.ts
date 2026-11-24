@@ -245,9 +245,10 @@ if (form) {
     otherPill.addEventListener('change', () => syncOther(true));
     syncOther();
   }
+  const sentMascot = form.querySelector<HTMLElement>('[data-sent]');
   const status = form.querySelector<HTMLElement>('[data-status]');
   const back = new URLSearchParams(location.search);
-  if (status && back.get('sent')) status.textContent = 'Thanks, your message is on its way. We reply personally.';
+  if (status && back.get('sent')) { status.textContent = 'Thanks, your message is on its way. We reply personally.'; if (sentMascot) sentMascot.hidden = false; }
   if (status && back.get('error')) { status.textContent = 'Sorry, that didn’t send. Please email dani@solaceproduction.com and we’ll reply personally.'; status.classList.add('is-error'); }
   const fields: [string, (v: string) => boolean][] = [
     ['f-name', (v) => v.trim().length > 0],
@@ -289,6 +290,7 @@ if (form) {
     const say = (text: string, isError = false) => { if (status) { status.textContent = text; status.classList.toggle('is-error', isError); } };
     const fallback = 'Sorry, that didn’t send. Please email dani@solaceproduction.com and we’ll reply personally.';
     if (button) button.disabled = true;
+    if (sentMascot) sentMascot.hidden = true;
     say('Sending…');
     // The ticked services go as one tidy line ('Websites, Content') instead of a list field
     const data = new FormData(form);
@@ -299,7 +301,7 @@ if (form) {
     fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
       .then((r) => r.json().then((d) => ({ ok: r.ok && d.ok === true, message: undefined as string | undefined })))
       .then(({ ok, message }) => {
-        if (ok) { form.reset(); syncOther(); say(message || 'Thanks, your message is on its way.'); }
+        if (ok) { form.reset(); syncOther(); if (sentMascot) sentMascot.hidden = false; say(message || 'Thanks, your message is on its way.'); }
         else say(message || fallback, true);
       })
       .catch(() => say(fallback, true))

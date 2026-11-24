@@ -19,6 +19,7 @@ Website for Solace, a creative and digital studio. Static site built with **Astr
 - Project images are real site screenshots in `site/src/assets/work/<slug>/` (cover, detail-1, detail-2, phone), rendered by `Shot.astro` (AVIF/WebP). Guerrero’s site used temporary Pexels footage/photos; the user confirmed on 2026-10-15 that its images are now Solace’s own. Still present them as screenshots of the website. Hero images are still placeholders (the Studio banner is the AI seagull photo).
 - Homepage "About the studio": statement on the left, a drag-to-turn word cloud on the right (`site/src/scripts/word-cloud.ts`, ported from a Framer component; words come from `serviceGroups` in `site.ts`; static under reduced motion).
 - `animations/` (outside `site/`, never deployed by itself): saved, documented animation code to reuse — `twist-ribbon/` (3D card ribbon banner, removed from the site), `word-cloud-sphere/` (live in About the studio) and `scramble-text/` (flickering text reveal, live on the homepage banner title via `data-scramble` in `HeroSingle.astro`). Read `animations/README.md` before building a similar effect; add new ones there with a README.
+- Mascot: the Solace robot (`site/src/components/Mascot.astro`, files in `site/public/mascot/`, originals in `animations/mascot/`) shows on the 404 page, the contact page and after the contact form sends. Keep it occasional; reduced motion shows a still.
 - Commands: `cd site && npm ci`, `npm run dev`, `npm run build` (output `site/dist/`).
 
 ## Deployment
