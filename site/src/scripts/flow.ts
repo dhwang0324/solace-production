@@ -5,12 +5,13 @@ const hero = document.querySelector<HTMLElement>('[data-flow-hero]');
 const canvas = hero?.querySelector<HTMLCanvasElement>('[data-flow]') ?? null;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const IMG = '/hero/glass.webp';
+const MASK = '/hero/glass-mask.png'; // white where the glass is, black for the background: only the glass moves
 const IMG_ASPECT = 1672 / 941;
 
 const VS = 'attribute vec2 a; void main(){ gl_Position = vec4(a,0.,1.); }';
 const FS = `
 precision highp float;
-uniform sampler2D tex; uniform vec2 res; uniform vec2 cover; uniform float t; uniform vec2 mouse; uniform float speed;
+uniform sampler2D tex; uniform sampler2D mask; uniform vec2 res; uniform vec2 cover; uniform float t; uniform vec2 mouse; uniform float speed;
 const float ASP = 1.7768;
 vec2 mirror(vec2 u){ return 1.0 - abs(1.0 - mod(u, 2.0)); }
 void main(){
@@ -32,6 +33,9 @@ void main(){
   off -= d * lens * (0.10 + 0.16*speed);
   off += dir * sin(r*34.0 - t*4.2) * exp(-r*3.2) * (0.0028 + 0.011*speed);
 
+  // only the glass moves: the background stays perfectly still
+  off *= texture2D(mask, mirror(uv)).r;
+
   // slight colour splitting at the edges of the glass, like real refraction
   vec2 o = off / vec2(ASP, 1.0);
   float disp = 1.0 + 6.0*length(off);
@@ -45,7 +49,8 @@ void main(){
 }`;
 
 if (hero && canvas && !reduce) {
-  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+  const opts = { antialias: false, alpha: false, powerPreference: 'low-power' as WebGLPowerPreference };
+  const gl = (canvas.getContext('webgl2', opts) || canvas.getContext('webgl', opts)) as WebGLRenderingContext | WebGL2RenderingContext | null;
   if (gl) {
     const compile = (type: number, src: string) => { const s = gl.createShader(type)!; gl.shaderSource(s, src); gl.compileShader(s); return s; };
     const prog = gl.createProgram()!;
@@ -58,12 +63,12 @@ if (hero && canvas && !reduce) {
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
       const loc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
       const U = (n: string) => gl.getUniformLocation(prog, n);
-      const uRes = U('res'), uCover = U('cover'), uT = U('t'), uMouse = U('mouse'), uSpeed = U('speed'), uTex = U('tex');
+      const uMask = U('mask'), uRes = U('res'), uCover = U('cover'), uT = U('t'), uMouse = U('mouse'), uSpeed = U('speed'), uTex = U('tex');
 
-      let scale = 0.9;
+      let scale = 1; // full size: the picture is kept as sharp as the screen allows
       let cover: [number, number] = [1, 1];
       const size = () => {
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.5) * scale;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2) * scale;
         const r = canvas.getBoundingClientRect();
         canvas.width = Math.max(2, Math.round(r.width * dpr)); canvas.height = Math.max(2, Math.round(r.height * dpr));
         gl.viewport(0, 0, canvas.width, canvas.height);
@@ -77,14 +82,21 @@ if (hero && canvas && !reduce) {
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       };
 
-      const image = new Image();
-      image.onload = () => {
-        const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+      const load = (src: string) => new Promise<HTMLImageElement>((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+      const isGL2 = typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext;
+      Promise.all([load(IMG), load(MASK)]).then(([image, maskImg]) => {
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // WebGL reads pictures from the bottom row up
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.uniform1i(uTex, 0);
+        const upload = (unit: number, img: HTMLImageElement, mips: boolean) => {
+          const tex = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+          const useMips = mips && isGL2; // WebGL2 can mip-map any size: smoother when the screen is smaller than the picture
+          if (useMips) gl.generateMipmap(gl.TEXTURE_2D);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, useMips ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        };
+        upload(0, image, true); upload(1, maskImg, false);
+        gl.uniform1i(uTex, 0); gl.uniform1i(uMask, 1);
         size(); window.addEventListener('resize', size);
 
         let visible = true, paused = false, last = performance.now(), t0 = last, raf = 0, slow = 0, frames = 0;
@@ -99,7 +111,7 @@ if (hero && canvas && !reduce) {
           if (!hero.classList.contains('is-flowing')) hero.classList.add('is-flowing'); // fade the live picture in over the still one
           // if this device struggles, quietly lower the render size
           frames++; if (dt > 0.034) slow++;
-          if (frames === 90) { if (slow > 45 && scale > 0.5) { scale = 0.6; size(); } frames = 0; slow = 0; }
+          if (frames === 90) { if (slow > 45 && scale > 0.6) { scale = scale > 0.8 ? 0.8 : 0.6; size(); } frames = 0; slow = 0; }
           raf = requestAnimationFrame(frame);
         };
         const wake = () => { if (!raf && visible && !paused && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(frame); } };
@@ -114,8 +126,7 @@ if (hero && canvas && !reduce) {
           requestAnimationFrame(() => { paused = hero.querySelector('[data-hs-pause]')?.getAttribute('aria-pressed') === 'true'; if (!paused) wake(); });
         });
         wake();
-      };
-      image.src = IMG;
+      }).catch(() => { /* the still picture stays */ });
     }
   }
 }
