@@ -1,0 +1,33 @@
+---
+import { process } from '../data/site';
+interface Props { heading?: string }
+const { heading = 'Understand. Create. Build. Grow.' } = Astro.props;
+---
+<div class="process">
+  <p class="label" data-reveal>[ Process ]</p>
+  <h2 class="h2" data-reveal>{heading}</h2>
+  <ol class="steps">
+    {process.map((s) => (
+      <li data-reveal>
+        <span class="bar"><span class="no">{s.no}</span> {s.name}</span>
+        <p>{s.text}</p>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .h2 { margin: 8px 0 44px; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; list-style: none; }
+  .steps li { border-top: 1px solid #E1E2DF; }
+  .bar { display: block; background: var(--ink); color: var(--white); font-size: 13px; font-weight: 500; padding: 10px 12px; letter-spacing: .03em; }
+  .no { font-family: var(--mono); font-size: 11px; color: var(--gray); margin-right: 6px; }
+  .steps li:nth-child(2) .bar { margin-top: 22px; }
+  .steps li:nth-child(3) .bar { margin-top: 44px; }
+  .steps li:nth-child(4) .bar { margin-top: 66px; }
+  .steps p { font-size: 14px; line-height: 1.5; color: #59625F; margin-top: 14px; max-width: 30ch; }
+  @media (max-width: 767px) {
+    .steps { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .steps li .bar { margin-top: 0 !important; }
+  }
+</style>
