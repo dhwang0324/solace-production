@@ -8,15 +8,13 @@ import { projects } from '../data/projects';
 import { filters, serviceGroups } from '../data/site';
 
 
-import technologyPoster from '../assets/hero/technology-poster.jpg';
 
 // Words in the studio's rotating cloud: the three service groups and everything listed under them
 const cloudWords = serviceGroups.flatMap((g) => [g.name, ...g.items]);
 ---
-<Base overHero>
+<Base overHero lightHero>
   <HeroSingle
-    poster={technologyPoster}
-    video={{ mp4: '/hero/technology.mp4', webm: '/hero/technology.webm' }}
+    flow
     words={['Design', 'Technology', 'Creative', 'Growth']}
     cta={{ label: 'View work', href: '/work/' }}
   />

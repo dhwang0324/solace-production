@@ -191,6 +191,9 @@ if (single) {
 /* Hero reveal: night city shown through a splash that follows the pointer */
 import './reveal';
 
+/* Flowing glass banner background */
+import './flow';
+
 /* Scramble text: headlines marked data-scramble flicker into place */
 import './scramble-text';
 

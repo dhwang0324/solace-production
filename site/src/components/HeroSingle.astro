@@ -7,16 +7,20 @@ interface Props {
   poster?: ImageMetadata;
   video?: { mp4: string; webm?: string };
   // Two photos of one scene: day (always visible) and night (revealed by a splash that follows the pointer)
+  // A live flowing-glass shader background (light hero; see scripts/flow.ts)
+  flow?: boolean;
   reveal?: { day: ImageMetadata; night: ImageMetadata; dayAlt: string; nightAlt: string };
   words: string[];
   cta: { label: string; href: string };
 }
-const { poster, video, reveal, words, cta } = Astro.props;
+const { poster, video, reveal, flow = false, words, cta } = Astro.props;
 ---
-<section class="hs on-dark" aria-label="Introduction" data-hero data-hero-single {...(reveal ? { 'data-reveal-hero': '' } : {})}>
+<section class:list={['hs', flow ? 'hs--light' : 'on-dark']} aria-label="Introduction" data-hero data-hero-single {...(reveal ? { 'data-reveal-hero': '' } : {})} {...(flow ? { 'data-flow-hero': '' } : {})}>
   <div class="hs__frame">
     <div class="hs__media">
-      {reveal ? (
+      {flow ? (
+        <canvas class="hs__flow" data-flow aria-hidden="true"></canvas>
+      ) : reveal ? (
         <>
           <Picture src={reveal.day} alt={reveal.dayAlt} formats={['avif', 'webp']} fallbackFormat="jpg" widths={[960, 1440, 1920, 2560, reveal.day.width].filter((w) => w <= reveal.day.width)} quality={92} sizes="100vw" loading="eager" fetchpriority="high" class="hs__img" />
           <div class="hs__night" data-reveal-night aria-hidden="true">
@@ -35,7 +39,7 @@ const { poster, video, reveal, words, cta } = Astro.props;
         </>
       )}
     </div>
-    <div class="hs__shade" aria-hidden="true"></div>
+    {!flow && <div class="hs__shade" aria-hidden="true"></div>}
 
     <div class="hs__copy">
       <h1 class="hs__title" data-scramble data-trigger="view" data-duration="1300" data-charset="ABCDEFGHIJKLMNOPQRSTUVWXYZ">Digital Presence</h1>
@@ -46,7 +50,7 @@ const { poster, video, reveal, words, cta } = Astro.props;
         </span>
         <span class="hs__rest" aria-hidden="true">— thoughtfully built.</span>
       </p>
-      <a class="btn btn--light hs__cta" href={cta.href}>{cta.label}</a>
+      <a class:list={['btn', flow ? 'btn--solid' : 'btn--light', 'hs__cta']} href={cta.href}>{cta.label}</a>
     </div>
 
     <button type="button" class="hs__pause label" data-hs-pause aria-pressed="false">Pause</button>
@@ -55,6 +59,14 @@ const { poster, video, reveal, words, cta } = Astro.props;
 
 <style>
   .hs { position: relative; color: var(--white); }
+  .hs--light { color: var(--ink); }
+  /* The still picture is always there (first paint, reduced motion, no WebGL); the live canvas fades in over it */
+  .hs--light .hs__frame { background: var(--paper) url('/hero/glass.webp') center / cover no-repeat; }
+  .hs__flow { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 700ms var(--ease); }
+  .is-flowing .hs__flow { opacity: 1; }
+  .hs--light .hs__pause { color: var(--slate); }
+  .hs--light .hs__pause:hover { color: var(--ink); }
+  [data-flow-hero] { touch-action: pan-y; }
   .hs__frame { position: relative; height: 92vh; min-height: 600px; overflow: hidden; background: var(--navy); }
   .hs__media, .hs__media :global(picture), .hs__media :global(.hs__img), .hs__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   /* Night photo sits over the day photo; a soft, feathered vertical edge (--a to --b) that follows the pointer blends the two */

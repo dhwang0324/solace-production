@@ -13,8 +13,9 @@ interface Props {
   title?: string;
   description?: string;
   overHero?: boolean; // header starts transparent over a full-bleed hero
+  lightHero?: boolean; // that hero is light, so the header text stays dark
 }
-const { title, description = site.description, overHero = false } = Astro.props;
+const { title, description = site.description, overHero = false, lightHero = false } = Astro.props;
 const fullTitle = title ? `${title} — ${site.wordmark}` : `${site.wordmark} — Creative & Digital Studio`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const jsonLd = {
@@ -48,7 +49,7 @@ const jsonLd = {
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header overHero={overHero} />
+    <Header overHero={overHero} lightHero={lightHero} />
     <main id="main"><slot /></main>
     <Footer />
     <script>import '../scripts/main.ts';</script>
