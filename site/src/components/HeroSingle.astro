@@ -12,8 +12,9 @@ interface Props {
   reveal?: { day: ImageMetadata; night: ImageMetadata; dayAlt: string; nightAlt: string };
   words: string[];
   cta: { label: string; href: string };
+  cta2?: { label: string; href: string };
 }
-const { poster, video, reveal, flow = false, words, cta } = Astro.props;
+const { poster, video, reveal, flow = false, words, cta, cta2 } = Astro.props;
 ---
 <section class:list={['hs', flow ? 'hs--light' : 'on-dark']} aria-label="Introduction" data-hero data-hero-single {...(reveal ? { 'data-reveal-hero': '' } : {})} {...(flow ? { 'data-flow-hero': '' } : {})}>
   <div class="hs__frame">
@@ -50,7 +51,10 @@ const { poster, video, reveal, flow = false, words, cta } = Astro.props;
         </span>
         <span class="hs__rest" aria-hidden="true">— thoughtfully built.</span>
       </p>
-      <a class:list={['btn', flow ? 'btn--solid' : 'btn--light', 'hs__cta']} href={cta.href}>{cta.label}</a>
+      <div class="hs__ctas">
+        <a class:list={['btn', flow ? 'btn--solid' : 'btn--light', 'hs__cta']} href={cta.href}>{cta.label} {flow && <span aria-hidden="true">↗</span>}</a>
+        {cta2 && <a class="btn-glass" href={cta2.href}>{cta2.label}</a>}
+      </div>
     </div>
 
     <button type="button" class="hs__pause label" data-hs-pause aria-pressed="false">Pause</button>
@@ -64,6 +68,13 @@ const { poster, video, reveal, flow = false, words, cta } = Astro.props;
   .hs--light .hs__frame { background: var(--paper) url('/hero/glass-1600.webp') center / cover no-repeat; }
   .hs__flow { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 700ms var(--ease); }
   .is-flowing .hs__flow { opacity: 1; }
+  /* The picture melts into the paper colour of the next section */
+  .hs--light .hs__frame::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 78%; z-index: 1; pointer-events: none;
+    background: linear-gradient(to top, var(--paper) 0%, rgba(245,245,242,.92) 18%, rgba(245,245,242,.6) 45%, rgba(245,245,242,.22) 75%, rgba(245,245,242,0) 100%); }
+  .hs__copy, .hs__pause { z-index: 2; }
+  .hs__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .hs--light .hs__cta { min-height: 52px; padding-inline: 30px; font-size: 15px; box-shadow: 0 12px 30px rgba(31,38,39,.22); }
+  .hs--light .btn-glass { min-height: 52px; padding-inline: 30px; font-size: 15px; }
   .hs--light .hs__pause { color: var(--slate); }
   .hs--light .hs__pause:hover { color: var(--ink); }
   [data-flow-hero] { touch-action: pan-y; }

@@ -2,32 +2,72 @@
 import { process } from '../data/site';
 interface Props { heading?: string }
 const { heading = 'Understand. Create. Build. Grow.' } = Astro.props;
+// Each dot jumps to the part of the page that matches its step
+const targets = [
+  { href: '#about', label: 'About the studio' },
+  { href: '#work', label: 'Selected work' },
+  { href: '#services', label: 'Services' },
+  { href: '/contact/', label: 'Contact' },
+];
 ---
 <div class="process">
   <p class="label" data-reveal>[ Process ]</p>
-  <h2 class="h2" data-reveal>{heading}</h2>
-  <ol class="steps">
-    {process.map((s) => (
-      <li data-reveal>
-        <span class="bar"><span class="no">{s.no}</span> {s.name}</span>
-        <p>{s.text}</p>
-      </li>
-    ))}
-  </ol>
+  <h2 class="h2" data-reveal>{heading.replace(/ Grow\.$/, '')} <span class="fade">Grow.</span></h2>
+  <div class="rail" data-reveal>
+    <span class="line" aria-hidden="true"></span>
+    <span class="travel" aria-hidden="true"><span class="trail"></span><span class="orb"></span></span>
+    <ol class="steps">
+      {process.map((s, i) => (
+        <li>
+          <a class="dot" href={targets[i].href} aria-label={`Go to ${targets[i].label}`} title={`Go to ${targets[i].label}`}></a>
+          <span class="no">{s.no}</span>
+          <h3>{s.name}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
 </div>
 
 <style>
-  .h2 { margin: 8px 0 44px; }
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; list-style: none; }
-  .steps li { border-top: 1px solid #E1E2DF; }
-  .bar { display: block; background: var(--ink); color: var(--white); font-size: 13px; font-weight: 500; padding: 10px 12px; letter-spacing: .03em; }
-  .no { font-family: var(--mono); font-size: 11px; color: var(--gray); margin-right: 6px; }
-  .steps li:nth-child(2) .bar { margin-top: 22px; }
-  .steps li:nth-child(3) .bar { margin-top: 44px; }
-  .steps li:nth-child(4) .bar { margin-top: 66px; }
-  .steps p { font-size: 14px; line-height: 1.5; color: #59625F; margin-top: 14px; max-width: 30ch; }
-  @media (max-width: 767px) {
-    .steps { grid-template-columns: 1fr 1fr; row-gap: 28px; }
-    .steps li .bar { margin-top: 0 !important; }
+  .h2 { margin: 8px 0 72px; font-size: clamp(30px, 3.6vw, 46px); }
+  .h2 .fade { color: var(--blue); }
+  .rail { position: relative; }
+  .line { position: absolute; left: 14px; right: 0; top: 13px; height: 2px; background: linear-gradient(90deg, var(--sky), #d7dee3 40%, #9fb0bb 75%, rgba(255,255,255,0)); }
+  /* The travelling yellow light: runs left to right along the line, then starts again */
+  .travel { position: absolute; left: 14px; right: 0; top: 0; height: 28px; pointer-events: none; z-index: 1; }
+  .trail, .orb { position: absolute; }
+  .orb { top: 0; left: 0; width: 28px; height: 28px; margin-left: -14px; border-radius: 50%; transform: translateX(var(--x, 0));
+    background: radial-gradient(circle, #FFF6C2 0%, #FFD640 30%, rgba(255,214,64,.45) 55%, rgba(255,214,64,0) 72%); box-shadow: 0 0 26px 8px rgba(255,214,64,.45);
+    animation: travel-orb 6s cubic-bezier(.45,.05,.55,.95) infinite; }
+  .trail { top: 13px; left: 0; width: 140px; height: 2px; margin-left: -140px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,214,64,0), #FFD640);
+    animation: travel-trail 6s cubic-bezier(.45,.05,.55,.95) infinite; }
+  @keyframes travel-orb { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 88% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+  @keyframes travel-trail { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 88% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+  .steps { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 40px 28px; list-style: none; }
+  .steps li { position: relative; padding-top: 48px; min-width: 0; }
+  .dot { position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; z-index: 2;
+    background: radial-gradient(circle at 30% 24%, #fff 0%, #eef2f5 22%, #c4ced5 56%, #f4f6f8 86%);
+    box-shadow: 0 0 0 6px var(--paper), 0 0 0 7px var(--sky), 0 8px 18px rgba(35,48,54,.18);
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+  .dot:hover, .dot:focus-visible { transform: scale(1.6); box-shadow: 0 0 0 6px var(--paper), 0 0 0 8px #FFD640, 0 0 26px rgba(255,214,64,.7); outline: none; }
+  .dot:active { transform: scale(2.2); }
+  .process .no { font-family: var(--mono); font-size: 11px; color: var(--slate); }
+  html.lively .process .no { color: var(--slate); }
+  h3 { margin: 6px 0 10px; font-size: clamp(24px, 2vw, 28px); font-weight: 500; letter-spacing: -.02em; line-height: 1.1; }
+  p { font-size: 15px; line-height: 1.55; color: #59625F; max-width: 30ch; }
+  @keyframes travel-orb-y { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 88% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+  @keyframes travel-trail-y { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 88% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+  /* Phones: the rail runs top to bottom and the light travels down it */
+  @media (max-width: 639px) {
+    .line { left: 13px; right: auto; top: 14px; bottom: 14px; width: 2px; height: auto; background: linear-gradient(180deg, var(--sky), #d7dee3 40%, #9fb0bb 75%, rgba(255,255,255,0)); }
+    .travel { left: 0; right: auto; top: 14px; bottom: 14px; width: 28px; height: auto; }
+    .orb { left: 0; top: 0; margin-left: 0; margin-top: -14px; animation-name: travel-orb-y; }
+    .trail { left: 13px; top: 0; width: 2px; height: 140px; margin-left: 0; margin-top: -140px; background: linear-gradient(180deg, rgba(255,214,64,0), #FFD640); animation-name: travel-trail-y; }
+    .steps { grid-template-columns: 1fr; gap: 36px; }
+    .steps li { padding: 2px 0 0 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .orb, .trail { animation: none; left: 30%; opacity: 1; }
   }
 </style>
