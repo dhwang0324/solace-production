@@ -1,18 +1,23 @@
-/* Flowing glass: the banner picture (public/hero/glass.webp) warped live in WebGL so it moves like slow water.
+/* Flowing glass: the banner picture (public/hero/glass-*.webp) warped live in WebGL so it moves like slow water.
    Moving the pointer across the banner bends and magnifies the glass under it and sends ripples outward.
    Reduced motion: the still picture only. Pauses off screen and with the Pause button. No WebGL: the still picture stays. */
 const hero = document.querySelector<HTMLElement>('[data-flow-hero]');
 const canvas = hero?.querySelector<HTMLCanvasElement>('[data-flow]') ?? null;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const IMG = '/hero/glass.webp';
+// Three sizes of the same (AI-upscaled 4K) picture: each device loads only what it can show
+const pickImage = () => {
+  const px = window.innerWidth * Math.min(window.devicePixelRatio || 1, 2);
+  return px > 2200 ? '/hero/glass-4096.webp' : px > 1300 ? '/hero/glass-2560.webp' : '/hero/glass-1600.webp';
+};
+const IMG = pickImage();
 const MASK = '/hero/glass-mask.png'; // white where the glass is, black for the background: only the glass moves
-const IMG_ASPECT = 1672 / 941;
+const IMG_ASPECT = 4096 / 2313;
 
 const VS = 'attribute vec2 a; void main(){ gl_Position = vec4(a,0.,1.); }';
 const FS = `
 precision highp float;
 uniform sampler2D tex; uniform sampler2D mask; uniform vec2 res; uniform vec2 cover; uniform float t; uniform vec2 mouse; uniform float speed;
-const float ASP = 1.7768;
+const float ASP = 1.7709;
 vec2 mirror(vec2 u){ return 1.0 - abs(1.0 - mod(u, 2.0)); }
 void main(){
   vec2 s = gl_FragCoord.xy / res;                       // screen 0..1
